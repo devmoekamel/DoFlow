@@ -1,0 +1,59 @@
+# Ignore build and output directories
+[Bb]in/
+[Oo]bj/
+
+# Ignore user-specific files
+*.user
+*.suo
+*.userprefs
+
+# Ignore NuGet packages and restore files
+packages/
+*.nupkg
+NuGet.exe
+.nuget/
+
+# Ignore Visual Studio cache and settings
+.vs/
+.vscode/
+
+# Ignore ReSharper files
+_ReSharper.*
+*.ReSharper
+
+# Ignore local configuration files
+web.config
+
+# Ignore compiled files
+*.dll
+*.pdb
+*.exe
+
+# Ignore logs and diagnostics
+logs/
+*.log
+
+# Ignore Azure files
+*.azurePubxml
+*.pubxml
+
+# Ignore test results
+[Tt]est[Rr]esult*/
+[Bb]uild[Ll]og.*
+
+# Ignore macOS folder attributes
+.DS_Store
+
+# Ignore IDE-specific files
+.idea/
+*.swp
+*.swo
+
+# Ignore npm and Node.js files (if applicable)
+node_modules/
+npm-debug.log
+
+# Ignore other common files
+*.bak
+*.tmp
+*.cache
