@@ -1,7 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
-using FreelanceManager.Models;
 
-namespace WebApplication2.Models
+namespace FreelanceManager.Models
 {
     public class Invoice
     {
