@@ -11,8 +11,8 @@ namespace FreelanceManager.Models
         public TimeSpan Duration { get; set; }
         [DisplayFormat(DataFormatString = @"{0:hh\:mm}")]
         public TimeSpan EstimateTime { get; set; }
-        [ForeignKey("Task")] 
         public int TaskId { get; set; }
+        [ForeignKey(nameof(TaskId))]
         public virtual Task Task { get; set; }
     }
 }
