@@ -10,8 +10,9 @@ namespace FreelanceManager.Models
         public String Currency { get; set; }
         public String Notes { get; set; }
 
-        [ForeignKey("Project")]
         public int ProjectId { get; set; }
+
+        [ForeignKey(nameof(ProjectId))]
         public Project? project { get; set; }
     }
 }
