@@ -19,9 +19,9 @@ namespace FreelanceManager.Models
 
         public int InvoiceId { get; set; }
         [ForeignKey(nameof(InvoiceId))]
-        public Invoice Invoice {  get; set; } 
+        public Invoice? Invoice {  get; set; } 
 
-        public List<Mission> missions { get; set; }
+        public List<Mission>? missions { get; set; }
 
     }
 }
