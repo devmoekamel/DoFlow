@@ -1,4 +1,6 @@
-﻿namespace FreelanceManager.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace FreelanceManager.Models
 {
     public class Mission
     {
@@ -9,9 +11,8 @@
         public string Priority { get; set; }
         public DateTime Deadline { get; set; }
 
-        [ForeignKey("Project")]
         public int ProjectId { get; set; }
-
+        [ForeignKey(nameof(ProjectId))]
         public Project? Project { get; set; }
         public List<TimeTracking>? TimeTracking { get; set; }
 
