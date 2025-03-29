@@ -6,13 +6,13 @@ namespace FreelanceManager.Models
     {
         public int Id { get; set; }
         public DateTime Date { get; set; }
-        public String Status { get; set; }
-        public String Currency { get; set; }
-        public String Notes { get; set; }
+        public string Status { get; set; }
+        public string Currency { get; set; }
+        public string Notes { get; set; }
 
         public int ProjectId { get; set; }
 
         [ForeignKey(nameof(ProjectId))]
-        public Project? project { get; set; }
+        public Project? Project { get; set; }
     }
 }

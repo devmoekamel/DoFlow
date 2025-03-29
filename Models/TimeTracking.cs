@@ -6,11 +6,13 @@ namespace FreelanceManager.Models
     public class TimeTracking
     {
         public int Id { get; set; }
-        public DateTime Date { get; set; } 
+
+        public DateTime Date { get; set; }
         public TimeSpan Duration { get; set; }
+        [DisplayFormat(DataFormatString = @"{0:hh\:mm}")]
         public TimeSpan EstimateTime { get; set; }
-        public int TaskId { get; set; }
-        [ForeignKey(nameof(TaskId))]
+        public int MissionId { get; set; }
+        [ForeignKey(nameof(Id))]
         public virtual Mission Mission { get; set; }
     }
 }

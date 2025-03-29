@@ -12,7 +12,7 @@ namespace FreelanceManager.Models
         public DateTime Deadline { get; set; }
 
         public int ProjectId { get; set; }
-        [ForeignKey(nameof(ProjectId))]
+        [ForeignKey(nameof(Id))]
         public Project? Project { get; set; }
         public List<TimeTracking>? TimeTracking { get; set; }
 
