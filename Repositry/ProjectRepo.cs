@@ -1,10 +1,10 @@
 ﻿using FreelanceManager.Interfaces;
-using FreelanceManager.Models;
 using Microsoft.EntityFrameworkCore;
 using FreelanceManager.Repositry;
+using FreelanceManager.Models;
 
 namespace FreelanceManager.Repositry
-{
+{ّ
     public class ProjectRepo:GenericRepo<Project>,IProjectRepo
     {
         ITIContext context;
