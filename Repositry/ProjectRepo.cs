@@ -4,7 +4,7 @@ using FreelanceManager.Repositry;
 using FreelanceManager.Models;
 
 namespace FreelanceManager.Repositry
-{ّ
+{
     public class ProjectRepo:IProjectRepo
     {
         ITIContext context;
