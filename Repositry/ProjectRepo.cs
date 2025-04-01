@@ -43,7 +43,7 @@ namespace FreelanceManager.Repositry
 			context.SaveChanges();
 		}
 
-		public void Update(Project obj)
+		public void Update(int Id, Project obj)
 		{
 
 			context.projects.Update(obj);
