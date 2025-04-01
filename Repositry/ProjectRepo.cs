@@ -16,7 +16,8 @@ namespace FreelanceManager.Repositry
 
 		public void Add(Project obj)
 		{
-			throw new NotImplementedException();
+	
+			context.projects.Add(obj);
 		}
 
 		public IEnumerable<Project> GetAll()
@@ -36,7 +37,7 @@ namespace FreelanceManager.Repositry
 
 		public void Save()
 		{
-			throw new NotImplementedException();
+			context.SaveChanges();
 		}
 
 		public void Update(Project obj)
