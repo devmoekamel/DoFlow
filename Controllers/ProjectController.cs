@@ -13,7 +13,17 @@ namespace FreelanceManager.Controllers
         }
         public IActionResult Index()
         {
-            return View();
+            var projects = projectRepo.GetAll();
+            return View(projects);
         }
+
+
+        public IActionResult Details(int id)
+        {
+            var project = projectRepo.GetById(id);
+        
+            return View(project);
+        }
+
     }
 }
