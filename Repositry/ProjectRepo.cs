@@ -22,17 +22,20 @@ namespace FreelanceManager.Repositry
 
 		public IEnumerable<Project> GetAll()
 		{
-			throw new NotImplementedException();
+			
+			return context.projects;
 		}
 
 		public Project GetById(int Id)
 		{
-			throw new NotImplementedException();
+			Project project = context.projects.FirstOrDefault(p=>p.Id==Id);
+
+			return project;
 		}
 
 		public void Remove(Project obj)
 		{
-			throw new NotImplementedException();
+			context.projects.Remove(obj);
 		}
 
 		public void Save()
@@ -42,7 +45,8 @@ namespace FreelanceManager.Repositry
 
 		public void Update(Project obj)
 		{
-			throw new NotImplementedException();
+
+			context.projects.Update(obj);
 		}
 	}
 }
