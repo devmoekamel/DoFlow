@@ -23,30 +23,34 @@ namespace FreelanceManager.Repositry
 		public IEnumerable<Project> GetAll()
 		{
 			
-			return context.projects;
+			return context.projects.Include(p=>p.Missions);
 		}
 
 		public Project GetById(int Id)
 		{
-			Project project = context.projects.FirstOrDefault(p=>p.Id==Id);
+            Project project = context.projects.Include(p => p.Missions).FirstOrDefault(p=>p.Id==Id);
 
 			return project;
 		}
 
-		public void Remove(Project obj)
-		{
-			context.projects.Remove(obj);
-		}
+        public void Remove(int Id)
+        {
+            Project project = context.projects.FirstOrDefault(p => p.Id == Id);
+			context.projects.Remove(project);
+        }
 
-		public void Save()
+        public void Save()
 		{
 			context.SaveChanges();
 		}
 
 		public void Update(int Id, Project obj)
 		{
-
-			context.projects.Update(obj);
-		}
+			Project project  = context.projects.FirstOrDefault(p=>p.Id==Id);
+			if(project is not null)
+			{
+                context.projects.Update(obj);
+            }
+        }
 	}
 }

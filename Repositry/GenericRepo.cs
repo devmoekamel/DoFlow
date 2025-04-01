@@ -43,5 +43,14 @@ namespace FreelanceManager.Repositry
             context.SaveChanges();
         }
 
+        public void Remove(int Id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Update(int Id, T obj)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

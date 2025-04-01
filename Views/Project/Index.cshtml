@@ -1,7 +1,71 @@
 ﻿
+@model IEnumerable<Project>
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Projects";
 }
 
-<h1>Index</h1>
+<div class="container">
+        <h1>Projects</h1>
+        <h3 class="">Manage your projects</h3>
+</div>
 
+<div class="my-4">
+
+    <div class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+
+        @for (int i = 0; i < 8; i++)
+        {
+            <div class=" border hover:shadow-lg duration-500 rounded-xl p-4">
+                <div class="flex justify-between">
+                    <h3 class="hover:text-red">ProjectName</h3>
+                    <button><i class="fa-solid fa-ellipsis-vertical"></i></button>
+                </div>
+
+                <div>
+                    <p>lorem</p>
+                </div>
+
+                <div class="flex gap-x-2">
+                    <span>
+                        <i class="fa-regular fa-clock"></i>
+                     </span>
+                    <p>4/1/2025</p>
+                </div>
+
+                <div class="bg-slate-200   rounded-xl">
+                    <h5 class="py-2 px-4">$500<h5/>
+                </div>
+                <div class="flex flex-col">
+                    <div class="flex justify-between">
+                           <p>Progress</p>
+                           <p>0/0 Tasks</p>
+                     </div>
+
+                    <progress id="file" max="100" value="70" >70%</progress>
+                </div>
+
+                <div class="my-3 flex justify-between items-center">
+                    <h6>dblad</h6>
+                    <a class="px-4 py-2 bg-black text-white rounded-lg" style="">View Details</a>
+                </div>
+            </div>
+        }
+
+    </div>
+</div>  
+@* 
+
+
+                               1) Filltration
+                               2) add project -> VM, Get all --> VM+ 2 prop
+                               3) edit project
+                               4) delete project
+                               5) details
+                            
+              
+                               3 view models
+                               1-> add project model 
+                               2-> all projects 
+                               3-> view detials project 
+
+                               *@

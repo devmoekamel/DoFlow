@@ -11,6 +11,7 @@ namespace FreelanceManager.Controllers
         {
             this.projectRepo = projectRepo;
         }
+        // project
         public IActionResult Index()
         {
             var projects = projectRepo.GetAll();

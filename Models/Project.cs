@@ -13,10 +13,11 @@ namespace FreelanceManager.Models
         public string Description { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
+        public string Status { get; set; }
 
-        //public int InvoiceId { get; set; }
-        //[ForeignKey(nameof(InvoiceId))]
-        //public Invoice? Invoice { get; set; }
+        public int InvoiceId { get; set; }
+        [ForeignKey(nameof(InvoiceId))]
+        public Invoice? Invoice { get; set; }
 
         public ICollection<Freelancer> Freelancers { get; set; }
 
