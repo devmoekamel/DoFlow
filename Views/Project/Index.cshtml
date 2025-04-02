@@ -4,13 +4,49 @@
     ViewData["Title"] = "Projects";
 }
 
+<style>
+   .dropdown-menu a {
+      text-decoration: none;
+      color: black;
+    }
+</style>
 <div class="container">
         <h1>Projects</h1>
         <h3 class="">Manage your projects</h3>
 </div>
 
-<div class="my-4">
+<div class="flex justify-between flex-sm-wrap">
+    <div class="flex space-x-4">
+        <div class="relative dropdown">
+            <button class="dropdown-btn px-4 py-2 border rounded shadow-sm bg-white text-gray-700 flex items-center justify-between w-40">
+                All Projects <i class="fa-solid fa-angle-down"></i>
+            </button>
+            <div class="dropdown-menu absolute left-0 mt-2 w-40 bg-white border rounded-md shadow-lg hidden">
+                <a href="#" class="block px-4 py-2 hover:bg-gray-100">Not Started</a>
+                <a href="#" class="block px-4 py-2 hover:bg-gray-100">In Progress</a>
+                <a href="#" class="block px-4 py-2 hover:bg-gray-100">On Hold</a>
+                <a href="#" class="block px-4 py-2 hover:bg-gray-100">Completed</a>
+            </div>
+        </div>
+        <div class="relative dropdown">
+            <button class="dropdown-btn px-4 py-2 border rounded-md shadow-sm bg-white text-gray-700 flex items-center justify-between w-40">
+                Based on <i class="fa-solid fa-angle-down"></i>
+            </button>
+            <div class="dropdown-menu absolute left-0 mt-2 w-32 bg-white border rounded-md shadow-lg hidden">
+                <a href="#" class="block px-4 py-2 hover:bg-gray-100">Budget</a>
+                <a href="#" class="block px-4 py-2 hover:bg-gray-100">Deadline</a>
+                <a href="#" class="block px-4 py-2 hover:bg-gray-100">Priority</a>
+            </div>
+        </div>
+    </div>
+    <div class="flex">
+        <button id="openModal" class="px-4 py-2 bg-black text-white rounded" onclick="CreateProject"> <i class="fa-solid fa-plus pe-2"></i> Create Project</button>
+    </div>
+</div>
 
+
+
+<div class="my-4">
     <div class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
 
         @for (int i = 0; i < 8; i++)
@@ -33,7 +69,7 @@
                 </div>
 
                 <div class="bg-slate-200   rounded-xl">
-                    <h5 class="py-2 px-4">$500<h5/>
+                    <h5 class="py-2 px-4">$500</h5>
                 </div>
                 <div class="flex flex-col">
                     <div class="flex justify-between">
@@ -52,7 +88,118 @@
         }
 
     </div>
-</div>  
+</div>
+
+<div id="modal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex justify-center items-center overflow-auto">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-2xl relative">
+        <button id="closeModal" class="absolute top-2 p-4 right-2 text-gray-500 hover:text-gray-800 text-2xl">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <h2 class="text-xl font-semibold">Create New Project</h2>
+        <p class="text-gray-500 text-sm mb-4">Add a new project with all its details and milestones.</p>
+
+        <form>
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-medium">Project Name</label>
+                    <input type="text" placeholder="Enter project name" class="w-full border p-2 rounded-md">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium">Client</label>
+                    <select class="w-full border p-2 rounded-md">
+                        <option>Select client</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium">Start Date</label>
+                    <input type="date" class="w-full border p-2 rounded-md">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium">End Date</label>
+                    <input type="date" class="w-full border p-2 rounded-md">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium">Budget</label>
+                    <input type="number" value="0" class="w-full border p-2 rounded-md">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium">Hourly Rate</label>
+                    <input type="number" value="0" class="w-full border p-2 rounded-md">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium">Category</label>
+                    <select class="w-full border p-2 rounded-md">
+                        <option>Select category</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium">Priority</label>
+                    <select class="w-full border p-2 rounded-md">
+                        <option>Medium</option>
+                        <option>High</option>
+                        <option>Low</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <label class="block text-sm font-medium">Description</label>
+                <textarea placeholder="Enter project description" class="w-full border p-2 rounded-md"></textarea>
+            </div>
+
+            <div class="flex justify-end mt-4">
+                <button type="submit" class="bg-black text-white px-4 py-2 rounded-md">
+                    Create Project
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+
+<script>
+    $(document).ready(function () {
+      $(".dropdown-btn").click(function (event) {
+        event.stopPropagation();
+        $(".dropdown-menu").not($(this).next()).hide();
+        $(this).next(".dropdown-menu").toggle();
+      });
+
+      $(document).click(function () {
+        $(".dropdown-menu").hide();
+      });
+    });
+
+
+    $(document).ready(function () {
+      $("#openModal").click(function () {
+        $("#modal").removeClass("hidden");
+      });
+
+      $("#closeModal").click(function () {
+        $("#modal").addClass("hidden");
+      });
+
+      $(document).click(function (event) {
+        if (!$(event.target).closest("#modal div").length && !$(event.target).is("#openModal")) {
+          $("#modal").addClass("hidden");
+        }
+      });
+    });
+</script>
+
+
 @* 
 
 
