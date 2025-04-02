@@ -21,9 +21,9 @@ namespace FreelanceManager.Controllers
 
         public IActionResult Details(int id)
         {
-            var project = projectRepo.GetById(id);
+          //  var project = projectRepo.GetById(id);
         
-            return View(project);
+            return View();
         }
 
     }

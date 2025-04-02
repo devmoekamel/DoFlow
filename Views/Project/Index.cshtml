@@ -15,7 +15,7 @@
         <h3 class="">Manage your projects</h3>
 </div>
 
-<div class="flex justify-between flex-sm-wrap">
+<div class="flex flex-col md:flex-row d gap-3 justify-between">
     <div class="flex space-x-4">
         <div class="relative dropdown">
             <button class="dropdown-btn px-4 py-2 border rounded shadow-sm bg-white text-gray-700 flex items-center justify-between w-40">
@@ -40,7 +40,7 @@
         </div>
     </div>
     <div class="flex">
-        <button id="openModal" class="px-4 py-2 bg-black text-white rounded" onclick="CreateProject"> <i class="fa-solid fa-plus pe-2"></i> Create Project</button>
+        <button id="openModal" class="px-4  py-2  bg-black text-white rounded-lg" onclick="CreateProject"> <i class="fa-solid fa-plus pe-2"></i> Create Project</button>
     </div>
 </div>
 
@@ -82,7 +82,7 @@
 
                 <div class="my-3 flex justify-between items-center">
                     <h6>dblad</h6>
-                    <a class="px-4 py-2 bg-black text-white rounded-lg" style="">View Details</a>
+                    <a class="px-4 py-2 bg-black text-white rounded-lg" asp-action="Details" asp-route-id="1" style="">View Details</a>
                 </div>
             </div>
         }

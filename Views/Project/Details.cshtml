@@ -1,0 +1,107 @@
+﻿
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="my-3">
+    <h2>Project Name</h2>
+</div>
+
+
+<div class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+    <div class="rounded-lg border bg-card text-card-foreground shadow-sm">
+        <div class="p-4 flex gap-x-2">
+            <span>
+                <i class="fa-solid fa-sack-dollar"></i>
+             </span>
+            <h5 class="tracking-tight text-sm font-medium">
+                Budget
+            </h5>
+        </div>
+        <div class="p-6 pt-0 flex justify-center">
+            <h3 class="text-sm">$100</h3>
+        </div>
+    </div>
+
+    <div class="rounded-lg border bg-card text-card-foreground shadow-sm">
+        <div class="p-4 flex gap-x-2">
+            <span>
+                <i class="fa-solid fa-clock"></i>
+            </span>
+            <h5 class="tracking-tight text-sm font-medium">
+                Time Tracked
+            </h5>
+        </div>
+        <div class="p-6 pt-0 flex flex-col items-center">
+            <h3 class="text-sm">0.0h</h3>
+            <h6 class="text-sm">
+                $0 billed
+            </h6>
+        </div>
+    </div>
+
+    <div class="rounded-lg border bg-card text-card-foreground shadow-sm">
+        <div class="p-4 flex gap-x-2">
+            <span>
+                <i class="fa-solid fa-list-check"></i>
+            </span>
+            <h5 class="tracking-tight text-sm font-medium">
+                Tasks Progress
+            </h5>
+        </div>
+        <div class="p-6 pt-0">
+            <div class="flex items-center gap-2">
+                <h3 class="text-sm">2/5 </h3>
+                <h6>Completed</h6>
+            </div>
+            <progress value="2" max="5" class="h-2 w-full rounded-xl ease-in-out overflow-hidden" style="background-color:black;"></progress>
+        </div>
+    </div>
+
+</div>
+
+
+<div class="bg-slate-200 p-2 my-6 rounded-lg">
+    <div class="grid gap-x-2 grid-cols-2 px-2">
+        <button class="bg-white py-1 rounded-lg">
+            <span><i class="fa-solid fa-layer-group"></i></span>
+            OverView</button>
+        <button class="bg-white py-1 rounded-lg">
+            <span><i class="fa-solid fa-list-check"></i></span>
+            Tasks</button>
+
+    </div>   
+</div>
+
+<section class="border rounded-lg p-4">
+    <div>
+        <h5>Project Details</h5>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2">
+        <div class="flex flex-col">
+            <h6 class="text-gray-500">Client</h6>
+             <h5>Client Name</h5>
+        </div>
+        <div class="flex flex-col">
+            <h6 class="text-gray-500">
+                Category
+             </h6>
+            <h5>Design</h5>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2">
+        <div class="flex flex-col">
+            <h6 class="text-gray-500">Start Date</h6>
+            <h5>
+                4/1/2025
+            </h5>
+        </div>
+        <div class="flex flex-col">
+            <h6 class="text-gray-500">
+                End Date
+            </h6>
+            <h5>4/1/2025</h5>
+        </div>
+    </div>
+</section>
