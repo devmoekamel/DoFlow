@@ -2,7 +2,7 @@
 @{
     ViewData["Title"] = "Details";
 }
-
+<link rel="stylesheet" href="/css/Project/ProductDetails.css" />
 <div class="my-3">
     <h2>Project Name</h2>
 </div>
@@ -63,17 +63,20 @@
 
 <div class="bg-slate-200 p-2 my-6 rounded-lg">
     <div class="grid gap-x-2 grid-cols-2 px-2">
-        <button class="bg-white py-1 rounded-lg">
+        <button id="overviewbutton" data-target="ProjectOverView" class="tab-button py-1 rounded-lg active">
             <span><i class="fa-solid fa-layer-group"></i></span>
             OverView</button>
-        <button class="bg-white py-1 rounded-lg">
+        <button id="taskButton" data-target="TaskSection" class="tab-button py-1 rounded-lg">
             <span><i class="fa-solid fa-list-check"></i></span>
             Tasks</button>
 
     </div>   
 </div>
 
-<section class="border rounded-lg p-4">
+
+
+
+<section id="ProjectOverView" class="tab-section border rounded-lg p-4">
     <div>
         <h5>Project Details</h5>
     </div>
@@ -105,3 +108,29 @@
         </div>
     </div>
 </section>
+
+<div id="TaskSection" class="tab-section hidden">
+    <h3>Tasks</h3>
+</div>
+
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+<script>
+    let tabbuttons = $(".tab-button");
+    let tabsections = $(".tab-section");
+
+    tabbuttons.click(function () {
+        let section = $(this).data("target");
+
+        tabbuttons.removeClass("active");
+        $(this).addClass("active");
+
+        tabsections.addClass("hidden");
+        $(`#${section}`).removeClass("hidden");
+        $(`#${section}`).addClass("active");
+
+
+    })
+
+</script>
