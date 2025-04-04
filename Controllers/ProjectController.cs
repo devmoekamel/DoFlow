@@ -1,6 +1,8 @@
 ﻿using FreelanceManager.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using FreelanceManager.Repositry;
+using FreelanceManager.ViewModels.Project;
+using FreelanceManager.Enums;
 
 namespace FreelanceManager.Controllers
 {
@@ -14,7 +16,21 @@ namespace FreelanceManager.Controllers
         // project
         public IActionResult Index()
         {
-            var projects = projectRepo.GetAll();
+            var projects = projectRepo.GetAll()
+                .Select(p=> new AllProjectsVM {
+                Name=p.Name,
+                Priority=p.Priority,
+                Budget = p.Budget,
+                Company = p.Company,
+                AllMissionsCount = p.Missions.Count(),
+                CompletedMissionsCount = p.Missions.Count(m=>m.Status==status.Completed),
+                Description = p.Description,
+                EndDate = p.EndDate,
+                HourlyRate = p.HourlyRate,
+                Id =p.Id,
+                ProjectStatus=p.Status,
+                StartDate = p.StartDate
+                });
             return View(projects);
         }
 

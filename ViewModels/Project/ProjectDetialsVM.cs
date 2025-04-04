@@ -1,4 +1,5 @@
-﻿using FreelanceManager.Models;
+﻿using FreelanceManager.Enums;
+using FreelanceManager.Models;
 
 namespace FreelanceManager.ViewModels.Project
 {
@@ -13,7 +14,7 @@ namespace FreelanceManager.ViewModels.Project
         public string Description { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        public string Status { get; set; }
+        public status Status { get; set; }
 
         public IEnumerable<Mission> Missions { get; set; }
 
