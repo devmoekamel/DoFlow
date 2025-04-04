@@ -22,21 +22,6 @@ namespace FreelanceManager.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("ClientProject", b =>
-                {
-                    b.Property<int>("ClientsId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("projectsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("ClientsId", "projectsId");
-
-                    b.HasIndex("projectsId");
-
-                    b.ToTable("ClientProject");
-                });
-
             modelBuilder.Entity("FreelanceManager.Models.Client", b =>
                 {
                     b.Property<int>("Id")
@@ -48,6 +33,9 @@ namespace FreelanceManager.Migrations
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -79,6 +67,9 @@ namespace FreelanceManager.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<bool>("LockoutEnabled")
@@ -146,6 +137,9 @@ namespace FreelanceManager.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Notes")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -178,6 +172,9 @@ namespace FreelanceManager.Migrations
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<int>("Priority")
                         .HasColumnType("int");
@@ -224,13 +221,15 @@ namespace FreelanceManager.Migrations
                     b.Property<double>("HourlyRate")
                         .HasColumnType("float");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Priority")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("Priority")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
@@ -239,7 +238,12 @@ namespace FreelanceManager.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("clientId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("clientId");
 
                     b.ToTable("projects");
                 });
@@ -260,6 +264,9 @@ namespace FreelanceManager.Migrations
 
                     b.Property<TimeSpan>("EstimateTime")
                         .HasColumnType("time");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<int>("MissionId")
                         .HasColumnType("int");
@@ -419,21 +426,6 @@ namespace FreelanceManager.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("ClientProject", b =>
-                {
-                    b.HasOne("FreelanceManager.Models.Client", null)
-                        .WithMany()
-                        .HasForeignKey("ClientsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("FreelanceManager.Models.Project", null)
-                        .WithMany()
-                        .HasForeignKey("projectsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("FreelanceManager.Models.Invoice", b =>
                 {
                     b.HasOne("FreelanceManager.Models.Project", "Project")
@@ -454,6 +446,17 @@ namespace FreelanceManager.Migrations
                         .IsRequired();
 
                     b.Navigation("Project");
+                });
+
+            modelBuilder.Entity("FreelanceManager.Models.Project", b =>
+                {
+                    b.HasOne("FreelanceManager.Models.Client", "Client")
+                        .WithMany("projects")
+                        .HasForeignKey("clientId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Client");
                 });
 
             modelBuilder.Entity("FreelanceManager.Models.TimeTracking", b =>
@@ -531,6 +534,11 @@ namespace FreelanceManager.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("FreelanceManager.Models.Client", b =>
+                {
+                    b.Navigation("projects");
                 });
 
             modelBuilder.Entity("FreelanceManager.Models.Mission", b =>

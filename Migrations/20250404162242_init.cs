@@ -31,6 +31,7 @@ namespace FreelanceManager.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -59,32 +60,12 @@ namespace FreelanceManager.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_clients", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "projects",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Budget = table.Column<double>(type: "float", nullable: false),
-                    HourlyRate = table.Column<double>(type: "float", nullable: false),
-                    Company = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Priority = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_projects", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -194,25 +175,30 @@ namespace FreelanceManager.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ClientProject",
+                name: "projects",
                 columns: table => new
                 {
-                    ClientsId = table.Column<int>(type: "int", nullable: false),
-                    projectsId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Budget = table.Column<double>(type: "float", nullable: false),
+                    HourlyRate = table.Column<double>(type: "float", nullable: false),
+                    Company = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Priority = table.Column<int>(type: "int", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
+                    clientId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ClientProject", x => new { x.ClientsId, x.projectsId });
+                    table.PrimaryKey("PK_projects", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ClientProject_clients_ClientsId",
-                        column: x => x.ClientsId,
+                        name: "FK_projects_clients_clientId",
+                        column: x => x.clientId,
                         principalTable: "clients",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ClientProject_projects_projectsId",
-                        column: x => x.projectsId,
-                        principalTable: "projects",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -251,6 +237,7 @@ namespace FreelanceManager.Migrations
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Currency = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Notes = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     ProjectId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -275,6 +262,7 @@ namespace FreelanceManager.Migrations
                     Status = table.Column<int>(type: "int", nullable: false),
                     Priority = table.Column<int>(type: "int", nullable: false),
                     Deadline = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     ProjectId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -297,6 +285,7 @@ namespace FreelanceManager.Migrations
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Duration = table.Column<TimeSpan>(type: "time", nullable: false),
                     EstimateTime = table.Column<TimeSpan>(type: "time", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     MissionId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -350,11 +339,6 @@ namespace FreelanceManager.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ClientProject_projectsId",
-                table: "ClientProject",
-                column: "projectsId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_FreelancerProject_projectsId",
                 table: "FreelancerProject",
                 column: "projectsId");
@@ -368,6 +352,11 @@ namespace FreelanceManager.Migrations
                 name: "IX_missions_ProjectId",
                 table: "missions",
                 column: "ProjectId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_projects_clientId",
+                table: "projects",
+                column: "clientId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_timeTracking_MissionId",
@@ -394,9 +383,6 @@ namespace FreelanceManager.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "ClientProject");
-
-            migrationBuilder.DropTable(
                 name: "FreelancerProject");
 
             migrationBuilder.DropTable(
@@ -409,9 +395,6 @@ namespace FreelanceManager.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "clients");
-
-            migrationBuilder.DropTable(
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
@@ -419,6 +402,9 @@ namespace FreelanceManager.Migrations
 
             migrationBuilder.DropTable(
                 name: "projects");
+
+            migrationBuilder.DropTable(
+                name: "clients");
         }
     }
 }
