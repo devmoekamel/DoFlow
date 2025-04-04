@@ -12,7 +12,7 @@ namespace FreelanceManager.Models
         [DisplayFormat(DataFormatString = @"{0:hh\:mm}")]
         public TimeSpan EstimateTime { get; set; }
         public int MissionId { get; set; }
-        [ForeignKey(nameof(Id))]
+        [ForeignKey(nameof(MissionId))]
         public virtual Mission Mission { get; set; }
     }
 }
