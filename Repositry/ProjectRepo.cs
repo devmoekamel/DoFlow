@@ -47,7 +47,9 @@ namespace FreelanceManager.Repositry
 		public void Update(int Id, Project obj)
 		{
 			Project project  = context.projects.FirstOrDefault(p=>p.Id==Id);
-			if(project is not null)
+           
+
+            if (project is not null)
 			{
                 context.projects.Update(obj);
             }
