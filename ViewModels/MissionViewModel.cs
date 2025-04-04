@@ -1,25 +1,28 @@
-﻿
-using FreelanceManager.Enums;
+﻿using FreelanceManager.Enums;
+using FreelanceManager.Models;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using static FreelanceManager.Models.Mission;
 
-namespace FreelanceManager.Models
+namespace FreelanceManager.ViewModel
 {
-    public class Mission
+    public class MissionViewModel
     {
+
         public int Id { get; set; }
+        [Required]
         public string Title { get; set; }
+        [Required]
         public string Description { get; set; }
+        [Required]
         public status Status { get; set; }
+        [Required]
         public priority Priority { get; set; }
+         [Required]
         public DateTime Deadline { get; set; }
 
         public int ProjectId { get; set; }
-        [ForeignKey(nameof(ProjectId))]
-        public Project? Project { get; set; }
-        public IEnumerable<TimeTracking>? TimeTracking { get; set; }
-
        
 
     }
+  
 }

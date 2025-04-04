@@ -29,28 +29,28 @@ namespace FreelanceManager.Repositry
             return _dbSet.Find(Id);
         }
 
-        public void Remove(T obj)
+        public void RemoveByObj(T obj)
         {
             _dbSet.Remove(obj);
+        } 
+        public void RemoveById(int id)
+        {
+
+            _dbSet.Remove(_dbSet.Find(id));
         }
 
-        public void Update(T obj)
+        public void Update(int id ,T obj)
         {
-            _dbSet.Update(obj);
+            var existingEntity = _dbSet.Find(id);
+            if (existingEntity != null)
+            {
+                context.Entry(existingEntity).CurrentValues.SetValues(obj);
+            }
         }
         public void Save()
         {
             context.SaveChanges();
         }
 
-        public void Remove(int Id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Update(int Id, T obj)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

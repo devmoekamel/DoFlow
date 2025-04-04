@@ -39,6 +39,16 @@ namespace FreelanceManager.Repositry
 			context.projects.Remove(project);
         }
 
+        public void RemoveById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void RemoveByObj(Project obj)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Save()
 		{
 			context.SaveChanges();
