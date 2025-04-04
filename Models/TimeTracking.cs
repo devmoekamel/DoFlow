@@ -11,6 +11,8 @@ namespace FreelanceManager.Models
         public TimeSpan Duration { get; set; }
         [DisplayFormat(DataFormatString = @"{0:hh\:mm}")]
         public TimeSpan EstimateTime { get; set; }
+        public bool IsDeleted { get; set; }
+
         public int MissionId { get; set; }
         [ForeignKey(nameof(MissionId))]
         public virtual Mission Mission { get; set; }

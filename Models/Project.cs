@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using FreelanceManager.Enums;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FreelanceManager.Models
 {
@@ -9,12 +10,13 @@ namespace FreelanceManager.Models
         public double Budget { get; set; }
         public double HourlyRate { get; set; }
         public string Company { get; set; }
-        public string Priority { get; set; }
+        public priority Priority { get; set; }
         public string Description { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public string Status { get; set; }
 
+        public bool IsDeleted { get; set; }
         public int clientId { get; set; }
 
         [ForeignKey(nameof(clientId))]

@@ -13,6 +13,7 @@ namespace FreelanceManager.Models
         public status Status { get; set; }
         public priority Priority { get; set; }
         public DateTime Deadline { get; set; }
+        public bool IsDeleted { get; set; }
 
         public int ProjectId { get; set; }
         [ForeignKey(nameof(ProjectId))]

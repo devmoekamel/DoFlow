@@ -9,6 +9,7 @@ namespace FreelanceManager.Models
         public string Status { get; set; }
         public string Currency { get; set; }
         public string Notes { get; set; }
+        public bool IsDeleted { get; set; }
 
         public int ProjectId { get; set; }
 
