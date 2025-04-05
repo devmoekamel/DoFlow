@@ -57,10 +57,10 @@ namespace FreelanceManager.Controllers
             projectDetialsVM.Priority = project.Priority;
             projectDetialsVM.AllMissionsCount = project.Missions.Count();
             projectDetialsVM.Categoty = project.Categoty;
-            // add client name
+            projectDetialsVM.ClientName = project.Client.Name;
             projectDetialsVM.CompletedMissionsCount = project.Missions.Count(m=>m.Status == status.Completed);
             projectDetialsVM.Missions = missionRepo.GetAll();
-			return View();
+			return View(projectDetialsVM);
         }
 
 

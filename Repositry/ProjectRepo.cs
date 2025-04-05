@@ -28,8 +28,8 @@ namespace FreelanceManager.Repositry
 
 		public Project GetById(int Id)
 		{
-            Project project = context.projects.Include(p => p.Missions).FirstOrDefault(p=>p.Id==Id);
-
+            Project project = context.projects.Include(p => p.Missions).Include(p=>p.Client).FirstOrDefault(p=>p.Id==Id);
+            
 			return project;
 		}
 

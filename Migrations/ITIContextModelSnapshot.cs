@@ -207,6 +207,12 @@ namespace FreelanceManager.Migrations
                     b.Property<double>("Budget")
                         .HasColumnType("float");
 
+                    b.Property<int>("Categoty")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ClientId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Company")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -237,12 +243,9 @@ namespace FreelanceManager.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<int>("clientId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("clientId");
+                    b.HasIndex("ClientId");
 
                     b.ToTable("projects");
                 });
@@ -451,7 +454,7 @@ namespace FreelanceManager.Migrations
                 {
                     b.HasOne("FreelanceManager.Models.Client", "Client")
                         .WithMany("projects")
-                        .HasForeignKey("clientId")
+                        .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

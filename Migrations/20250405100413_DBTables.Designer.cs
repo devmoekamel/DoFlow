@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FreelanceManager.Migrations
 {
     [DbContext(typeof(ITIContext))]
-    [Migration("20250405094107_init")]
-    partial class init
+    [Migration("20250405100413_DBTables")]
+    partial class DBTables
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -210,6 +210,12 @@ namespace FreelanceManager.Migrations
                     b.Property<double>("Budget")
                         .HasColumnType("float");
 
+                    b.Property<int>("Categoty")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ClientId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Company")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -240,12 +246,9 @@ namespace FreelanceManager.Migrations
                     b.Property<int>("Status")
                         .HasColumnType("int");
 
-                    b.Property<int>("clientId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("clientId");
+                    b.HasIndex("ClientId");
 
                     b.ToTable("projects");
                 });
@@ -454,7 +457,7 @@ namespace FreelanceManager.Migrations
                 {
                     b.HasOne("FreelanceManager.Models.Client", "Client")
                         .WithMany("projects")
-                        .HasForeignKey("clientId")
+                        .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
