@@ -2,7 +2,6 @@
 @model List<MissionViewModel>
 @{
     ViewData["Title"] = "All Mission";
-    Layout = null;
 }
 <script src="https://cdn.tailwindcss.com"></script>
 
@@ -30,6 +29,7 @@
                             </svg>
                         </div>
                     </div>
+                   
                     <div class="flex gap-4 w-full sm:w-auto">
                         <div class="relative">
                             <select name="status"
@@ -81,22 +81,25 @@
                     </div>
 
                 </div>
+
+                <div class="text-center">
+                    <!-- Add Task Button -->
+                    <button id="btnAddMission"
+                            class="w-full sm:w-auto flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors">
+                        @* <a href="/Mission/Add" class="px-5 flex items-center gap-2"> *@
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                             stroke="currentColor" class="w-5 h-5">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                        </svg>
+                        <span>Add Task</span>
+                        @* </a> *@
+                    </button>
+                </div>
+
             </div>
               
         </form>
-        <div class="text-center">
-            <!-- Add Task Button -->
-            <button id="btnAddMission"
-                    class="w-full sm:w-auto flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors">
-                @* <a href="/Mission/Add" class="px-5 flex items-center gap-2"> *@
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                     stroke="currentColor" class="w-5 h-5">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                </svg>
-                <span>Add Task</span>
-                @* </a> *@
-            </button>
-        </div>
+       
 
     </div>
 
