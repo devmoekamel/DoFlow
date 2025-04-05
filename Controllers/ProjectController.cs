@@ -1,7 +1,8 @@
 ﻿using FreelanceManager.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using FreelanceManager.Repositry;
-using FreelanceManager.ViewModels.Project;
+using FreelanceManager.ViewModels.Projectvm;
+using FreelanceManager.Models;
 using FreelanceManager.Enums;
 using Microsoft.AspNetCore.Authorization;
 
@@ -19,7 +20,6 @@ namespace FreelanceManager.Controllers
 		}
         // project
         [HttpGet]
-        [Authorize]
         public IActionResult Index()
         {
             var projects = projectRepo.GetAll()
@@ -63,6 +63,25 @@ namespace FreelanceManager.Controllers
 			return View(projectDetialsVM);
         }
 
+        [HttpPost]
+        public IActionResult AddProject(AddProjectVM  NewProject)
+        {
+            if(!ModelState.IsValid)
+            {
+                return RedirectToAction("Index", NewProject);
+            }
+
+            Project project = new Project ()
+            {Name=NewProject.Name,
+            Budget=NewProject.Budget,
+            HourlyRate=NewProject.HourlyRate,
+            Company= NewProject.Company
+            
+            };
+
+            return Content("dadad");
+
+        }
 
 
     }

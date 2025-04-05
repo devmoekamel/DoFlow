@@ -1,7 +1,7 @@
 ﻿using FreelanceManager.Enums;
 using FreelanceManager.Models;
 
-namespace FreelanceManager.ViewModels.Project
+namespace FreelanceManager.ViewModels.Projectvm
 {
     public class ProjectDetialsVM
     {

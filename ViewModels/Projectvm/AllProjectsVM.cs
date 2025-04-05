@@ -1,6 +1,6 @@
 ﻿using FreelanceManager.Enums;
 
-namespace FreelanceManager.ViewModels.Project
+namespace FreelanceManager.ViewModels.Projectvm
 {
     public class AllProjectsVM
     {
