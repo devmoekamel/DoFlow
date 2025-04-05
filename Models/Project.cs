@@ -15,6 +15,7 @@ namespace FreelanceManager.Models
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public status Status { get; set; }
+        public categoty Categoty { get; set; }
 
         public bool IsDeleted { get; set; }
         public int ClientId { get; set; }

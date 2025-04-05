@@ -15,7 +15,8 @@ namespace FreelanceManager.ViewModels.Project
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public status Status { get; set; }
-
+        public categoty Categoty { get; set; }
+        public string ClientName { get; set; }
 
 		// addition
 		public int AllMissionsCount { get; set; }
