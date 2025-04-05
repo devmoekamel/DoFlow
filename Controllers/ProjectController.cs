@@ -8,34 +8,36 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace FreelanceManager.Controllers
 {
+
     public class ProjectController : Controller
     {
-		private readonly IProjectRepo projectRepo;
-		private readonly IMissionRepo missionRepo;
-
-		public ProjectController(IProjectRepo projectRepo, IMissionRepo missionRepo)
+        private readonly IProjectRepo projectRepo;
+        private readonly IMissionRepo missionRepo;
+        private readonly IClientRepo clientRepo;
+        public ProjectController(IProjectRepo projectRepo, IMissionRepo missionRepo, IClientRepo clientRepo)
         {
             this.projectRepo = projectRepo;
-			this.missionRepo = missionRepo;
-		}
+            this.missionRepo = missionRepo;
+            this.clientRepo = clientRepo;
+        }
         // project
         [HttpGet]
         public IActionResult Index()
         {
             var projects = projectRepo.GetAll()
-                .Select(p=> new AllProjectsVM {
-                Name=p.Name,
-                Priority=p.Priority,
-                Budget = p.Budget,
-                Company = p.Company,
-                AllMissionsCount = p.Missions.Count(),
-                CompletedMissionsCount = p.Missions.Count(m=>m.Status==status.Completed),
-                Description = p.Description,
-                EndDate = p.EndDate,
-                HourlyRate = p.HourlyRate,
-                Id =p.Id,
-                ProjectStatus=p.Status,
-                StartDate = p.StartDate
+                .Select(p => new AllProjectsVM {
+                    Name = p.Name,
+                    Priority = p.Priority,
+                    Budget = p.Budget,
+                    Company = p.Company,
+                    AllMissionsCount = p.Missions.Count(),
+                    CompletedMissionsCount = p.Missions.Count(m => m.Status == status.Completed),
+                    Description = p.Description,
+                    EndDate = p.EndDate,
+                    HourlyRate = p.HourlyRate,
+                    Id = p.Id,
+                    ProjectStatus = p.Status,
+                    StartDate = p.StartDate
                 });
             return View(projects);
         }
@@ -52,36 +54,47 @@ namespace FreelanceManager.Controllers
             projectDetialsVM.Description = project.Description;
             projectDetialsVM.Status = project.Status;
             projectDetialsVM.StartDate = project.StartDate;
-			projectDetialsVM.EndDate = project.EndDate;
+            projectDetialsVM.EndDate = project.EndDate;
             projectDetialsVM.Company = project.Company;
             projectDetialsVM.Priority = project.Priority;
             projectDetialsVM.AllMissionsCount = project.Missions.Count();
             projectDetialsVM.Categoty = project.Categoty;
             projectDetialsVM.ClientName = project.Client.Name;
-            projectDetialsVM.CompletedMissionsCount = project.Missions.Count(m=>m.Status == status.Completed);
+            projectDetialsVM.CompletedMissionsCount = project.Missions.Count(m => m.Status == status.Completed);
             projectDetialsVM.Missions = missionRepo.GetAll();
-			return View(projectDetialsVM);
+            return View(projectDetialsVM);
+        }
+
+        [HttpGet]
+        public IActionResult Add()
+        {
+            AddProjectVM newproject = new AddProjectVM();
+            ViewBag.Clients = clientRepo.GetAll();
+            return PartialView("AddProjectPartialView", newproject);
         }
 
         [HttpPost]
-        public IActionResult AddProject(AddProjectVM  NewProject)
-        {
-            if(!ModelState.IsValid)
+
+        public IActionResult SaveAdd(AddProjectVM project)
+          {
+            if (!ModelState.IsValid)
             {
-                return RedirectToAction("Index", NewProject);
+                ViewBag.Clients = clientRepo.GetAll();
+                return PartialView("AddProjectPartialView", project);
             }
 
-            Project project = new Project ()
-            {Name=NewProject.Name,
-            Budget=NewProject.Budget,
-            HourlyRate=NewProject.HourlyRate,
-            Company= NewProject.Company
-            
+            Project newProject = new()
+            {
+                Name = project.Name,
+
             };
 
-            return Content("dadad");
 
-        }
+           }
+
+
+
+
 
 
     }

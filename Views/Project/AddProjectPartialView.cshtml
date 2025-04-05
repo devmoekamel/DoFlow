@@ -1,0 +1,104 @@
+﻿@model AddProjectVM
+
+
+<div id="modal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex justify-center items-center overflow-auto">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-2xl relative">
+        <button id="closeModal" class="absolute top-2 p-4 right-2 text-gray-500 hover:text-gray-800 text-2xl">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+
+        <h2 class="text-xl font-semibold">Create New Project</h2>
+        <p class="text-gray-500 text-sm mb-4">Add a new project with all its details and milestones.</p>
+
+
+        <form asp-action="AddProject">
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-medium">Project Name</label>
+                    <input type="text" placeholder="Enter project name" class="w-full border p-2 rounded-md" asp-for="Name">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium">Client</label>
+                    <select class="w-full border p-2 rounded-md" >
+                        <option>Select client</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium">Start Date</label>
+                    <input type="date" class="w-full border p-2 rounded-md" asp-for="StartDate">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium">End Date</label>
+                    <input type="date" class="w-full border p-2 rounded-md" asp-for="EndDate">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium">Budget</label>
+                    <input type="number" value="0" class="w-full border p-2 rounded-md" asp-for="Budget">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium">Hourly Rate</label>
+                    <input type="number" value="0" class="w-full border p-2 rounded-md" asp-for="HourlyRate">
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium">Category</label>
+                    <select class="w-full border p-2 rounded-md">
+                        <option value="0"> --- Select category --- </option>
+                        <option value="1">Development</option>
+                        <option value="2">Desgin</option>
+                        <option value="3">Marketing</option>
+                        <option value="4">Consulting</option>
+
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium">Priority</label>
+                    <select class="w-full border p-2 rounded-md">
+                        <option value="0">--- Select Category --- </option>
+                        <option value="1">Medium</option>
+                        <option value="2">High</option>
+                        <option value="3">Low</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <label class="block text-sm font-medium">Description</label>
+                <textarea placeholder="Enter project description" class="w-full border p-2 rounded-md" asp-for="Description"></textarea>
+            </div>
+
+            <div class="flex justify-end mt-4">
+                <button type="submit" class="bg-black text-white px-4 py-2 rounded-md">
+                    Create Project
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script>
+
+    $(document).ready(function () {
+      $("#openModal").click(function () {
+        $("#modal").removeClass("hidden");
+      });
+
+      $("#closeModal").click(function () {
+        $("#modal").addClass("hidden");
+      });
+
+      $(document).click(function (event) {
+        if (!$(event.target).closest("#modal div").length && !$(event.target).is("#openModal")) {
+          $("#modal").addClass("hidden");
+        }
+      });
+    });
+</script>

@@ -5,5 +5,6 @@ namespace FreelanceManager.Interfaces
 {
     public interface IClientRepo:IGenericRepo<Client>
     {
+
     }
 }
