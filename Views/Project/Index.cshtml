@@ -5,13 +5,17 @@
 }
 
 <style>
-   .dropdown-menu a {
-      text-decoration: none;
-      color: black;
+    .dropdown-menu a {
+    text-decoration: none;
+    color: black;
     }
 </style>
+@if(User.Identity.IsAuthenticated)
+{
+    <h1 class="p-2">Welcome, @User.Identity.Name!</h1>
+}
 <div class="container">
-        <h1>Projects</h1>
+    <h1>Projects</h1>
         <h3 class="">Manage your projects</h3>
 </div>
 
