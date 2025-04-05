@@ -1,10 +1,14 @@
 ﻿
+@model ProjectDetialsVM
 @{
     ViewData["Title"] = "Details";
 }
 <link rel="stylesheet" href="/css/Project/ProductDetails.css" />
 <div class="my-3">
-    <h2>Project Name</h2>
+    <h2>@Model.Name</h2> <!---->
+</div>
+<div class="my-3">
+    <p>@Model.Description</p> <!---->
 </div>
 
 
@@ -19,7 +23,7 @@
             </h5>
         </div>
         <div class="p-6 pt-0 flex justify-center">
-            <h3 class="text-sm">$100</h3>
+            <h3 class="text-sm">@Model.Budget</h3><!---->
         </div>
     </div>
 
@@ -33,9 +37,9 @@
             </h5>
         </div>
         <div class="p-6 pt-0 flex flex-col items-center">
-            <h3 class="text-sm">0.0h</h3>
+            <h3 class="text-sm">0.0h</h3> <!---->
             <h6 class="text-sm">
-                $0 billed
+                $0 billed <!---->
             </h6>
         </div>
     </div>
@@ -51,10 +55,10 @@
         </div>
         <div class="p-6 pt-0">
             <div class="flex items-center gap-2">
-                <h3 class="text-sm">2/5 </h3>
-                <h6>Completed</h6>
+                <h3 class="text-sm">2/5 </h3> <!---->
+                <h6>Completed</h6> <!---->
             </div>
-            <progress value="2" max="5" class="h-2 w-full rounded-xl ease-in-out overflow-hidden" style="background-color:black;"></progress>
+            <progress value="@Model.CompletedMissionsCount" max="@Model.AllMissionsCount" class="h-2 w-full rounded-xl ease-in-out overflow-hidden" style="background-color:black;"></progress>
         </div>
     </div>
 
@@ -83,13 +87,13 @@
     <div class="grid grid-cols-1 sm:grid-cols-2">
         <div class="flex flex-col">
             <h6 class="text-gray-500">Client</h6>
-             <h5>Client Name</h5>
+            <h5>Client Name</h5><!---->
         </div>
         <div class="flex flex-col">
             <h6 class="text-gray-500">
                 Category
              </h6>
-            <h5>Design</h5>
+            <h5>Category Name</h5> <!---->
         </div>
     </div>
 
@@ -97,14 +101,14 @@
         <div class="flex flex-col">
             <h6 class="text-gray-500">Start Date</h6>
             <h5>
-                4/1/2025
+                @Model.StartDate
             </h5>
         </div>
         <div class="flex flex-col">
             <h6 class="text-gray-500">
                 End Date
             </h6>
-            <h5>4/1/2025</h5>
+            <h5>@Model.EndDate</h5>
         </div>
     </div>
 </section>

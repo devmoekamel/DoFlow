@@ -17,9 +17,9 @@ namespace FreelanceManager.Models
         public status Status { get; set; }
 
         public bool IsDeleted { get; set; }
-        public int clientId { get; set; }
+        public int ClientId { get; set; }
 
-        [ForeignKey(nameof(clientId))]
+        [ForeignKey(nameof(ClientId))]
         public Client Client { get; set; }
         public ICollection<Freelancer> Freelancers { get; set; }
 

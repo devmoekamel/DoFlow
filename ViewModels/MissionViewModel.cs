@@ -17,7 +17,7 @@ namespace FreelanceManager.ViewModel
         public status Status { get; set; }
         [Required]
         public priority Priority { get; set; }
-         [Required]
+        [Required]
         public DateTime Deadline { get; set; }
 
         public int ProjectId { get; set; }
