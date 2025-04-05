@@ -40,7 +40,7 @@
         </div>
     </div>
     <div class="flex">
-        <button id="openModal" class="px-4  py-2  bg-black text-white rounded-lg" onclick="CreateProject">
+        <button id="openModal" class="px-4  py-2  bg-black text-white rounded-lg" >
             <i class="fa-solid fa-plus pe-2">
             </i> Create Project</button>
     </div>
@@ -84,7 +84,7 @@
 
                 <div class="my-3 flex justify-between items-center">
                     <h6>@project.ProjectStatus</h6>
-                    <a class="px-4 py-2 bg-indigo-600 text-white rounded-lg" asp-action="Details" asp-route-id="1" style="">View Details</a>
+                    <a class="px-4 py-2 bg-indigo-600 text-white rounded-lg" asp-action="Details" asp-route-id="@project.Id" style="">View Details</a>
                 </div>
             </div>
         }
@@ -95,14 +95,14 @@
 
 
 
-<div id="overlay" class="hidden">
+<div id="modal-container">
   
 </div>
 
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 
 <script>
     $(document).ready(function () {
@@ -117,34 +117,25 @@
       });
     });
 
-    $("#openModal").click(function(){
+    $("#openModal").click(function (e) {
+        e.preventDefault();
+    console.log("exada");
+        $.get('/Project/Add', function (data) {
+            console.log(data);
 
-       $.get('/Project/Add', function (data) {
-                console.log("Received Data:", data);  
-                $("#overlay").html(data);
-                $("#overlay").removeClass("hidden");
-            }).fail(function (xhr) {
-                console.error("Error Loading Partial View:", xhr.responseText);
-            });
+           
 
-    })
+            $("#modal-container").html(data);
+            $("#modal").removeClass("hidden");
+            
+            // Prevent body scrolling when modal is open
+            $('body').css('overflow', 'hidden');
+        }).fail(function (xhr) {
+            console.error("Error Loading Modal:", xhr.responseText);
+        });
+    });
+    
 
 </script>
 
 
-@* 
-
-
-                               1) Filltration
-                               2) add project -> VM, Get all --> VM+ 2 prop
-                               3) edit project
-                               4) delete project
-                               5) details
-                            
-              
-                               3 view models
-                               1-> add project model 
-                               2-> all projects 
-                               3-> view detials project 
-
-                               *@

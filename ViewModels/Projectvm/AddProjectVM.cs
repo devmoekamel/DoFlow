@@ -1,18 +1,38 @@
 ﻿using FreelanceManager.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace FreelanceManager.ViewModels.Projectvm
 {
     public class AddProjectVM
     {
+		[Required]
 		public string Name { get; set; }
-		public double Budget { get; set; }
-		public double HourlyRate { get; set; }
-		public string Company { get; set; }
-		public priority Priority { get; set; }
+		[Required]
+        public double Budget { get; set; }
+		[Required]
+
+        public double HourlyRate { get; set; }
+        [Required]
+
+        public string Company { get; set; }
+        [Required]
+
+        public priority Priority { get; set; }
+
+        [Required]
+        public categoty category { get; set; }
+        [Required]
+
         public string Description { get; set; }
-		public DateTime StartDate { get; set; }
-		public DateTime EndDate { get; set; }
-		public int ClientId { get; set; }
+        [Required]
+
+        public DateTime StartDate { get; set; }
+        [Required]
+
+        public DateTime EndDate { get; set; }
+        [Required]
+
+        public int ClientId { get; set; }
 
 	}
 }

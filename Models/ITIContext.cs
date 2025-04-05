@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using System.Reflection.Emit;
 
 namespace FreelanceManager.Models
 {
@@ -16,5 +17,13 @@ namespace FreelanceManager.Models
         public DbSet<TimeTracking> timeTracking { get; set; }
 
 
+
+       
+
+
     }
+
+
+
+
 }

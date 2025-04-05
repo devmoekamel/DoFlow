@@ -39,6 +39,8 @@ namespace FreelanceManager.Controllers
                     ProjectStatus = p.Status,
                     StartDate = p.StartDate
                 });
+           
+
             return View(projects);
         }
 
@@ -83,14 +85,35 @@ namespace FreelanceManager.Controllers
                 return PartialView("AddProjectPartialView", project);
             }
 
+            Console.WriteLine(project.Name);
+            Console.WriteLine(project.Budget);
+            Console.WriteLine(project.ClientId);
+            Console.WriteLine(project.Company);
+            Console.WriteLine(project.Description);
+            Console.WriteLine(project.StartDate);
+            Console.WriteLine(project.EndDate);
+
             Project newProject = new()
             {
                 Name = project.Name,
-
+                Budget = project.Budget,
+                ClientId = project.ClientId,
+                Company = project.Company,
+                Description = project.Description,
+                StartDate= project.StartDate,
+                EndDate= project.EndDate,
+                HourlyRate  = project.HourlyRate,
+                Priority = project.Priority,
+              
+                
             };
 
+            projectRepo.Add(newProject);
 
-           }
+            projectRepo.Save();
+
+            return RedirectToAction("Index");
+        }
 
 
 
