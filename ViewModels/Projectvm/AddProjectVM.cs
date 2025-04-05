@@ -20,7 +20,7 @@ namespace FreelanceManager.ViewModels.Projectvm
         public priority Priority { get; set; }
 
         [Required]
-        public categoty category { get; set; }
+        public category category { get; set; }
         [Required]
 
         public string Description { get; set; }

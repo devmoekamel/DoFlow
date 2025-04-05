@@ -22,6 +22,7 @@ namespace FreelanceManager.Controllers
         }
         // project
         [HttpGet]
+        [Authorize]
         public IActionResult Index()
         {
             var projects = projectRepo.GetAll()

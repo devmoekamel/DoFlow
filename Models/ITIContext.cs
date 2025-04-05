@@ -9,6 +9,7 @@ namespace FreelanceManager.Models
     {
         public ITIContext(DbContextOptions<ITIContext> options) : base(options)
         {
+
         }
         public DbSet<Client> clients { get; set; }
         public DbSet<Invoice> invoices { get; set; }

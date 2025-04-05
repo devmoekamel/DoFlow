@@ -15,7 +15,7 @@ namespace FreelanceManager.ViewModels.Projectvm
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public status Status { get; set; }
-        public categoty Categoty { get; set; }
+        public category Categoty { get; set; }
         public string ClientName { get; set; }
 
 		// addition

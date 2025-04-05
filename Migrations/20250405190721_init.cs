@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace FreelanceManager.Migrations
 {
     /// <inheritdoc />
-    public partial class DBTables : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -30,7 +30,6 @@ namespace FreelanceManager.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -191,39 +190,22 @@ namespace FreelanceManager.Migrations
                     Status = table.Column<int>(type: "int", nullable: false),
                     Categoty = table.Column<int>(type: "int", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    ClientId = table.Column<int>(type: "int", nullable: false)
+                    ClientId = table.Column<int>(type: "int", nullable: false),
+                    FreelancerId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_projects", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_projects_clients_ClientId",
-                        column: x => x.ClientId,
-                        principalTable: "clients",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "FreelancerProject",
-                columns: table => new
-                {
-                    FreelancersId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    projectsId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_FreelancerProject", x => new { x.FreelancersId, x.projectsId });
-                    table.ForeignKey(
-                        name: "FK_FreelancerProject_AspNetUsers_FreelancersId",
-                        column: x => x.FreelancersId,
+                        name: "FK_projects_AspNetUsers_FreelancerId",
+                        column: x => x.FreelancerId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
-                        name: "FK_FreelancerProject_projects_projectsId",
-                        column: x => x.projectsId,
-                        principalTable: "projects",
+                        name: "FK_projects_clients_ClientId",
+                        column: x => x.ClientId,
+                        principalTable: "clients",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.NoAction);
                 });
@@ -340,11 +322,6 @@ namespace FreelanceManager.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_FreelancerProject_projectsId",
-                table: "FreelancerProject",
-                column: "projectsId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_invoices_ProjectId",
                 table: "invoices",
                 column: "ProjectId");
@@ -358,6 +335,11 @@ namespace FreelanceManager.Migrations
                 name: "IX_projects_ClientId",
                 table: "projects",
                 column: "ClientId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_projects_FreelancerId",
+                table: "projects",
+                column: "FreelancerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_timeTracking_MissionId",
@@ -384,9 +366,6 @@ namespace FreelanceManager.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "FreelancerProject");
-
-            migrationBuilder.DropTable(
                 name: "invoices");
 
             migrationBuilder.DropTable(
@@ -396,13 +375,13 @@ namespace FreelanceManager.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
                 name: "missions");
 
             migrationBuilder.DropTable(
                 name: "projects");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "clients");

@@ -1,6 +1,6 @@
 ﻿namespace FreelanceManager.Enums
 {
-	public enum categoty
+	public enum category
 	{
 		Development, 
 		Design,

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FreelanceManager.Migrations
 {
     [DbContext(typeof(ITIContext))]
-    [Migration("20250405143539_clientSeeding")]
-    partial class clientSeeding
+    [Migration("20250405190721_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -51,48 +51,6 @@ namespace FreelanceManager.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("clients");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Email = "contact@acme.com",
-                            IsDeleted = false,
-                            Name = "Acme Corporation",
-                            Phone = "555-0101"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Email = "info@globex.com",
-                            IsDeleted = false,
-                            Name = "Globex Corporation",
-                            Phone = "555-0102"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Email = "support@soylent.com",
-                            IsDeleted = false,
-                            Name = "Soylent Corp",
-                            Phone = "555-0103"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Email = "hello@initech.com",
-                            IsDeleted = false,
-                            Name = "Initech",
-                            Phone = "555-0104"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Email = "contact@umbrella.com",
-                            IsDeleted = false,
-                            Name = "Umbrella Corporation",
-                            Phone = "555-0105"
-                        });
                 });
 
             modelBuilder.Entity("FreelanceManager.Models.Freelancer", b =>
@@ -132,10 +90,6 @@ namespace FreelanceManager.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Phone")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
@@ -269,6 +223,10 @@ namespace FreelanceManager.Migrations
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("FreelancerId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<double>("HourlyRate")
                         .HasColumnType("float");
 
@@ -291,6 +249,8 @@ namespace FreelanceManager.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ClientId");
+
+                    b.HasIndex("FreelancerId");
 
                     b.ToTable("projects");
                 });
@@ -323,21 +283,6 @@ namespace FreelanceManager.Migrations
                     b.HasIndex("MissionId");
 
                     b.ToTable("timeTracking");
-                });
-
-            modelBuilder.Entity("FreelancerProject", b =>
-                {
-                    b.Property<string>("FreelancersId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("projectsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("FreelancersId", "projectsId");
-
-                    b.HasIndex("projectsId");
-
-                    b.ToTable("FreelancerProject");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -478,7 +423,7 @@ namespace FreelanceManager.Migrations
                     b.HasOne("FreelanceManager.Models.Project", "Project")
                         .WithMany()
                         .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Project");
@@ -489,7 +434,7 @@ namespace FreelanceManager.Migrations
                     b.HasOne("FreelanceManager.Models.Project", "Project")
                         .WithMany("Missions")
                         .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Project");
@@ -500,10 +445,18 @@ namespace FreelanceManager.Migrations
                     b.HasOne("FreelanceManager.Models.Client", "Client")
                         .WithMany("projects")
                         .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("FreelanceManager.Models.Freelancer", "Freelancer")
+                        .WithMany("projects")
+                        .HasForeignKey("FreelancerId")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Client");
+
+                    b.Navigation("Freelancer");
                 });
 
             modelBuilder.Entity("FreelanceManager.Models.TimeTracking", b =>
@@ -511,25 +464,10 @@ namespace FreelanceManager.Migrations
                     b.HasOne("FreelanceManager.Models.Mission", "Mission")
                         .WithMany("TimeTracking")
                         .HasForeignKey("MissionId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Mission");
-                });
-
-            modelBuilder.Entity("FreelancerProject", b =>
-                {
-                    b.HasOne("FreelanceManager.Models.Freelancer", null)
-                        .WithMany()
-                        .HasForeignKey("FreelancersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("FreelanceManager.Models.Project", null)
-                        .WithMany()
-                        .HasForeignKey("projectsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -537,7 +475,7 @@ namespace FreelanceManager.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 
@@ -546,7 +484,7 @@ namespace FreelanceManager.Migrations
                     b.HasOne("FreelanceManager.Models.Freelancer", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 
@@ -555,7 +493,7 @@ namespace FreelanceManager.Migrations
                     b.HasOne("FreelanceManager.Models.Freelancer", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 
@@ -564,13 +502,13 @@ namespace FreelanceManager.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("FreelanceManager.Models.Freelancer", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 
@@ -579,11 +517,16 @@ namespace FreelanceManager.Migrations
                     b.HasOne("FreelanceManager.Models.Freelancer", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 
             modelBuilder.Entity("FreelanceManager.Models.Client", b =>
+                {
+                    b.Navigation("projects");
+                });
+
+            modelBuilder.Entity("FreelanceManager.Models.Freelancer", b =>
                 {
                     b.Navigation("projects");
                 });

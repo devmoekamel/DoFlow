@@ -15,14 +15,17 @@ namespace FreelanceManager.Models
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public status Status { get; set; }
-        public categoty Categoty { get; set; }
+        public category Categoty { get; set; }
 
         public bool IsDeleted { get; set; }
         public int ClientId { get; set; }
+        public string FreelancerId { get; set; }
 
         [ForeignKey(nameof(ClientId))]
         public Client Client { get; set; }
-        public ICollection<Freelancer> Freelancers { get; set; }
+
+		[ForeignKey(nameof(FreelancerId))]
+		public Freelancer Freelancer { get; set; }
 
 
         public ICollection<Mission>? Missions { get; set; }

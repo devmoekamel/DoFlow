@@ -89,7 +89,7 @@ namespace FreelanceManager.Controllers
 
                 missionRepo.Add(newmission);
                 missionRepo.Save();
-                return RedirectToAction("GetAll");
+                return RedirectToAction("Index");
             }
             ViewBag.ProjectList = projectRepo.GetAll();
             return PartialView("AddPartial", mission);

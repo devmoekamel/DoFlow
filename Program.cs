@@ -1,6 +1,7 @@
 using FreelanceManager.Interfaces;
 using FreelanceManager.Models;
 using FreelanceManager.Repositry;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace FreelanceManager
@@ -26,6 +27,8 @@ namespace FreelanceManager
             builder.Services.AddScoped<IMissionRepo, MissionRepo>();
             builder.Services.AddScoped<ITimeTrackingRepo, TimeTrackingRepo>();
             builder.Services.AddScoped<IMissionRepo, MissionRepo>();
+            builder.Services.AddIdentity<Freelancer, IdentityRole>()
+                .AddEntityFrameworkStores<ITIContext>();
 
             var app = builder.Build();
 
