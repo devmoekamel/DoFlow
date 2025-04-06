@@ -1,8 +1,189 @@
 ﻿
+@model TimeTrackingVM
 @{
     ViewData["Title"] = "Index";
 }
 
+<form method="post" asp-action="SaveTimeTracking" >
 
-<h1>Index</h1>
 
+<main action="SaveTimeTracking" class="flex-1 overflow-y-auto py-8">
+    <div class="container mx-auto px-4 max-w-4xl">
+        <div class="space-y-2">
+            <!-- Time Tracker  -->
+            <div class="rounded-lg border border-gray-200 bg-white shadow-sm">
+                <div class="flex flex-col space-y-1.5 p-6 pb-3">
+                    <h3 class="text-2xl font-semibold leading-none tracking-tight text-gray-900">Time Tracker</h3>
+                    <p class="text-sm text-gray-500">Track time for: <span class="font-medium text-indigo-600">task2</span></p>
+                </div>
+                <div class="p-6 pt-0">
+                    <div id="stopwatch" class="time-display text-5xl font-mono text-center my-6 text-black">@Model.Duration</div>
+                    <div class="flex flex-col sm:flex-row justify-center gap-4">
+                        <select value="@Model.Id" class="border border-gray-300 rounded-lg px-4 py-2 w-full sm:w-64 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                            <option value="" selected disabled>Select a Task</option>
+                                @foreach (var item in Model.AvailableMissions)
+                            {
+                                <option value="@Model.MissionId">@item.Title</option>
+                               
+                            }
+                        </select>
+                        <div class="flex gap-3 w-full sm:w-auto">
+                            <button onclick="start()" class="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-indigo-600 text-white hover:bg-indigo-700 h-11 px-6 py-2 flex-1 sm:flex-none">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-play mr-2 h-5 w-5">
+                                    <polygon points="6 3 20 12 6 21 6 3"></polygon>
+                                </svg>
+                                Start
+                            </button>
+                            <button onclick="stop()" class="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-white text-gray-700 border border-gray-300 hover:bg-gray-50 h-11 px-6 py-2 flex-1 sm:flex-none">
+                                Stop
+                            </button>
+                        </div>
+                    </div>
+                    <div class="mt-6 text-sm sm:text-base space-y-1 text-gray-700">
+                        <p>Last time spent on this task: <span class="font-medium">@Model.EstimateTime</span></p>
+                        <p>Total time spent on this task: <span class="font-medium">@Model.Date</span></p>
+                    </div>
+                </div>
+            </div>
+
+                <!-- Recent Time Entries Card -->
+                <div class="rounded-lg border border-gray-200 bg-white shadow-sm">
+                    <div class="flex flex-col space-y-1.5 p-6">
+                        <h3 class="text-2xl font-semibold leading-none tracking-tight text-gray-900">Recent Time Entries</h3>
+                    </div>
+                    <div class="p-6 pt-0">
+                        <div class="space-y-3">
+                            <!-- Time Entry 1 -->
+                            <div class="task-entry flex flex-col sm:flex-row justify-between items-start sm:items-center p-4 border border-gray-200 rounded-lg gap-3 bg-white hover:shadow-md">
+                                <div class="space-y-1">
+                                    <h4 class="font-medium text-gray-900">Task: task2</h4>
+                                    <div class="flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-500">
+                                        <p>Duration: @Model.Duration</p>
+                                        <p>Date: @Model.Date</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-4 w-full sm:w-auto justify-between sm:justify-end mt-2 sm:mt-0">
+                                    <p class="font-medium text-gray-900">@Model.EstimateTime</p>
+                                    <button class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-gray-100 h-9 rounded-lg px-3">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-trash2 h-4 w-4 text-red-500">
+                                            <path d="M3 6h18"></path>
+                                            <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path>
+                                            <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path>
+                                            <line x1="10" x2="10" y1="11" y2="17"></line>
+                                            <line x1="14" x2="14" y1="11" y2="17"></line>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+</main>
+
+</form>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        colors: {
+                            primary: {
+                                DEFAULT: '#6366f1',
+                                foreground: '#ffffff',
+                            },
+                            card: {
+                                DEFAULT: '#ffffff',
+                                foreground: '#1e293b',
+                            },
+                            muted: {
+                                foreground: '#64748b',
+                            },
+                            destructive: '#ef4444',
+                            accent: '#f1f5f9',
+                        },
+                        borderRadius: {
+                            lg: '0.5rem',
+                        }
+                    }
+                }
+            }
+
+
+    let timer;
+    let running = false;
+    let startTime;
+    let elapsedTime = 0;
+
+    function updateDisplay() {
+        const totalMs = elapsedTime + (running ? Date.now() - startTime : 0);
+        const hours = Math.floor(totalMs / 3600000).toString().padStart(2, '0');
+        const minutes = Math.floor((totalMs % 3600000) / 60000).toString().padStart(2, '0');
+        const seconds = Math.floor((totalMs % 60000) / 1000).toString().padStart(2, '0');
+
+        const display = document.getElementById('stopwatch');
+        display.innerHTML = `${hours}:${minutes}:${seconds}`;
+
+        // Add subtle glow when running
+        if (running) {
+            display.classList.add('text-indigo-300', 'drop-shadow-[0_0_8px_rgba(129,140,248,0.6)]');
+        } else {
+            display.classList.remove('text-indigo-300', 'drop-shadow-[0_0_8px_rgba(129,140,248,0.6)]');
+            display.classList.add('text-indigo-300');
+        }
+    }
+
+    function start() {
+        if (!running) {
+            startTime = Date.now();
+            running = true;
+            timer = setInterval(updateDisplay, 100);
+            updateDisplay();
+        }
+    }
+
+    function stop() {
+        if (running) {
+            elapsedTime += Date.now() - startTime;
+            running = false;
+            clearInterval(timer);
+            updateDisplay();
+        }
+    }
+
+    function reset() {
+        stop();
+        elapsedTime = 0;
+        updateDisplay();
+    }
+
+    // Initialize display
+    updateDisplay();
+</script>
+<style>
+    import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    body {
+        font-family: 'Inter', sans-serif;
+        background-color: #f8fafc;
+    }
+
+    .shadow-sm {
+        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    }
+
+    .time-display {
+        background-color: #f1f5f9;
+        border-radius: 0.5rem;
+        padding: 1rem;
+    }
+
+    .task-entry:hover {
+        transform: translateY(-2px);
+        transition: all 0.2s ease;
+    }
+</style>
