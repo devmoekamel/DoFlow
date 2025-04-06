@@ -1,0 +1,100 @@
+﻿@using FreelanceManager.Enums
+
+@model OverviewVM
+@{
+    ViewData["Title"] = "Overview";
+}
+
+<div class="mb-6">
+    <h1 class=" text-2xl md:text-4xl font-bold">Dashboard</h1>
+</div>
+
+
+<div class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+    @* active tasks *@
+    <div class="p-6 bg-white shadow hover:shadow-lg duration-500 rounded-xl">
+        <div class="flex justify-between">
+            <h3 class="text-md">Active Tasks</h3>
+            <span><i class="fa-solid fa-list-check"></i></span>
+        </div>
+        <div class="my-4 font-bold text-4xl">
+            <h1>@Model.TasksNum</h1>
+        </div>
+    </div>
+
+    @* active Projects *@
+    <div class="p-6 bg-white shadow hover:shadow-lg duration-500 rounded-xl">
+        <div class="flex justify-between">
+            <h3 class="text-md">Active Projects</h3>
+            <span><i class="fa-solid fa-file-invoice"></i></span>
+        </div>
+        <div class="my-4 font-bold text-4xl">
+            <h1>@Model.ProjectsNum</h1>
+        </div>
+    </div>
+
+    @* Active Clients *@
+    <div class="p-6 bg-white shadow hover:shadow-lg duration-500 rounded-xl">
+        <div class="flex justify-between">
+            <h3 class="text-md">Active Clients </h3>
+            <span><i class="fa-solid fa-users"></i></span>
+        </div>
+        <div class="my-4 font-bold text-4xl">
+            <h1>@Model.ClientsNum</h1>
+        </div>
+    </div>
+
+    @* Pending Invoices
+    *@
+    <div class="p-6 bg-white shadow hover:shadow-lg duration-500 rounded-2xl">
+        <div class="flex justify-between">
+            <h3 class="text-md">Pending Invoices</h3>
+            <span><i class="fa-solid fa-sack-dollar"></i></span>
+        </div>
+        <div class="my-4 font-bold text-4xl">
+            <h1>$@Model.PendingInvoices</h1>
+        </div>
+    </div>
+</div>
+
+
+
+<section class="my-6">
+    <div class="grid gap-4 grid-cols-1 md:grid-cols-2">
+
+        <div class="p-4 bg-white rounded-lg">
+            <h2 class="text-2xl font-bold">Recent Projects</h2>
+      
+            <div class="my-2">
+                @* Recent Projects *@
+                @foreach(Project project in Model.RecentProjects)
+                {
+                    <div class="flex justify-between my-3">
+                        <h3 class="font-bold">@project.Name</h3>
+                   
+                        <partial name="@project.Status" />
+                    </div>
+                }
+
+            </div>
+        </div>
+
+        <div class="p-4 bg-white rounded-lg">
+            <h2 class="text-2xl font-bold">Recent Tasks</h2>
+
+            <div class="my-2">
+                @* Recent Projects *@
+                @foreach(Mission task in Model.RecentTasks)
+                {
+                    <div class="flex justify-between my-3">
+                        <h3 class="font-bold">@task.Title</h3>
+                        <partial name="@task.Status">
+                    </div>
+                }
+
+            </div>
+        </div>
+        
+
+    </div>
+</section>

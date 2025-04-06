@@ -12,9 +12,11 @@ namespace FreelanceManager.ViewModels.TimeTracking
         [DisplayFormat(DataFormatString = @"{0:hh\:mm}")]
         public TimeSpan EstimateTime { get; set; }
         public bool IsDeleted { get; set; }
+        [Required(ErrorMessage = "Please select a mission.")]
 
         public int MissionId { get; set; }
         [ForeignKey(nameof(MissionId))]
-        public string MissionName { get; set; }
+        
+        public List<Mission>? AvailableMissions { get; set; }
     }
 }
