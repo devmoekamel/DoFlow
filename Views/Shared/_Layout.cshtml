@@ -26,7 +26,7 @@
                             @{
                                 var isOverviewActive = ViewContext.RouteData.Values["Controller"]?.ToString() == "Home";
                             }
-                            <a href="#" class="group relative flex justify-center rounded-sm px-2 py-1.5 @(isOverviewActive ? "bg-blue-50 text-blue-700" : "text-gray-500 hover:bg-gray-50 hover:text-gray-700")">
+                            <a href="/Overview" class="group relative flex justify-center rounded-sm px-2 py-1.5 @(isOverviewActive ? "bg-blue-50 text-blue-700" : "text-gray-500 hover:bg-gray-50 hover:text-gray-700")">
                                 <img src="/Image/home-button.png"
                                      class="h-5 w-5 object-contain"
                                      alt="Clients Icon" />
@@ -87,7 +87,7 @@
                             </li>
 
                             <li>
-                                <a href="~/Projects/"
+                                <a href="~/Project/"
                                    class="group relative flex justify-center rounded-sm px-2 py-1.5 @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Projects" ? "bg-blue-50 text-blue-700" : "text-gray-500 hover:bg-gray-50 hover:text-gray-700")">
                                     <img src="/Image/file-management.png"
                                          class="h-5 w-5 object-contain"
@@ -127,7 +127,8 @@
     </div>
 
 
-    <script src="https://cdn.jsdelivr.net/npm/@@tailwindcss/browser@@4"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
           integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
           crossorigin="anonymous" referrerpolicy="no-referrer" />
