@@ -16,6 +16,7 @@ namespace FreelanceManager.ViewModels.TimeTracking
 
         public int MissionId { get; set; }
         [ForeignKey(nameof(MissionId))]
+        
         public List<Mission>? AvailableMissions { get; set; }
     }
 }
