@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FreelanceManager.Migrations
 {
     [DbContext(typeof(ITIContext))]
-    [Migration("20250405190721_init")]
+    [Migration("20250406084226_init")]
     partial class init
     {
         /// <inheritdoc />
@@ -423,7 +423,7 @@ namespace FreelanceManager.Migrations
                     b.HasOne("FreelanceManager.Models.Project", "Project")
                         .WithMany()
                         .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Project");
@@ -434,7 +434,7 @@ namespace FreelanceManager.Migrations
                     b.HasOne("FreelanceManager.Models.Project", "Project")
                         .WithMany("Missions")
                         .HasForeignKey("ProjectId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Project");
@@ -445,13 +445,13 @@ namespace FreelanceManager.Migrations
                     b.HasOne("FreelanceManager.Models.Client", "Client")
                         .WithMany("projects")
                         .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("FreelanceManager.Models.Freelancer", "Freelancer")
                         .WithMany("projects")
                         .HasForeignKey("FreelancerId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Client");
@@ -464,7 +464,7 @@ namespace FreelanceManager.Migrations
                     b.HasOne("FreelanceManager.Models.Mission", "Mission")
                         .WithMany("TimeTracking")
                         .HasForeignKey("MissionId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Mission");
@@ -475,7 +475,7 @@ namespace FreelanceManager.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
@@ -484,7 +484,7 @@ namespace FreelanceManager.Migrations
                     b.HasOne("FreelanceManager.Models.Freelancer", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
@@ -493,7 +493,7 @@ namespace FreelanceManager.Migrations
                     b.HasOne("FreelanceManager.Models.Freelancer", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
@@ -502,13 +502,13 @@ namespace FreelanceManager.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("FreelanceManager.Models.Freelancer", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
@@ -517,7 +517,7 @@ namespace FreelanceManager.Migrations
                     b.HasOne("FreelanceManager.Models.Freelancer", null)
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
