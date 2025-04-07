@@ -8,11 +8,10 @@
 
     <div class="container mx-auto py-4 max-w-full">
         <div class="space-y-2">
-            <!-- Time Tracker  -->
+
             <div class="rounded-lg border border-gray-200 bg-white shadow-sm">
                 <div class="flex flex-col space-y-1.5 p-6 pb-3">
-                    <h3 class="text-2xl font-semibold leading-none tracking-tight text-gray-900">Time Tracker</h3>
-                    <p class="text-sm text-gray-500">Track time for: <span class="font-medium text-indigo-600">task2</span></p>
+                    <h2 class="text-2xl font-semibold leading-none tracking-tight text-gray-900">Time Tracker</h2>
                 </div>
                 <div class="p-6 pt-0">
                     <div id="stopwatch" class="time-display text-5xl font-mono text-center my-6 text-black">00:00:00</div>
@@ -26,7 +25,7 @@
                             }
                         </select>
                         <div class="flex gap-3 w-full sm:w-auto">
-                            <button onclick="start()" class="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-indigo-600 text-white hover:bg-indigo-700 h-11 px-6 py-2 flex-1 sm:flex-none">
+                            <button id="startPauseBtn" onclick="toggleTimer()" class="inline-flex items-center justify-center whitespace-nowrap rounded-lg text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-indigo-600 text-white hover:h-11 px-6 py-2 flex-1 sm:flex-none">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-play mr-2 h-5 w-5">
                                     <polygon points="6 3 20 12 6 21 6 3"></polygon>
                                 </svg>
@@ -37,19 +36,18 @@
                             </button>
                         </div>
                     </div>
-                    <div class="mt-6 text-sm sm:text-base space-y-1 text-gray-700">
-                         <p>Last time spent on this task: <span class="font-medium"></span></p>
-                         <p>Total time spent on this task: <span class="font-medium"></span></p> 
-                    </div>
+                    @* <div class="mt-6 text-sm sm:text-base space-y-1 text-gray-700"> *@
+                    @*      <p>Last time spent on this task: <span class="font-medium"></span></p> *@
+                    @*      <p>Total time spent on this task: <span class="font-medium"></span></p>  *@
+                    @* </div> *@
                 </div>
             </div>
 
-            <!--  Time -->
-            
+
         </div>
     </div>
 
-<!-- IndexPartial.cshtml -->
+
 <div class="rounded-lg border border-gray-200 bg-white shadow-sm">
     <div class="flex flex-col space-y-1.5 p-6">
         <h3 class="text-2xl font-semibold leading-none tracking-tight text-gray-900">Recent Time Entries</h3>
@@ -73,7 +71,7 @@
                         </div>
                     </div>
                     <div class="flex items-center gap-4 w-full sm:w-auto justify-between sm:justify-end mt-2 sm:mt-0">
-                        @* <p class="font-medium text-gray-900">@item.EstimateTime</p> *@
+                    
                             <button onclick="DeleteTask(@item.Id)"
                                     class="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-gray-100 h-9 rounded-lg px-3">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -125,14 +123,50 @@
         }
     }
 
-    function start() {
+    function toggleTimer() {
+        const btn = document.getElementById('startPauseBtn');
+        const icon = btn.querySelector('svg');
+
         if (!running) {
+
             startTime = Date.now();
             running = true;
             timer = setInterval(updateDisplay, 100);
             updateDisplay();
+
+            //  button "Pause"
+            btn.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-pause mr-2 h-5 w-5">
+                    <rect x="6" y="4" width="4" height="16"></rect>
+                    <rect x="14" y="4" width="4" height="16"></rect>
+                </svg>
+                Pause
+            `;
+            btn.classList.remove('bg-indigo-600');
+        btn.classList.add('bg-red-600');
+        } else {
+
+            elapsedTime += Date.now() - startTime;
+            running = false;
+            clearInterval(timer);
+            updateDisplay();
+
+            // button "Start"
+            btn.innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                    viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                    class="lucide lucide-play mr-2 h-5 w-5">
+                    <polygon points="6 3 20 12 6 21 6 3"></polygon>
+                </svg>
+                Start
+            `;
         }
     }
+
 
     function stop() {
 
@@ -245,27 +279,31 @@
     `;
         }
 
-        function Delete(){
-      fetch('/TimeTracking/Delete', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body:id
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data.sucess) {
-            const elem = document.getElementById(`timetrakingId-${id}`);
-      if (elem) {
-        elem.remove();
-      }
-      dismissToast();
-        } else {
-            console.error("Error: ", data.Message);
-        }
-      })
+    function Delete() {
+        fetch('/TimeTracking/Delete', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(id)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.sucess) {
+                const elem = document.getElementById(`timetrakingId-${id}`);
+                if (elem) {
+                    elem.remove();
+                }
+                dismissToast();
+            } else {
+                console.error("Delete failed:", data.message);
+            }
+        })
+        .catch(error => {
+            console.error("Error during deletion:", error);
+        });
     }
+
 </script>
 
 <style>
