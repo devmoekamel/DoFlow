@@ -24,17 +24,18 @@ namespace FreelanceManager.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				Freelancer user = new Freelancer();
-				user.UserName = modelFromReq.UserName;
-				user.Email = modelFromReq.Email;
-				user.PasswordHash = modelFromReq.Password;
-				user.PhoneNumber = modelFromReq.PhoneNumber;
+				Freelancer user = new Freelancer
+				{
+					UserName = modelFromReq.UserName,
+					Email = modelFromReq.Email,
+					PhoneNumber = modelFromReq.PhoneNumber
+				};
 				IdentityResult result = await userManager.CreateAsync(user, modelFromReq.Password); // saved to database
 				if (result.Succeeded)
 				{
+					await userManager.AddToRoleAsync(user, "Freelancer"); // add role as Freelancer
 					await signInManager.SignInAsync(user, isPersistent: false); // save cookie
 					return RedirectToAction("Login");
-
 				}
 				else {
 					foreach (var error in result.Errors)
@@ -69,7 +70,7 @@ namespace FreelanceManager.Controllers
 					bool found = await userManager.CheckPasswordAsync(freelancer, modelFromReq.Password);
 					if (found)
 					{
-						await signInManager.SignInAsync(freelancer, modelFromReq.RememberMe);
+						await signInManager.SignInAsync(freelancer, modelFromReq.RememberMe); // create cookie
 						return RedirectToAction("Index", "Project");
 
 					}
@@ -87,7 +88,7 @@ namespace FreelanceManager.Controllers
 			}
 			else
 			{
-				return RedirectToAction("Login", modelFromReq);
+				return View("Login", modelFromReq);
 			}
 
 		} 

@@ -5,6 +5,7 @@ using FreelanceManager.ViewModels.Projectvm;
 using FreelanceManager.Models;
 using FreelanceManager.Enums;
 using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace FreelanceManager.Controllers
 {
@@ -25,6 +26,8 @@ namespace FreelanceManager.Controllers
         [Authorize]
         public IActionResult Index()
         {
+
+          //  string id = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value; // this return id of user
             var projects = projectRepo.GetAll()
                 .Select(p => new AllProjectsVM {
                     Name = p.Name,

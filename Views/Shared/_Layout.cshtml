@@ -28,8 +28,8 @@
                             }
                             <a href="/Overview" class="group relative flex justify-center rounded-sm px-2 py-1.5 @(isOverviewActive ? "bg-blue-50 text-blue-700" : "text-gray-500 hover:bg-gray-50 hover:text-gray-700")">
                                 <img src="/Image/home-button.png"
-                                     class="h-5 w-5 object-contain"
-                                     alt="Clients Icon" />
+                                class="h-5 w-5 object-contain"
+                                alt="Clients Icon" />
                                 <span class="invisible absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded-sm bg-gray-900 px-2 py-1.5 text-xs font-medium text-white group-hover:visible z-50">
                                     Overview
                                 </span>
@@ -38,81 +38,139 @@
 
                         <ul class="space-y-1 border-t border-gray-100 pt-4">
                             <!-- Sidebar Menu Items -->
-                            <li>
-                                <a href="#"
-                                   class="group relative flex justify-center rounded-sm px-2 py-1.5 @(ViewContext.RouteData.Values["Controller"]?.ToString() == "000" ? "bg-blue-50 text-blue-700" : "text-gray-500 hover:bg-gray-50 hover:text-gray-700")">
-                                    <img src="/Image/timeline.png"
-                                         class="h-5 w-5 object-contain"
-                                         alt="Timeline Icon" />
-                                    <span class="invisible absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded-sm bg-gray-900 px-2 py-1.5 text-xs font-medium text-white group-hover:visible z-50">
-                                        Timeline
-                                    </span>
-                                </a>
-                            </li>
 
-                            <li>
-                                <a href="~/Mission/"
-                                   class="group relative flex justify-center rounded-sm px-2 py-1.5 @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Mission" ? "bg-blue-50 text-blue-700" : "text-gray-500 hover:bg-gray-50 hover:text-gray-700")">
-                                    <img src="/Image/done.png"
-                                         class="h-5 w-5 object-contain"
-                                         alt="Tasks Icon" />
-                                    <span class="invisible absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded-sm bg-gray-900 px-2 py-1.5 text-xs font-medium text-white group-hover:visible z-50">
-                                        Tasks
-                                    </span>
-                                </a>
-                            </li>
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <li>
+                                    <a href="#"
+                                    class="group relative flex justify-center rounded-sm px-2 py-1.5 @(ViewContext.RouteData.Values["Controller"]?.ToString() == "000" ? "bg-blue-50 text-blue-700" : "text-gray-500 hover:bg-gray-50 hover:text-gray-700")">
+                                        <img src="/Image/timeline.png"
+                                        class="h-5 w-5 object-contain"
+                                        alt="Timeline Icon" />
+                                        <span class="invisible absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded-sm bg-gray-900 px-2 py-1.5 text-xs font-medium text-white group-hover:visible z-50">
+                                            Timeline
+                                        </span>
+                                    </a>
+                                </li>
 
-                            <li>
-                                <a href="~/TimeTracking/"
-                                   class="group relative flex justify-center rounded-sm px-2 py-1.5 @(ViewContext.RouteData.Values["Controller"]?.ToString() == "TimeTracking" ? "bg-blue-50 text-blue-700" : "text-gray-500 hover:bg-gray-50 hover:text-gray-700")">
-                                    <img src="/Image/stopwatch.png"
-                                         class="h-5 w-5 object-contain"
-                                         alt="Time Tracking Icon" />
-                                    <span class="invisible absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded-sm bg-gray-900 px-2 py-1.5 text-xs font-medium text-white group-hover:visible z-50">
-                                        Time Tracking
-                                    </span>
-                                </a>
-                            </li>
+                                <li>
+                                    <a href="~/Mission/"
+                                    class="group relative flex justify-center rounded-sm px-2 py-1.5 @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Mission" ? "bg-blue-50 text-blue-700" : "text-gray-500 hover:bg-gray-50 hover:text-gray-700")">
+                                        <img src="/Image/done.png"
+                                        class="h-5 w-5 object-contain"
+                                        alt="Tasks Icon" />
+                                        <span class="invisible absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded-sm bg-gray-900 px-2 py-1.5 text-xs font-medium text-white group-hover:visible z-50">
+                                            Tasks
+                                        </span>
+                                    </a>
+                                </li>
 
-                            <li>
-                                <a href="~/Client/"
-                                   class="group relative flex justify-center rounded-sm px-2 py-1.5 @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Clients" ? "bg-blue-50 text-blue-700" : "text-gray-500 hover:bg-gray-50 hover:text-gray-700")">
-                                    <img src="/Image/customer.png"
-                                         class="h-5 w-5 object-contain"
-                                         alt="Clients Icon" />
-                                    <span class="invisible absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded-sm bg-gray-900 px-2 py-1.5 text-xs font-medium text-white group-hover:visible z-50">
-                                        Clients
-                                    </span>
-                                </a>
-                            </li>
+                                <li>
+                                    <a href="~/TimeTracking/"
+                                    class="group relative flex justify-center rounded-sm px-2 py-1.5 @(ViewContext.RouteData.Values["Controller"]?.ToString() == "TimeTracking" ? "bg-blue-50 text-blue-700" : "text-gray-500 hover:bg-gray-50 hover:text-gray-700")">
+                                        <img src="/Image/stopwatch.png"
+                                        class="h-5 w-5 object-contain"
+                                        alt="Time Tracking Icon" />
+                                        <span class="invisible absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded-sm bg-gray-900 px-2 py-1.5 text-xs font-medium text-white group-hover:visible z-50">
+                                            Time Tracking
+                                        </span>
+                                    </a>
+                                </li>
 
-                            <li>
-                                <a href="~/Project/"
-                                   class="group relative flex justify-center rounded-sm px-2 py-1.5 @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Projects" ? "bg-blue-50 text-blue-700" : "text-gray-500 hover:bg-gray-50 hover:text-gray-700")">
-                                    <img src="/Image/file-management.png"
-                                         class="h-5 w-5 object-contain"
-                                         alt="Projects Icon" />
-                                    <span class="invisible absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded-sm bg-gray-900 px-2 py-1.5 text-xs font-medium text-white group-hover:visible z-50">
-                                        Projects
-                                    </span>
-                                </a>
-                            </li>
+                                <li>
+                                    <a href="~/Client/"
+                                    class="group relative flex justify-center rounded-sm px-2 py-1.5 @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Clients" ? "bg-blue-50 text-blue-700" : "text-gray-500 hover:bg-gray-50 hover:text-gray-700")">
+                                        <img src="/Image/customer.png"
+                                        class="h-5 w-5 object-contain"
+                                        alt="Clients Icon" />
+                                        <span class="invisible absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded-sm bg-gray-900 px-2 py-1.5 text-xs font-medium text-white group-hover:visible z-50">
+                                            Clients
+                                        </span>
+                                    </a>
+                                </li>
 
-                            <li>
-                                <a href="#"
-                                   class="group relative flex justify-center rounded-sm px-2 py-1.5 @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Clients" ? "bg-blue-50 text-blue-700" : "text-gray-500 hover:bg-gray-50 hover:text-gray-700")">
-                                    <img src="/Image/bill.png"
-                                         class="h-5 w-5 object-contain"
-                                         alt="Invoices Icon" />
-                                    <span class="invisible absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded-sm bg-gray-900 px-2 py-1.5 text-xs font-medium text-white group-hover:visible z-50">
-                                        Invoices
-                                    </span>
-                                </a>
-                            </li>
-                          
+                                <li>
+                                    <a href="~/Project/"
+                                    class="group relative flex justify-center rounded-sm px-2 py-1.5 @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Projects" ? "bg-blue-50 text-blue-700" : "text-gray-500 hover:bg-gray-50 hover:text-gray-700")">
+                                        <img src="/Image/file-management.png"
+                                        class="h-5 w-5 object-contain"
+                                        alt="Projects Icon" />
+                                        <span class="invisible absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded-sm bg-gray-900 px-2 py-1.5 text-xs font-medium text-white group-hover:visible z-50">
+                                            Projects
+                                        </span>
+                                    </a>
+                                </li>
 
-                           
+                                <li>
+                                    <a href="#"
+                                    class="group relative flex justify-center rounded-sm px-2 py-1.5 @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Clients" ? "bg-blue-50 text-blue-700" : "text-gray-500 hover:bg-gray-50 hover:text-gray-700")">
+                                        <img src="/Image/bill.png"
+                                        class="h-5 w-5 object-contain"
+                                        alt="Invoices Icon" />
+                                        <span class="invisible absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded-sm bg-gray-900 px-2 py-1.5 text-xs font-medium text-white group-hover:visible z-50">
+                                            Invoices
+                                        </span>
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a asp-action="Logout" asp-controller="Freelancer"
+                                    class="group relative flex justify-center rounded-sm px-2 py-1.5 @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Clients" ? "bg-blue-50 text-blue-700" : "text-gray-500 hover:bg-gray-50 hover:text-gray-700")">
+                                        <img src="/Image/logout.png"
+                                        class="h-5 w-5 object-contain"
+                                        alt="Invoices Icon" />
+                                        <span class="invisible absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded-sm bg-gray-900 px-2 py-1.5 text-xs font-medium text-white group-hover:visible z-50">
+                                            Logout
+                                        </span>
+                                    </a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li>
+                                    <a asp-action="Register" asp-controller="Freelancer"
+                                    class="group relative flex justify-center rounded-sm px-2 py-1.5 @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Clients" ? "bg-blue-50 text-blue-700" : "text-gray-500 hover:bg-gray-50 hover:text-gray-700")">
+                                        <img src="/Image/register.png"
+                                        class="h-5 w-5 object-contain"
+                                        alt="Invoices Icon" />
+                                        <span class="invisible absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded-sm bg-gray-900 px-2 py-1.5 text-xs font-medium text-white group-hover:visible z-50">
+                                            Register
+                                        </span>
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a asp-action="Login" asp-controller="Freelancer"
+                                    class="group relative flex justify-center rounded-sm px-2 py-1.5 @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Clients" ? "bg-blue-50 text-blue-700" : "text-gray-500 hover:bg-gray-50 hover:text-gray-700")">
+                                        <img src="/Image/login.png"
+                                        class="h-5 w-5 object-contain"
+                                        alt="Invoices Icon" />
+                                        <span class="invisible absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded-sm bg-gray-900 px-2 py-1.5 text-xs font-medium text-white group-hover:visible z-50">
+                                            Login
+                                        </span>
+                                    </a>
+                                </li>
+                            }
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <li>
+                                    <a asp-action="AddNewRole" asp-controller="Role"
+                                       class="group relative flex justify-center rounded-sm px-2 py-1.5 @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Clients" ? "bg-blue-50 text-blue-700" : "text-gray-500 hover:bg-gray-50 hover:text-gray-700")">
+                                        <img src="/Image/coordinate.png"
+                                             class="h-5 w-5 object-contain"
+                                             alt="Invoices Icon" />
+                                        <span class="invisible absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded-sm bg-gray-900 px-2 py-1.5 text-xs font-medium text-white group-hover:visible z-50">
+                                            Add Role
+                                        </span>
+                                    </a>
+                                </li>
+                            }
                         </ul>
+@*                         @if (User.Identity.IsAuthenticated)
+                        {
+                            <p class="text-danger">Welcome, @User.Identity.Name!</p>
+                        } *@
+
                     </div>
                 </div>
             </div>
