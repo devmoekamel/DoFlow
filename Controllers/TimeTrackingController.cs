@@ -1,6 +1,9 @@
 ﻿using FreelanceManager.Interfaces;
 using FreelanceManager.Models;
+using FreelanceManager.ViewModels.TimeTracking;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.DotNet.Scaffolding.Shared.Messaging;
+using System.ComponentModel.DataAnnotations.Schema;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace FreelanceManager.Controllers
@@ -24,53 +27,37 @@ namespace FreelanceManager.Controllers
                 Id = timer.Id,
                 Date = timer.Date,
                 Duration = timer.Duration,
-                EstimateTime = timer.EstimateTime,
-                MissionId = timer.MissionId,
-                AvailableMissions = missionRepo.GetAll().ToList()
+                MissionId = timer.MissionId
             }).ToList();
 
+            ViewBag.AvailableMissions = missionRepo.GetAll().ToList();
             return View(model);
         }
-        [HttpGet]
-        public IActionResult Tracking()
-        {
 
-            var model = new TimeTrackingVM
-            {
-                AvailableMissions = missionRepo.GetAll().ToList()
-            };
-            return View("Tracking",model);
-            
-        }
         [HttpPost]
-        public IActionResult SaveTimeTracking(TimeTrackingVM TimeVM)
+        public IActionResult SaveTimeTracking([FromBody] SaveTimeTracking saveTime)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                TimeVM.AvailableMissions = missionRepo.GetAll().ToList();
-                return View("Index", TimeVM);
+                var timeTracking = new TimeTracking
+                {
+                    Date = DateTime.Now,
+                    Duration = saveTime.Duration,
+                    MissionId = saveTime.MissionId,
+                };
+                ViewBag.AvailableMissions = missionRepo.GetAll().ToList();
+                timerRepo.Add(timeTracking);
+                timerRepo.Save();
+                return Json(new { sucess=true ,Message = ""});
             }
-
-            var timeTracking = new TimeTracking
-            {
-                Id = TimeVM.Id,
-                Date = TimeVM.Date,
-                Duration = TimeVM.Duration,
-                EstimateTime = TimeVM.EstimateTime,
-                MissionId = TimeVM.MissionId,
-            };
-            TimeVM.AvailableMissions = missionRepo.GetAll().ToList();
-            timerRepo.Add(timeTracking);
-            timerRepo.Save();
-
-            return RedirectToAction("Index");
+            return Json(new { sucess = false, Message = "Something not coorect happen" });
         }
 
         [HttpPost]
-        public IActionResult Delete(int id)
+        public IActionResult Delete([FromBody]int id)
         {
             timerRepo.RemoveById(id);
-            return RedirectToAction("Index");
+            return Json(new { sucess = true });
         }
 
     }

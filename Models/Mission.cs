@@ -1,5 +1,6 @@
 ﻿
 using FreelanceManager.Enums;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using static FreelanceManager.Models.Mission;
 
@@ -13,8 +14,10 @@ namespace FreelanceManager.Models
         public status Status { get; set; }
         public priority Priority { get; set; }
         public DateTime Deadline { get; set; }
-        public bool IsDeleted { get; set; }
+        public bool IsDeleted { get; set; } = false;
 
+        [DisplayFormat(DataFormatString = @"{0:hh\:mm}")]
+        public TimeSpan EstimateTime { get; set; }
         public int ProjectId { get; set; }
         [ForeignKey(nameof(ProjectId))]
         public Project? Project { get; set; }

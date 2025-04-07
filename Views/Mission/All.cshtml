@@ -336,8 +336,8 @@
             console.log("Fetching Partial View...");
 
             $.get('/Mission/Add', function (data) {
-                console.log("Received Data:", data);  // تأكد أن البيانات تصل
-                $("#modalContent").html(data);  // تحميل المحتوى فقط داخل المودال
+                console.log("Received Data:", data);  
+                $("#modalContent").html(data);
                 $("#modalOverlay").removeClass("hidden");
             }).fail(function (xhr) {
                 console.error("Error Loading Partial View:", xhr.responseText);

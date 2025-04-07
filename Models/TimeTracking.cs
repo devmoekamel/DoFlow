@@ -9,9 +9,8 @@ namespace FreelanceManager.Models
 
         public DateTime Date { get; set; }
         public TimeSpan Duration { get; set; }
-        [DisplayFormat(DataFormatString = @"{0:hh\:mm}")]
-        public TimeSpan EstimateTime { get; set; }
-        public bool IsDeleted { get; set; }
+
+        public bool IsDeleted { get; set; } = false;
 
         public int MissionId { get; set; }
         [ForeignKey(nameof(MissionId))]
