@@ -108,9 +108,10 @@ namespace FreelanceManager.Controllers
                 EndDate= project.EndDate,
                 HourlyRate  = project.HourlyRate,
                 Priority = project.Priority,
-              
-                
-            };
+                FreelancerId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value,
+
+
+			};
 
             projectRepo.Add(newProject);
 
@@ -118,11 +119,64 @@ namespace FreelanceManager.Controllers
 
             return RedirectToAction("Index");
         }
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            var project = projectRepo.GetById(id);
+            AddProjectVM EditVM = new AddProjectVM
+            {
+                Id = project.Id,
+                Name = project.Name,
+                Budget = project.Budget,
+                ClientId = project.ClientId,
+                Company = project.Company,
+                Description = project.Description,
+                StartDate = project.StartDate,
+                EndDate = project.EndDate,
+                category = project.Categoty,
+                HourlyRate= project.HourlyRate,
+                Priority = project.Priority,
+			};
+			ViewBag.Clients = clientRepo.GetAll();
+            return View("Edit", EditVM);
+		}
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
 
+        public IActionResult SaveEdit(AddProjectVM editFromReq)
+        {
+            if (ModelState.IsValid)
+            {
+                Project project = projectRepo.GetById(editFromReq.Id);
+                project.Name = editFromReq.Name;
+				project.ClientId = editFromReq.ClientId;
+                project.Company = editFromReq.Company;
+                project.Budget = editFromReq.Budget;
+				project.StartDate = editFromReq.StartDate;
+				project.EndDate = editFromReq.EndDate;
+                project.Description = editFromReq.Description;
+                project.Categoty = editFromReq.category;
+                project.HourlyRate = editFromReq.HourlyRate;
+                project.Priority = editFromReq.Priority;
 
+				missionRepo.Save();
+				return RedirectToAction("Index");
+			}
+            return View("Edit", editFromReq);
+        }
+        [HttpPost]
+        public IActionResult Delete(int id)
+        {
+            Project deleteProject = projectRepo.GetById(id);
+            if (deleteProject != null)
+            {
+                projectRepo.RemoveById(deleteProject.Id);
+                projectRepo.Save();
+                return RedirectToAction("Index");
+            }
+            return NotFound();
 
-
-
-    }
+        }
+	}
 }
