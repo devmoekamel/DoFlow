@@ -9,6 +9,10 @@
     text-decoration: none;
     color: black;
     }
+
+    .rounded{
+        border-radius:25rem;
+    }
 </style>
 @if(User.Identity.IsAuthenticated)
 {
@@ -55,43 +59,51 @@
 <div class="my-4">
     <div class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
 
-        @foreach(var project in Model)
+        @foreach (AllProjectsVM project in Model)
         {
-            <div class=" border hover:shadow-lg duration-500 rounded-xl p-4">
-                <div class="flex justify-between">
-                    <h3 class="hover:text-red">@project.Name</h3>
-                    <button><i class="fa-solid fa-ellipsis-vertical"></i></button>
-                </div>
+        <div class="border bg-white shadow hover:shadow-lg duration-500 rounded-xl p-4">
+               <div class="flex flex-col gap-y-5">
+                    @* name*@
 
-                <div>
-                    <p>@project.Description</p>
-                </div>
-
-                <div class="flex gap-x-2">
-                    <span>
-                        <i class="fa-regular fa-clock"></i>
-                     </span>
-                    <p>@project.StartDate</p>
-                </div>
-
-                <div class="bg-slate-200   rounded-xl">
-                    <h5 class="py-2 px-4">$@project.StartDate</h5>
-                </div>
-                <div class="flex flex-col">
                     <div class="flex justify-between">
-                           <p>Progress</p>
-                           <p>@project.CompletedMissionsCount/@project.AllMissionsCount Tasks</p>
+                        <h3>@project.Name</h3>
+                        <partial name="@project.Priority" />
+                    </div>
+                    @* deadline *@
+                    
+                    <div class="flex flex-col gap-y-1.5">
+                        <h3>Deadline Date</h3>
+                        <h3 class="text-gray-500">@project.EndDate.ToShortDateString()</h3>
+                    </div>
+                    @* Balance *@
+                    <div class="bg-gray-700 text-center p-1 rounded-lg">
+                          <h3 class="text-white"><span class="text-green-500">$</span> @project.Budget</h3>
                      </div>
+                    @* tasks *@
+                     <div class="flex flex-col gap-y-2">
+                        <div class="flex justify-between">
+                            <h3 class="font-bold">Tasks</h3>
+                            <h3 class="text-gray-500">@project.CompletedMissionsCount/@project.AllMissionsCount</h3>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-lg h-2 overflow-hidden">
+                            <div class="bg-black h-full rounded-lg transition-all duration-300"
+                                 style="width: calc((@project.CompletedMissionsCount / @project.AllMissionsCount) * 100%)">
+                             </div>
+                        </div>
+                    </div>
 
-                    <progress id="file" max="@project.AllMissionsCount" value="@project.CompletedMissionsCount" class="w-full h-2 rounded-lg bg-black" ></progress>
-                </div>
 
-                <div class="my-3 flex justify-between items-center">
-                    <h6>@project.ProjectStatus</h6>
-                    <a class="px-4 py-2 bg-indigo-600 text-white rounded-lg" asp-action="Details" asp-route-id="@project.Id" style="">View Details</a>
-                </div>
+                    <div class="flex justify-between my-2">
+                        <partial name="@project.ProjectStatus" />
+                        <div>
+                        </div>
+                    </div>
+                 </div>
+
+
             </div>
-        }
+
+        }            
 
     </div>
 </div>
