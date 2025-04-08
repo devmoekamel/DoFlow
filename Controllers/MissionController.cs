@@ -133,7 +133,7 @@ namespace FreelanceManager.Controllers
                 Editmission.ProjectId = mission.ProjectId;
 
                 missionRepo.Save();
-                return RedirectToAction("GetAll");
+                return RedirectToAction("Index");
             }
             return View("EditPartial",mission);
         }
@@ -152,7 +152,7 @@ namespace FreelanceManager.Controllers
             {
                 missionRepo.RemoveById(obj.Id);
                 missionRepo.Save();
-                return RedirectToAction("GetAll");
+                return RedirectToAction("Index");
 
             }
             else
