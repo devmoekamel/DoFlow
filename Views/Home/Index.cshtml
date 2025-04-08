@@ -1,10 +1,188 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
+    Layout = null;
 }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"/>
 
-<div class="mt-4 space-y-4">
-    <h1 class="text-3xl font-bold text-gray-800">Welcome to pla pla pla</h1>
-    <div class="rounded-lg bg-white p-6 shadow-sm">
-        <p class="text-gray-600">Start managing your tasks and projects efficiently</p>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    
+    <div class="container mx-auto my-2 ">
+        <img src="/Image/freelance-work.png" width="50" height="50" />
+        <a href="/" class="font-bold text-lg">Freelance Manager</a>
     </div>
-</div>
+
+   <div class="container mx-auto">
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-4 justify-around items-center p-4 ">
+            <div class="order-2 md:order-none flex flex-col text-center md:text-start gap-y-4 ">
+                <h1 class="text-5xl md:text-6xl font-bold bg-gradient-to-r from-sky-300 via-violet-800 to-sky-600 bg-clip-text text-transparent">All</h1>
+                <h1 class="text-5xl md:text-6xl font-bold bg-gradient-to-r from-sky-300 via-violet-800 to-sky-600 bg-clip-text text-transparent">Your Work</h1>
+                <h1 class="text-5xl md:text-6xl font-bold bg-gradient-to-r from-sky-300 via-violet-800 to-sky-600 bg-clip-text text-transparent">In One Platform</h1>
+                <div class="my-4">
+                    <a 
+                        href="/overview"
+                        class="font-bold px-4 py-2 bg-indigo-700 hover:bg-indigo-800 text-white self-start rounded-lg">
+                        Manage Your Work 
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="order-1 md:order-none animate__animated animate__bounceInRight  animate__delay-1s">
+                <img src="/Image/landing.png" />
+            </div>
+        </section>
+   </div>
+
+    <div class="my-[8rem] text-center">
+        <div class="flex-cols justify-center">
+            <h2 class="text-4xl font-bold text-primary">
+                Everything You Need to Succeed
+            </h2>
+            <h3>
+                Purpose-built features to help you focus on growing your business
+            </h3>
+        </div>
+    </div>
+
+  <div class="container mx-auto my-4">
+        <div class="grid gap-4 grid-cols-1 md:grid-cols-2 ">
+
+            <div class="p-5 border rounded-lg  flex-col space-y-4 duration-500 ease-in-out shadow hover:shadow-lg">
+                <div class="flex gap-2 items-center">
+                    <span class="p-3 bg-black text-white text-2xl rounded-xl">
+                        <i class="fa-solid fa-house"></i>
+                     </span>
+                    <h2 class="font-bold text-xl">
+                        User Dashboard
+                    </h2>
+                </div>
+                <p class="text-gray-600">
+                    A personalized command center for managing projects, 
+                    clients, and tasks with intuitive overview displays.
+                </p>
+
+                <ul>
+                    <li >
+                      <i class="fa-solid fa-square-check"></i>
+                        Overview of ongoing and completed projects
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-square-check"></i>
+                        Task priority and deadline tracking
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-square-check"></i>
+                        Quick access to essential actions
+                    </li>
+                </ul>
+
+            </div>
+
+
+            <div class="p-5 border rounded-lg  flex-col space-y-4 shadow hover:shadow-lg">
+                <div class="flex gap-2 items-center">
+                    <span class="p-3 bg-black text-white text-2xl rounded-xl">
+                        <i class="fa-solid fa-user"></i>
+                    </span>
+                    <h2 class="font-bold text-xl">
+                        Client Management
+                    </h2>
+                </div>
+                <p class="text-gray-600">
+                    A personalized command center for managing projects,
+                    clients, and tasks with intuitive overview displays.
+                </p>
+
+                <ul>
+                    <li>
+                        <i class="fa-solid fa-square-check"></i>
+                        Overview of ongoing and completed projects
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-square-check"></i>
+                        Task priority and deadline tracking
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-square-check"></i>
+                        Quick access to essential actions
+                    </li>
+                </ul>
+
+            </div>
+
+            <div class="p-5 border rounded-lg  flex-col space-y-4 shadow hover:shadow-lg">
+                <div class="flex gap-2 items-center">
+                    <span class="p-3 bg-black text-white text-2xl rounded-xl">
+                        <i class="fa-solid fa-folder-closed"></i>
+                    </span>
+                    <h2 class="font-bold text-xl">
+                        Project Management  
+                    </h2>
+                </div>
+                <p class="text-gray-600">
+                    A personalized command center for managing projects,
+                    clients, and tasks with intuitive overview displays.
+                </p>
+
+                <ul>
+                    <li>
+                        <i class="fa-solid fa-square-check"></i>
+                        Overview of ongoing and completed projects
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-square-check"></i>
+                        Task priority and deadline tracking
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-square-check"></i>
+                        Quick access to essential actions
+                    </li>
+                </ul>
+
+            </div>
+
+            <div class="p-5 border rounded-lg  flex-col space-y-4 shadow hover:shadow-lg">
+                <div class="flex gap-2 items-center">
+                    <span class="p-3 bg-black text-white text-2xl rounded-xl">
+                        <i class="fa-solid fa-circle-check"></i>
+                    </span>
+                    <h2 class="font-bold text-xl">
+                        Task Management
+                    </h2>
+                </div>
+                <p class="text-gray-600">
+                    A personalized command center for managing projects,
+                    clients, and tasks with intuitive overview displays.
+                </p>
+
+                <ul>
+                    <li>
+                        <i class="fa-solid fa-square-check"></i>
+                        Overview of ongoing and completed projects
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-square-check"></i>
+                        Task priority and deadline tracking
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-square-check"></i>
+                        Quick access to essential actions
+                    </li>
+                </ul>
+
+            </div>
+
+        </div>
+    </div>
+
+</body>
+</html>
