@@ -13,34 +13,36 @@
 
 
 <div class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-    <div class="rounded-lg border bg-card text-card-foreground shadow-sm">
-        <div class="p-4 flex gap-x-2">
+    <div class="rounded-lg border bg-card text-card-foreground shadow hover:shadow-lg duration-500 ease-in-out ">
+        <div class="p-4 flex items-center gap-x-2 ">
             <span>
                 <i class="fa-solid fa-sack-dollar"></i>
              </span>
-            <h5 class="tracking-tight text-sm font-medium">
+            <h5 class="tracking-tight text-lg font-medium">
                 Budget
             </h5>
         </div>
         <div class="p-6 pt-0 flex justify-center">
-            <h3 class="text-sm">@Model.Budget</h3><!---->
+            <h2 class="text-xl font-bold">
+                <span class="text-green-500">$</span>
+                @Model.Budget</h2><!---->
         </div>
     </div>
 
     <div class="rounded-lg border bg-card text-card-foreground shadow-sm">
-        <div class="p-4 flex gap-x-2">
+        <div class="p-4 flex items-center gap-x-2">
             <span>
                 <i class="fa-solid fa-clock"></i>
             </span>
-            <h5 class="tracking-tight text-sm font-medium">
+            <h5 class="tracking-tight text-lg font-medium">
                 Time Tracked
             </h5>
         </div>
-        <div class="p-6 pt-0 flex flex-col items-center">
-            <h3 class="text-sm">0.0h</h3> <!---->
-            <h6 class="text-sm">
+        <div class="p-6 pt-0 flex items-center flex-col items-center">
+            <h2 class="text-xl font-bold">0.0h</h2> <!---->
+            <h3 class="text-xl font-bold">
                 $0 billed <!---->
-            </h6>
+            </h3>
         </div>
     </div>
 
@@ -49,16 +51,20 @@
             <span>
                 <i class="fa-solid fa-list-check"></i>
             </span>
-            <h5 class="tracking-tight text-sm font-medium">
+            <h5 class="tracking-tight text-lg font-medium">
                 Tasks Progress
             </h5>
         </div>
         <div class="p-6 pt-0">
             <div class="flex items-center gap-2">
-                <h3 class="text-sm">@Model.CompletedMissionsCount/@Model.AllMissionsCount </h3> <!---->
+                <h3 class="text-gray-500">@Model.CompletedMissionsCount/@Model.AllMissionsCount </h3> <!---->
                 <h6>@Model.Status</h6> <!---->
             </div>
-            <progress value="@Model.CompletedMissionsCount" max="@Model.AllMissionsCount" class="h-2 w-full rounded-xl ease-in-out overflow-hidden" style="background-color:black;"></progress>
+            <div class="w-full bg-gray-200 rounded-lg h-2 overflow-hidden my-2">
+                <div class="bg-black h-full rounded-lg transition-all duration-300"
+                     style="width: calc((@Model.CompletedMissionsCount / @Model.AllMissionsCount) * 100%)">
+                </div>
+            </div>
         </div>
     </div>
 
@@ -81,34 +87,34 @@
 
 
 <section id="ProjectOverView" class="tab-section border rounded-lg p-4">
-    <div>
-        <h5>Project Details</h5>
+    <div class="my-2">
+        <h2 class="text-lg font-bold">Project Details</h2>
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-2">
-        <div class="flex flex-col">
-            <h6 class="text-gray-500">Client</h6>
-            <h5>@Model.ClientName</h5><!---->
+        <div class="flex flex-col ">
+            <h2 class="text-gray-500 font-bold text-lg">Client</h2>
+            <h5 class="font-bold  text-base">@Model.ClientName</h5><!---->
         </div>
         <div class="flex flex-col">
-            <h6 class="text-gray-500">
+            <h6 class="text-gray-500 font-bold text-lg">
                 Category
              </h6>
-            <h5>@Model.Categoty</h5> <!---->
+            <h5 class="font-bold  text-base">@Model.Categoty</h5> <!---->
         </div>
     </div>
 
     <div class="grid grid-cols-1 sm:grid-cols-2">
         <div class="flex flex-col">
-            <h6 class="text-gray-500">Start Date</h6>
-            <h5>
-                @Model.StartDate
+            <h6 class="text-gray-500 font-bold text-lg">Start Date</h6>
+            <h5 class="font-bold  text-base">
+                @Model.StartDate.ToShortDateString()
             </h5>
         </div>
         <div class="flex flex-col">
-            <h6 class="text-gray-500">
+            <h6 class="text-gray-500 font-bold text-lg">
                 End Date
             </h6>
-            <h5>@Model.EndDate</h5>
+            <h5 class="font-bold  text-base">@Model.EndDate.ToShortDateString()</h5>
         </div>
     </div>
 </section>
