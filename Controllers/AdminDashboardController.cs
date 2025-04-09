@@ -1,6 +1,8 @@
 ﻿using FreelanceManager.Interfaces;
+using FreelanceManager.Repositry;
 using FreelanceManager.ViewModels.DashboradVM;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
@@ -15,12 +17,14 @@ namespace FreelanceManager.Controllers
     {
         private readonly IClientRepo clientRepo;
         private readonly IMissionRepo missionRepo;
+        private readonly IFreelancerRepo freelancerRepo;
         private readonly IProjectRepo projectRepo;
         private readonly ITimeTrackingRepo timeTrackingRepo;
         UserManager<Freelancer> userManager;
 
-        public AdminDashboardController(IClientRepo clientRepo, IMissionRepo missionRepo, IProjectRepo projectRepo, ITimeTrackingRepo timeTrackingRepo, UserManager<Freelancer> userManager)
+        public AdminDashboardController(IFreelancerRepo freelancerRepo,IClientRepo clientRepo, IMissionRepo missionRepo, IProjectRepo projectRepo, ITimeTrackingRepo timeTrackingRepo, UserManager<Freelancer> userManager)
         {
+            this.freelancerRepo = freelancerRepo;
             this.clientRepo = clientRepo;
             this.missionRepo = missionRepo;
             this.projectRepo = projectRepo;
@@ -40,7 +44,7 @@ namespace FreelanceManager.Controllers
                 var userId = user.Id;
 
                 var projects = projectRepo.GetAll()
-                    .Where(p => p.FreelancerId == userId)
+                    .Where(p => p.FreelancerId == userId && p.IsDeleted == false)
                     .ToList();
 
                 var missions = missionRepo.GetAll()
@@ -71,11 +75,18 @@ namespace FreelanceManager.Controllers
 
         public IActionResult Delete(string UserId)
         {
-            var client = clientRepo.clients.Where(u => u.Id == UserId);
+            var client = freelancerRepo.GetByIdString(UserId);
             if (client != null)
             {
-
+                return NotFound();
             }
+            else
+            {
+                client.IsDeleted = true;
+                freelancerRepo.Save();
+            }
+            return View("index");
+
         }
     }
 }

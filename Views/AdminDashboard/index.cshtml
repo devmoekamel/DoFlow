@@ -41,7 +41,7 @@
                                 <input type="hidden" name="id" value="@user.UserId" />
                                 <button type="button"
                                         class="w-full h-full rounded-full bg-red-100 hover:bg-red-200 text-red-600 flex items-center justify-center"
-                                        onclick="showDeleteModal('delete-form-@user.UserId')">
+                                        onclick="showDeleteModal('@user.UserId')">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                          stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -99,18 +99,16 @@
 <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 
  <script>
-
-    function showDeleteModal(formId) {
-        document.getElementById('delete-modal-' + formId.split('-').pop()).classList.remove('hidden');
+    function showDeleteModal(userId) {
+        document.getElementById('delete-modal-' + userId).classList.remove('hidden');
     }
+
     function Details(Id) {
         $.get('/Mission/Details/' + Id, function (data) {
-
             $("#modalContent").html(data);
             $("#modalOverlay").removeClass("hidden");
         }).fail(function (xhr) {
             console.error("Error Loading Partial View:", xhr.responseText);
         });
     }
-
 </script>
