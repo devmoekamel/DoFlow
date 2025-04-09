@@ -61,48 +61,45 @@ namespace FreelanceManager.Controllers
         #endregion
 
         
-            public async Task<IActionResult> Index()
-            {
-                var freelancers = await userManager.GetUsersInRoleAsync("Freelancer");
+            //public async Task<IActionResult> Index()
+            //{
+            //    var freelancers = await userManager.GetUsersInRoleAsync("Freelancer");
 
-                var dashboardList = new List<DashboardVM>();
+            //    var dashboardList = new List<DashboardVM>();
 
-                foreach (var user in freelancers)
-                {
-                    var userId = user.Id;
+            //    foreach (var user in freelancers)
+            //    {
+            //        var userId = user.Id;
 
-                    // المشاريع الخاصة بالفريلانسر
-                    var projects = projectRepo.GetAll()
-                        .Where(p => p.FreelancerId == userId)
-                        .ToList();
+            //        var projects = projectRepo.GetAll()
+            //            .Where(p => p.FreelancerId == userId)
+            //            .ToList();
 
-                    // المهام المرتبطة بالمشاريع دي
-                    var missions = missionRepo.GetAll()
-                        .Where(m => projects.Select(p => p.Id).Contains(m.ProjectId))
-                        .ToList();
+            //        var missions = missionRepo.GetAll()
+            //            .Where(m => projects.Select(p => p.Id).Contains(m.ProjectId))
+            //            .ToList();
 
-                    var missionIds = missions.Select(m => m.Id);
+            //        var missionIds = missions.Select(m => m.Id);
 
-                    // التراكات لكل المهام بدون فلترة على التاريخ
-                    var durations = timeTrackingRepo.GetAll()
-                        .Where(t => missionIds.Contains(t.MissionId))
-                        .Select(t => t.Duration)
-                        .ToList();
+            //        var durations = timeTrackingRepo.GetAll()
+            //            .Where(t => missionIds.Contains(t.MissionId))
+            //            .Select(t => t.Duration)
+            //            .ToList();
 
-                    var totalDuration = new TimeSpan(durations.Sum(d => d.Ticks));
+            //        var totalDuration = new TimeSpan(durations.Sum(d => d.Ticks));
 
-                    dashboardList.Add(new DashboardVM
-                    {
-                        UserId = user.Id,
-                        UserName = user.UserName,
-                        ProjectCount = projects.Count,
-                        MissionCount = missions.Count,
-                        TodayHours = totalDuration // ممكن تغير اسم الخاصية في الـ ViewModel لو مش حابب يكون اسمه Today
-                    });
-                }
+            //        dashboardList.Add(new DashboardVM
+            //        {
+            //            UserId = user.Id,
+            //            UserName = user.UserName,
+            //            ProjectCount = projects.Count,
+            //            MissionCount = missions.Count,
+            //            TodayHours = totalDuration 
+            //        });
+            //    }
 
-                return View("Index", dashboardList);
-            }
+            //    return View("Index", dashboardList);
+            //}
 
         }
 
