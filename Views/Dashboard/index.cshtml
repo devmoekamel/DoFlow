@@ -1,0 +1,58 @@
+﻿@* @model DashboardVM
+
+<h1 class="text-2xl font-bold mb-6">Dashboard</h1>
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <!-- Projects Card -->
+    <div class="bg-blue-100 text-blue-800 p-6 rounded-2xl shadow-md">
+        <h3 class="text-lg font-semibold mb-2">
+            <i class="fas fa-project-diagram mr-2"></i> Projects
+        </h3>
+        <h5 class="text-3xl font-bold">@Model.Projects</h5>
+    </div>
+
+    <!-- Missions Card -->
+    <div class="bg-green-100 text-green-800 p-6 rounded-2xl shadow-md">
+        <h3 class="text-lg font-semibold mb-2">
+            <i class="fas fa-tasks mr-2"></i> Missions
+        </h3>
+        <h5 class="text-3xl font-bold">@Model.Missions</h5>
+    </div>
+
+    <!-- Time Tracking Card -->
+    <div class="bg-yellow-100 text-yellow-800 p-6 rounded-2xl shadow-md">
+        <h3 class="text-lg font-semibold mb-2">
+            <i class="fas fa-clock mr-2"></i> Today's Hours
+        </h3>
+        <h5 class="text-3xl font-bold">@Model.TodayHours</h5>
+    </div>
+</div>
+ *@
+
+
+
+  @model List<DashboardVM>
+
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<h2 class="text-center mb-4">Freelancers Overview</h2>
+
+<div class="row">
+    @foreach (var user in Model)
+    {
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">@user.UserName</h5>
+                    <p class="card-text">
+                        <strong>Projects:</strong> @user.ProjectCount <br />
+                        <strong>Missions:</strong> @user.MissionCount <br />
+                        <strong>Total Hours:</strong> @user.TodayHours.ToString(@"hh\:mm\:ss")
+                    </p>
+                </div>
+            </div>
+        </div>
+    }
+</div>
