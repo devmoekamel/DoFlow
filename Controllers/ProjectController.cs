@@ -24,12 +24,20 @@ namespace FreelanceManager.Controllers
         // project
         [HttpGet]
         [Authorize]
-        public IActionResult Index()
+        public IActionResult Index(string statusFilter=null)
         {
 
-          //  string id = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value; // this return id of user
-            var projects = projectRepo.GetAll()
-                .Select(p => new AllProjectsVM {
+		    string Userid = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value; // this return id of user
+            var projectsQuery = projectRepo.GetAll().Where(p=>p.FreelancerId == Userid);
+
+			if (!string.IsNullOrEmpty(statusFilter))
+			{
+				projectsQuery = projectsQuery.Where(p => p.Status.ToString() == statusFilter);
+			}
+
+            var projects = projectsQuery
+                .Select(p => new AllProjectsVM
+                {
                     Name = p.Name,
                     Priority = p.Priority,
                     Budget = p.Budget,
@@ -42,10 +50,10 @@ namespace FreelanceManager.Controllers
                     Id = p.Id,
                     ProjectStatus = p.Status,
                     StartDate = p.StartDate
-                });
-           
+                }).ToList();
 
             return View(projects);
+			//return View(projects);
         }
 
 
@@ -89,13 +97,13 @@ namespace FreelanceManager.Controllers
                 return PartialView("AddProjectPartialView", project);
             }
 
-            Console.WriteLine(project.Name);
-            Console.WriteLine(project.Budget);
-            Console.WriteLine(project.ClientId);
-            Console.WriteLine(project.Company);
-            Console.WriteLine(project.Description);
-            Console.WriteLine(project.StartDate);
-            Console.WriteLine(project.EndDate);
+            //Console.WriteLine(project.Name);
+            //Console.WriteLine(project.Budget);
+            //Console.WriteLine(project.ClientId);
+            //Console.WriteLine(project.Company);
+            //Console.WriteLine(project.Description);
+            //Console.WriteLine(project.StartDate);
+            //Console.WriteLine(project.EndDate);
 
             Project newProject = new()
             {
