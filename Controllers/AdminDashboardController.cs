@@ -72,20 +72,19 @@ namespace FreelanceManager.Controllers
             return View("Index", dashboardList);
         }
 
-
+        [HttpPost]
         public IActionResult Delete(string UserId)
         {
             var client = freelancerRepo.GetByIdString(UserId);
-            if (client != null)
+            if (client == null)
             {
                 return NotFound();
             }
-            else
-            {
+            
                 client.IsDeleted = true;
                 freelancerRepo.Save();
-            }
-            return View("index");
+            return Json(new { success = true });
+
 
         }
     }
