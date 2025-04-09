@@ -10,5 +10,6 @@ namespace FreelanceManager.Repositry
         {
             this.context = context;
         }
+      
     }
 }

@@ -10,7 +10,11 @@ namespace FreelanceManager.Repositry
         {
             this.context = context;
         }
+        public Freelancer GetByIdString(string UserId)
+        {
+            return context.Users.FirstOrDefault(u => u.Id == UserId);
+        }
 
-		
-	}
+
+    }
 }
