@@ -2,6 +2,7 @@
 using FreelanceManager.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FreelanceManager.Controllers
 {
@@ -21,8 +22,13 @@ namespace FreelanceManager.Controllers
         }
         public IActionResult Index()
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Register", "Freelancer");
+            }
             string Userid = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value; // this return id of user
- 
+            Console.WriteLine(Userid);
+            
             OverviewVM overview = new()
             {
                 ClientsNum = projectRepo.GetAll().Where(p => p.FreelancerId == Userid).Select(p => p.Client).Count(),
