@@ -10,7 +10,7 @@ using System.Security.Claims;
 
 namespace FreelanceManager.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class MissionController : Controller
     {
         private readonly IMissionRepo missionRepo;
@@ -40,7 +40,7 @@ namespace FreelanceManager.Controllers
                 .Where(m => freelancerProjectIds.Contains(m.ProjectId))
                 .ToList();
 
-            //map to MissionViewModel
+            // Map to MissionViewModel
             List<MissionViewModel> MissView = missions.Select(m => new MissionViewModel
             {
                 Id = m.Id,
@@ -84,8 +84,14 @@ namespace FreelanceManager.Controllers
         [HttpGet]
         public IActionResult Add()
         {
+            string userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+
+            var freelancerProject = projectRepo.GetAll()
+                .Where(p => p.FreelancerId == userId)
+                .ToList();
+
             var model = new MissionViewModel();
-            ViewBag.ProjectList = projectRepo.GetAll();
+            ViewBag.ProjectList = freelancerProject;
             return PartialView("AddPartial", model);
         }
 
@@ -108,7 +114,12 @@ namespace FreelanceManager.Controllers
                 missionRepo.Save();
                 return RedirectToAction("Index");
             }
-            ViewBag.ProjectList = projectRepo.GetAll();
+            string userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+
+            var freelancerProject = projectRepo.GetAll()
+                .Where(p => p.FreelancerId == userId)
+                .ToList();
+            ViewBag.ProjectList = freelancerProject;
             return PartialView("AddPartial", mission);
         }
         #endregion
@@ -127,7 +138,13 @@ namespace FreelanceManager.Controllers
                 Deadline = mission.Deadline,
                 ProjectId = mission.ProjectId
             };
-            ViewBag.ProjectList = projectRepo.GetAll();
+            string userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+
+            var freelancerProject = projectRepo.GetAll()
+                .Where(p => p.FreelancerId == userId)
+                .ToList();
+
+            ViewBag.ProjectList = freelancerProject;
             return View("EditPartial",Editmission);
         }
         #endregion

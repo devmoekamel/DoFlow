@@ -1,26 +1,52 @@
-﻿using FreelanceManager.Interfaces;
+﻿using FreelanceManager.Enums;
+using FreelanceManager.Interfaces;
 using FreelanceManager.Models;
+using FreelanceManager.Repositry;
 using FreelanceManager.ViewModels.TimeTracking;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Security.Claims;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace FreelanceManager.Controllers
 {
+    [Authorize]
     public class TimeTrackingController : Controller
     {
         private readonly ITimeTrackingRepo timerRepo;
+        private readonly IProjectRepo projectRepo;
         private readonly IMissionRepo missionRepo;
 
-        public TimeTrackingController(ITimeTrackingRepo timerRepo, IMissionRepo missionRepo) 
+        public TimeTrackingController(ITimeTrackingRepo timerRepo, IMissionRepo missionRepo, IProjectRepo projectRepo) 
         {
+            this.projectRepo = projectRepo;
             this.timerRepo = timerRepo;
             this.missionRepo = missionRepo;
         }
         public IActionResult Index()
         {
-            var timers = timerRepo.GetAll().ToList();
+            string userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+
+            // get all project IDs associated with the current freelancer
+            var freelancerProjectIds = projectRepo.GetAll()
+                .Where(p => p.FreelancerId == userId)
+                .Select(p => p.Id)
+                .ToList();
+
+            // Get missions for these projects
+            var missions = missionRepo.GetAll()
+                .Where(m => freelancerProjectIds.Contains(m.ProjectId))
+                .ToList();
+
+            // Get mission IDs
+            var missionIds = missions.Select(m => m.Id).ToList();
+
+            // Get timers for these specific missions
+            var timers = timerRepo.GetAll()
+                .Where(t => missionIds.Contains(t.MissionId)) 
+                .ToList();
 
             var model = timers.Select(timer => new TimeTrackingVM
             {
@@ -30,7 +56,7 @@ namespace FreelanceManager.Controllers
                 MissionId = timer.MissionId
             }).ToList();
 
-            ViewBag.AvailableMissions = missionRepo.GetAll().ToList();
+            ViewBag.AvailableMissions = missions;
             return View(model);
         }
 
@@ -45,7 +71,21 @@ namespace FreelanceManager.Controllers
                     Duration = saveTime.Duration,
                     MissionId = saveTime.MissionId,
                 };
-                ViewBag.AvailableMissions = missionRepo.GetAll().ToList();
+                string userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+
+                // First get all project IDs associated with the current freelancer
+                var freelancerProjectIds = projectRepo.GetAll()
+                    .Where(p => p.FreelancerId == userId)
+                    .Select(p => p.Id)
+                    .ToList();
+
+                // Then filter missions by those project IDs
+                var missions = missionRepo.GetAll()
+                    .Where(m => freelancerProjectIds.Contains(m.ProjectId))
+                    .ToList();
+
+                ViewBag.AvailableMissions = missions;
+
                 timerRepo.Add(timeTracking);
                 timerRepo.Save();
                 return Json(new { sucess=true ,Message = ""});

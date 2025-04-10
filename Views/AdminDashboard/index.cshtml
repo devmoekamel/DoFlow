@@ -34,7 +34,7 @@
                                 </button>
 
                                 <!-- Delete Button -->
-                                <form asp-action="Delete" method="post" class="w-8 h-8 my-1" id="delete-form-@user.UserId">
+                                <form asp-action="Delete" method="post" class="w-8 h-8 my-1" id="delete-form-sumit-@user.UserId">
                                     <input type="hidden" name="UserId" value="@user.UserId" />
                                     <button type="button" class="w-full h-full rounded-full bg-red-100 hover:bg-red-200 text-red-600 flex items-center justify-center"
                                             onclick="showDeleteModal('@user.UserId')">
@@ -92,19 +92,18 @@ else
 }
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
-<script>
+ <script>
+
     function showDeleteModal(userId) {
         document.getElementById('delete-modal-' + userId).classList.remove('hidden');
     }
 
     function deleteFreelancer(userId) {
-        // Perform the delete request and update the UI accordingly
+      
         $.post('/AdminDashboard/Delete', { UserId: userId }, function (data) {
-            // Hide the modal
-            document.getElementById('delete-modal-' + userId).classList.add('hidden');
-            // Remove the freelancer item from the list
+       
+            document.getElementById('delete-form-sumit-' + userId).classList.add('hidden');
             document.querySelector('[data-userid="' + userId + '"]').remove();
-            // Check if there are no freelancers left
             if ($('#freelancer-list').children().length === 0) {
                 $('#no-freelancer-message').show();
             }
