@@ -97,6 +97,7 @@ namespace FreelanceManager.Controllers
         public IActionResult Delete([FromBody]int id)
         {
             timerRepo.RemoveById(id);
+            timerRepo.Save();
             return Json(new { sucess = true });
         }
 
