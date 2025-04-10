@@ -2,12 +2,15 @@
 using FreelanceManager.Interfaces;
 using FreelanceManager.Models;
 using FreelanceManager.Repositry;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
+using System.Security.Claims;
 
 namespace FreelanceManager.Controllers
 {
+    //[Authorize]
     public class MissionController : Controller
     {
         private readonly IMissionRepo missionRepo;
@@ -23,9 +26,22 @@ namespace FreelanceManager.Controllers
         [HttpGet]
         public IActionResult Index(string? search, status? status, priority? priority)
         {
-            var mission = missionRepo.GetAllFilter(search, status, priority).ToList();
+
+            string userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+
+            // First get all project IDs associated with the current freelancer
+            var freelancerProjectIds = projectRepo.GetAll()
+                .Where(p => p.FreelancerId == userId)
+                .Select(p => p.Id)
+                .ToList();
+
+            // Then filter missions by those project IDs
+            var missions = missionRepo.GetAllFilter(search, status, priority)
+                .Where(m => freelancerProjectIds.Contains(m.ProjectId))
+                .ToList();
+
             //map to MissionViewModel
-            List<MissionViewModel> MissView = mission.Select(m => new MissionViewModel
+            List<MissionViewModel> MissView = missions.Select(m => new MissionViewModel
             {
                 Id = m.Id,
                 Title = m.Title,
@@ -77,6 +93,7 @@ namespace FreelanceManager.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult SaveAdd(MissionViewModel mission)
         {
+
             if (ModelState.IsValid)
             {
                 Mission newmission = new Mission();
