@@ -20,6 +20,7 @@ namespace FreelanceManager.ViewModel
         [Required]
         public DateTime Deadline { get; set; }
 
+        public string?ProjectName { get; set; }
         public int ProjectId { get; set; }
        
 

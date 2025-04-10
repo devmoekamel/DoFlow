@@ -4,6 +4,7 @@ using FreelanceManager.Models;
 using FreelanceManager.Repositry;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using System.Security.Claims;
@@ -49,7 +50,8 @@ namespace FreelanceManager.Controllers
                 Status = m.Status,
                 Priority = m.Priority,
                 Deadline = m.Deadline,
-                ProjectId = m.ProjectId
+                ProjectId = m.ProjectId,
+                ProjectName= projectRepo.GetById(m.ProjectId).Name
             }).ToList();
 
             return View("All", MissView);
@@ -70,10 +72,9 @@ namespace FreelanceManager.Controllers
                 Status = mission.Status,
                 Priority = mission.Priority,
                 Deadline = mission.Deadline,
-                ProjectId = mission.ProjectId
+                ProjectId = mission.ProjectId,
+                ProjectName = projectRepo.GetById(mission.ProjectId).Name
             };
-            var projectName = projectRepo.GetById(mission.ProjectId).Name;
-            ViewBag.ProjectName = projectName;
             return PartialView("DetailsPartial",viewMission);
         }
 
@@ -136,9 +137,17 @@ namespace FreelanceManager.Controllers
                 Status = mission.Status,
                 Priority = mission.Priority,
                 Deadline = mission.Deadline,
-                ProjectId = mission.ProjectId
+                ProjectId = mission.ProjectId,
+                ProjectName = projectRepo.GetById(mission.ProjectId).Name
+
             };
-            ViewBag.ProjectList = projectRepo.GetAll();
+            string userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+
+            var freelancerProject = projectRepo.GetAll()
+                .Where(p => p.FreelancerId == userId)
+                .ToList();
+
+            ViewBag.ProjectList = freelancerProject;
             return View("EditPartial",Editmission);
         }
         #endregion
@@ -159,6 +168,7 @@ namespace FreelanceManager.Controllers
                 Editmission.Priority = mission.Priority;
                 Editmission.Deadline = mission.Deadline;
                 Editmission.ProjectId = mission.ProjectId;
+
 
                 missionRepo.Save();
                 return RedirectToAction("Index");

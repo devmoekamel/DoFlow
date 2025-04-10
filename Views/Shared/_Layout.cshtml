@@ -24,25 +24,39 @@
 
                 <div class="border-t border-gray-100">
                     <div class="px-2">
+                        @if(User.IsInRole("Admin"))
+                        {
                         <div class="py-4">
                             @{
-                                var isOverviewActive = ViewContext.RouteData.Values["Controller"]?.ToString() == "Home";
+                                var isDashboardActive = ViewContext.RouteData.Values["Controller"]?.ToString() == "AdminDashboard";
                             }
-                            <a href="/Overview" class="group relative flex justify-center rounded-sm px-2 py-1.5 @(isOverviewActive ? "bg-blue-50 text-blue-700" : "text-gray-500 hover:bg-gray-50 hover:text-gray-700")">
-                                <img src="/Image/home-button.png"
+                                <a href="/AdminDashboard" class="group relative flex justify-center rounded-sm px-2 py-1.5 @(isDashboardActive ? "bg-blue-50 text-blue-700" : "text-gray-500 hover:bg-gray-50 hover:text-gray-700")">
+                                <img src="/Image/user-gear.png"
                                 class="h-5 w-5 object-contain"
-                                alt="Clients Icon" />
+                                     alt="Dashboard Icon" />
                                 <span class="invisible absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded-sm bg-gray-900 px-2 py-1.5 text-xs font-medium text-white group-hover:visible z-50">
-                                    Overview
+                                    Dashboard
                                 </span>
                             </a>
                         </div>
-
+                        }
                         <ul class="space-y-1 border-t border-gray-100 pt-4">
                             <!-- Sidebar Menu Items -->
 
                             @if (User.Identity.IsAuthenticated)
                             {
+                                <li>
+                                    <a href="#"
+                                       class="group relative flex justify-center rounded-sm px-2 py-1.5 @(ViewContext.RouteData.Values["Controller"]?.ToString() == "000" ? "bg-blue-50 text-blue-700" : "text-gray-500 hover:bg-gray-50 hover:text-gray-700")">
+                                        <img src="/Image/home-button.png"
+                                             class="h-5 w-5 object-contain"
+                                             alt="Overview Icon" />
+                                        <span class="invisible absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded-sm bg-gray-900 px-2 py-1.5 text-xs font-medium text-white group-hover:visible z-50">
+                                            Overview
+                                        </span>
+                                    </a>
+                                </li>
+
                                 <li>
                                     <a href="#"
                                     class="group relative flex justify-center rounded-sm px-2 py-1.5 @(ViewContext.RouteData.Values["Controller"]?.ToString() == "000" ? "bg-blue-50 text-blue-700" : "text-gray-500 hover:bg-gray-50 hover:text-gray-700")">
