@@ -74,7 +74,7 @@ namespace FreelanceManager.Controllers
             };
             var projectName = projectRepo.GetById(mission.ProjectId).Name;
             ViewBag.ProjectName = projectName;
-            return View("DetailsPartial",viewMission);
+            return PartialView("DetailsPartial",viewMission);
         }
 
         #endregion
@@ -138,13 +138,7 @@ namespace FreelanceManager.Controllers
                 Deadline = mission.Deadline,
                 ProjectId = mission.ProjectId
             };
-            string userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
-
-            var freelancerProject = projectRepo.GetAll()
-                .Where(p => p.FreelancerId == userId)
-                .ToList();
-
-            ViewBag.ProjectList = freelancerProject;
+            ViewBag.ProjectList = projectRepo.GetAll();
             return View("EditPartial",Editmission);
         }
         #endregion
