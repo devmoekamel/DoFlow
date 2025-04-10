@@ -46,7 +46,7 @@
                             @if (User.Identity.IsAuthenticated)
                             {
                                 <li>
-                                    <a href="#"
+                                    <a href="/overview"
                                        class="group relative flex justify-center rounded-sm px-2 py-1.5 @(ViewContext.RouteData.Values["Controller"]?.ToString() == "000" ? "bg-blue-50 text-blue-700" : "text-gray-500 hover:bg-gray-50 hover:text-gray-700")">
                                         <img src="/Image/home-button.png"
                                              class="h-5 w-5 object-contain"
