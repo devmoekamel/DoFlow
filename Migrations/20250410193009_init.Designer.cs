@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FreelanceManager.Migrations
 {
     [DbContext(typeof(ITIContext))]
-    [Migration("20250410162504_EditClient")]
-    partial class EditClient
+    [Migration("20250410193009_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

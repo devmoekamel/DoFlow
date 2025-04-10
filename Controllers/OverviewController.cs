@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace FreelanceManager.Controllers
 {
+    [Authorize]
     public class OverviewController : Controller
     {
         private readonly IClientRepo clientRepo;
