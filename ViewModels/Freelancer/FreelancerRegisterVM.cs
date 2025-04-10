@@ -4,8 +4,9 @@ namespace FreelanceManager.ViewModels.Account
 {
 	public class FreelancerRegisterVM
 	{
-		[MinLength(3)]
-		[MaxLength(50)]
+		[MinLength(3), MaxLength(50), ]
+		
+		
 		public string UserName { get; set; }
 		[DataType(DataType.Password)]
 		public string Password { get; set; }

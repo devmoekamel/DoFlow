@@ -24,7 +24,7 @@ namespace FreelanceManager.Controllers
         // project
         [HttpGet]
         [Authorize]
-        public IActionResult Index(string statusFilter=null)
+        public IActionResult Index(string statusFilter = null)
         {
 
 		    string Userid = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value; // this return id of user
@@ -97,13 +97,6 @@ namespace FreelanceManager.Controllers
                 return PartialView("AddProjectPartialView", project);
             }
 
-            //Console.WriteLine(project.Name);
-            //Console.WriteLine(project.Budget);
-            //Console.WriteLine(project.ClientId);
-            //Console.WriteLine(project.Company);
-            //Console.WriteLine(project.Description);
-            //Console.WriteLine(project.StartDate);
-            //Console.WriteLine(project.EndDate);
 
             Project newProject = new()
             {
@@ -146,7 +139,7 @@ namespace FreelanceManager.Controllers
                 Priority = project.Priority,
 			};
 			ViewBag.Clients = clientRepo.GetAll();
-            return View("Edit", EditVM);
+            return PartialView("Edit", EditVM);
 		}
 
         [HttpPost]
