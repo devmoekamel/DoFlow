@@ -21,15 +21,15 @@ namespace FreelanceManager.Controllers
         }
         public IActionResult Index()
         {
-           // string Userid = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value; // this return id of user
-
+            string Userid = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value; // this return id of user
+ 
             OverviewVM overview = new()
             {
-            //    ClientsNum = projectRepo.GetAll().Where(p => p.FreelancerId == Userid).Select(p => p.Client).Count(),
+                ClientsNum = projectRepo.GetAll().Where(p => p.FreelancerId == Userid).Select(p => p.Client).Count(),
                 RecentTasks = missionRepo.GetAll().TakeLast(5),
                 RecentProjects = projectRepo.GetAll().TakeLast(5),
-               // TasksNum = projectRepo.GetAll().Where(p => p.FreelancerId == Userid).SelectMany(p => p.Missions).Count(),
-              //  ProjectsNum = projectRepo.GetAll().Where(p => p.FreelancerId == Userid).Count(),
+                TasksNum = projectRepo.GetAll().Where(p => p.FreelancerId == Userid).SelectMany(p => p.Missions).Count(),
+                ProjectsNum = projectRepo.GetAll().Where(p => p.FreelancerId == Userid).Count(),
             };
             return View(overview);
         }
