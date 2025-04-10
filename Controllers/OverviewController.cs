@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace FreelanceManager.Controllers
 {
+
     [Authorize]
     public class OverviewController : Controller
     {
@@ -29,14 +30,15 @@ namespace FreelanceManager.Controllers
             }
             string Userid = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value; // this return id of user
             Console.WriteLine(Userid);
-            
+
+            var projects = projectRepo.GetAll().Where(p => p.FreelancerId == Userid);
             OverviewVM overview = new()
             {
-                ClientsNum = projectRepo.GetAll().Where(p => p.FreelancerId == Userid).Select(p => p.Client).Count(),
-                RecentTasks = missionRepo.GetAll().TakeLast(5),
-                RecentProjects = projectRepo.GetAll().TakeLast(5),
-                TasksNum = projectRepo.GetAll().Where(p => p.FreelancerId == Userid).SelectMany(p => p.Missions).Count(),
-                ProjectsNum = projectRepo.GetAll().Where(p => p.FreelancerId == Userid).Count(),
+                ClientsNum = projects.Select(p => p.Client).Count(),
+                RecentTasks = projects.SelectMany(p=>p.Missions),
+                RecentProjects = projects.TakeLast(5),
+                TasksNum = projects.SelectMany(p => p.Missions).Count(),
+                ProjectsNum = projects.Count(),
             };
             return View(overview);
         }
