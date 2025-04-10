@@ -58,7 +58,7 @@ namespace FreelanceManager.Controllers
             };
             var projectName = projectRepo.GetById(mission.ProjectId).Name;
             ViewBag.ProjectName = projectName;
-            return View("DetailsPartial",viewMission);
+            return PartialView("DetailsPartial",viewMission);
         }
 
         #endregion
@@ -111,7 +111,7 @@ namespace FreelanceManager.Controllers
                 ProjectId = mission.ProjectId
             };
             ViewBag.ProjectList = projectRepo.GetAll();
-            return View("EditPartial",Editmission);
+            return PartialView("EditPartial",Editmission);
         }
         #endregion
 

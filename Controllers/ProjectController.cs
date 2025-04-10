@@ -146,7 +146,7 @@ namespace FreelanceManager.Controllers
                 Priority = project.Priority,
 			};
 			ViewBag.Clients = clientRepo.GetAll();
-            return View("Edit", EditVM);
+            return PartialView("Edit", EditVM);
 		}
 
         [HttpPost]
@@ -186,5 +186,17 @@ namespace FreelanceManager.Controllers
             return NotFound();
 
         }
+
+
+
+        public IActionResult PriortyFilter(string priority)
+        { 
+          var projects =   projectRepo.GetAll().Select(p=>p.Priority.ToString()==priority);
+
+
+            return Json(projects);
+        }
+
+
 	}
 }
