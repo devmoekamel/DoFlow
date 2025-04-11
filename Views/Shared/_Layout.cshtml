@@ -6,8 +6,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - FreelanceManager</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    @* <link rel="stylesheet" href="~/FreelanceManager.styles.css" asp-append-version="true" /> *@
 </head>
+
+@if (TempData["SuccessMessage"] != null || TempData["ErrorMessage"] != null || TempData["InfoMessage"] != null)
+{
+    string type = TempData["SuccessMessage"] != null ? "success" :
+               TempData["ErrorMessage"] != null ? "error" : "info";
+
+    var message = TempData["SuccessMessage"] ?? TempData["ErrorMessage"] ?? TempData["InfoMessage"];
+
+    string bgColor = type == "success" ? "bg-green-100 border-green-400 text-green-800"
+                     : type == "error" ? "bg-red-100 border-red-400 text-red-800"
+                     : "bg-blue-100 border-blue-400 text-blue-800";
+    <div id="notification" class="fixed top-4 right-4 z-50 px-4 py-3 rounded-lg shadow-md border transition-opacity duration-500 ease-in-out @bgColor">
+        <div class="flex items-center justify-between space-x-4">
+            <span class="font-semibold">@message</span>
+            <button onclick="document.getElementById('notification').remove()" class="font-bold hover:opacity-70">&times;</button>
+        </div>
+    </div>
+
+    <script>
+        setTimeout(() => {
+            const popup = document.getElementById('notification');
+            if (popup) {
+                popup.classList.add('opacity-0');
+                setTimeout(() => popup.remove(), 500);
+            }
+        }, 4000);
+    </script>
+}
+
+
+
+
+
+
+
 
 <body>
     <div class="flex h-screen">
@@ -26,7 +60,7 @@
                     <div class="px-2">
                         @if(User.IsInRole("Admin"))
                         {
-                        <div class="py-4">
+                        <div class="py-3">
                             @{
                                 var isDashboardActive = ViewContext.RouteData.Values["Controller"]?.ToString() == "AdminDashboard";
                             }
@@ -34,11 +68,22 @@
                                 <img src="/Image/user-gear.png"
                                 class="h-5 w-5 object-contain"
                                      alt="Dashboard Icon" />
-                                <span class="invisible absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded-sm bg-gray-900 px-2 py-1.5 text-xs font-medium text-white group-hover:visible z-50">
+                                <span class="pointer-events-none absolute start-full top-1/2 ms-4 -translate-y-1/2 translate-y-2 opacity-0 scale-90 shadow-md shadow-blue-500/30 transition-all duration-500 group-hover:opacity-100 group-hover:scale-100 group-hover:translate-y-0 group-hover:shadow-blue-500 z-50 bg-gray-900 text-white px-2 py-1.5 text-xs font-medium rounded-sm">
                                     Dashboard
                                 </span>
                             </a>
                         </div>
+                            <div class="pb-3">
+                                <a asp-action="AddNewRole" asp-controller="Role"
+                                   class="group relative flex justify-center rounded-sm px-2 py-1.5 @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Clients" ? "bg-blue-50 text-blue-700" : "text-gray-500 hover:bg-gray-50 hover:text-gray-700")">
+                                    <img src="/Image/coordinate.png"
+                                         class="h-5 w-5 object-contain"
+                                         alt="Invoices Icon" />
+                                    <span class="pointer-events-none absolute start-full top-1/2 ms-4 -translate-y-1/2 translate-y-2 opacity-0 scale-90 shadow-md shadow-blue-500/30 transition-all duration-500 group-hover:opacity-100 group-hover:scale-100 group-hover:translate-y-0 group-hover:shadow-blue-500 z-50 bg-gray-900 text-white px-2 py-1.5 text-xs font-medium rounded-sm">
+                                        Add Role
+                                    </span>
+                                </a>
+                            </div>
                         }
                         <ul class="space-y-1 border-t border-gray-100 pt-4">
                             <!-- Sidebar Menu Items -->
@@ -51,11 +96,12 @@
                                         <img src="/Image/home-button.png"
                                              class="h-5 w-5 object-contain"
                                              alt="Overview Icon" />
-                                        <span class="invisible absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded-sm bg-gray-900 px-2 py-1.5 text-xs font-medium text-white group-hover:visible z-50">
+                                        <span class="pointer-events-none absolute start-full top-1/2 ms-4 -translate-y-1/2 translate-y-2 opacity-0 scale-90 shadow-md shadow-blue-500/30 transition-all duration-500 group-hover:opacity-100 group-hover:scale-100 group-hover:translate-y-0 group-hover:shadow-blue-500 z-50 bg-gray-900 text-white px-2 py-1.5 text-xs font-medium rounded-sm">
                                             Overview
                                         </span>
                                     </a>
                                 </li>
+
 
                                 <li>
                                     <a href="#"
@@ -63,7 +109,7 @@
                                         <img src="/Image/timeline.png"
                                         class="h-5 w-5 object-contain"
                                         alt="Timeline Icon" />
-                                        <span class="invisible absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded-sm bg-gray-900 px-2 py-1.5 text-xs font-medium text-white group-hover:visible z-50">
+                                        <span class="pointer-events-none absolute start-full top-1/2 ms-4 -translate-y-1/2 translate-y-2 opacity-0 scale-90 shadow-md shadow-blue-500/30 transition-all duration-500 group-hover:opacity-100 group-hover:scale-100 group-hover:translate-y-0 group-hover:shadow-blue-500 z-50 bg-gray-900 text-white px-2 py-1.5 text-xs font-medium rounded-sm">
                                             Timeline
                                         </span>
                                     </a>
@@ -75,7 +121,7 @@
                                         <img src="/Image/done.png"
                                         class="h-5 w-5 object-contain"
                                         alt="Tasks Icon" />
-                                        <span class="invisible absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded-sm bg-gray-900 px-2 py-1.5 text-xs font-medium text-white group-hover:visible z-50">
+                                        <span class="pointer-events-none absolute start-full top-1/2 ms-4 -translate-y-1/2 translate-y-2 opacity-0 scale-90 shadow-md shadow-blue-500/30 transition-all duration-500 group-hover:opacity-100 group-hover:scale-100 group-hover:translate-y-0 group-hover:shadow-blue-500 z-50 bg-gray-900 text-white px-2 py-1.5 text-xs font-medium rounded-sm">
                                             Tasks
                                         </span>
                                     </a>
@@ -87,7 +133,7 @@
                                         <img src="/Image/stopwatch.png"
                                         class="h-5 w-5 object-contain"
                                         alt="Time Tracking Icon" />
-                                        <span class="invisible absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded-sm bg-gray-900 px-2 py-1.5 text-xs font-medium text-white group-hover:visible z-50">
+                                        <span class="pointer-events-none absolute start-full top-1/2 ms-4 -translate-y-1/2 translate-y-2 opacity-0 scale-90 shadow-md shadow-blue-500/30 transition-all duration-500 group-hover:opacity-100 group-hover:scale-100 group-hover:translate-y-0 group-hover:shadow-blue-500 z-50 bg-gray-900 text-white px-2 py-1.5 text-xs font-medium rounded-sm">
                                             Time Tracking
                                         </span>
                                     </a>
@@ -99,7 +145,7 @@
                                         <img src="/Image/customer.png"
                                         class="h-5 w-5 object-contain"
                                         alt="Clients Icon" />
-                                        <span class="invisible absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded-sm bg-gray-900 px-2 py-1.5 text-xs font-medium text-white group-hover:visible z-50">
+                                        <span class="pointer-events-none absolute start-full top-1/2 ms-4 -translate-y-1/2 translate-y-2 opacity-0 scale-90 shadow-md shadow-blue-500/30 transition-all duration-500 group-hover:opacity-100 group-hover:scale-100 group-hover:translate-y-0 group-hover:shadow-blue-500 z-50 bg-gray-900 text-white px-2 py-1.5 text-xs font-medium rounded-sm">
                                             Clients
                                         </span>
                                     </a>
@@ -111,7 +157,7 @@
                                         <img src="/Image/file-management.png"
                                         class="h-5 w-5 object-contain"
                                         alt="Projects Icon" />
-                                        <span class="invisible absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded-sm bg-gray-900 px-2 py-1.5 text-xs font-medium text-white group-hover:visible z-50">
+                                        <span class="pointer-events-none absolute start-full top-1/2 ms-4 -translate-y-1/2 translate-y-2 opacity-0 scale-90 shadow-md shadow-blue-500/30 transition-all duration-500 group-hover:opacity-100 group-hover:scale-100 group-hover:translate-y-0 group-hover:shadow-blue-500 z-50 bg-gray-900 text-white px-2 py-1.5 text-xs font-medium rounded-sm">
                                             Projects
                                         </span>
                                     </a>
@@ -123,7 +169,7 @@
                                         <img src="/Image/bill.png"
                                         class="h-5 w-5 object-contain"
                                         alt="Invoices Icon" />
-                                        <span class="invisible absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded-sm bg-gray-900 px-2 py-1.5 text-xs font-medium text-white group-hover:visible z-50">
+                                        <span class="pointer-events-none absolute start-full top-1/2 ms-4 -translate-y-1/2 translate-y-2 opacity-0 scale-90 shadow-md shadow-blue-500/30 transition-all duration-500 group-hover:opacity-100 group-hover:scale-100 group-hover:translate-y-0 group-hover:shadow-blue-500 z-50 bg-gray-900 text-white px-2 py-1.5 text-xs font-medium rounded-sm">
                                             Invoices
                                         </span>
                                     </a>
@@ -135,7 +181,7 @@
                                         <img src="/Image/logout.png"
                                         class="h-5 w-5 object-contain"
                                         alt="Invoices Icon" />
-                                        <span class="invisible absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded-sm bg-gray-900 px-2 py-1.5 text-xs font-medium text-white group-hover:visible z-50">
+                                        <span class="pointer-events-none absolute start-full top-1/2 ms-4 -translate-y-1/2 translate-y-2 opacity-0 scale-90 shadow-md shadow-blue-500/30 transition-all duration-500 group-hover:opacity-100 group-hover:scale-100 group-hover:translate-y-0 group-hover:shadow-blue-500 z-50 bg-gray-900 text-white px-2 py-1.5 text-xs font-medium rounded-sm">
                                             Logout
                                         </span>
                                     </a>
@@ -149,7 +195,7 @@
                                         <img src="/Image/register.png"
                                         class="h-5 w-5 object-contain"
                                         alt="Invoices Icon" />
-                                        <span class="invisible absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded-sm bg-gray-900 px-2 py-1.5 text-xs font-medium text-white group-hover:visible z-50">
+                                        <span class="pointer-events-none absolute start-full top-1/2 ms-4 -translate-y-1/2 translate-y-2 opacity-0 scale-90 shadow-md shadow-blue-500/30 transition-all duration-500 group-hover:opacity-100 group-hover:scale-100 group-hover:translate-y-0 group-hover:shadow-blue-500 z-50 bg-gray-900 text-white px-2 py-1.5 text-xs font-medium rounded-sm">
                                             Register
                                         </span>
                                     </a>
@@ -161,26 +207,13 @@
                                         <img src="/Image/login.png"
                                         class="h-5 w-5 object-contain"
                                         alt="Invoices Icon" />
-                                        <span class="invisible absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded-sm bg-gray-900 px-2 py-1.5 text-xs font-medium text-white group-hover:visible z-50">
+                                        <span class="pointer-events-none absolute start-full top-1/2 ms-4 -translate-y-1/2 translate-y-2 opacity-0 scale-90 shadow-md shadow-blue-500/30 transition-all duration-500 group-hover:opacity-100 group-hover:scale-100 group-hover:translate-y-0 group-hover:shadow-blue-500 z-50 bg-gray-900 text-white px-2 py-1.5 text-xs font-medium rounded-sm">
                                             Login
                                         </span>
                                     </a>
                                 </li>
                             }
-                            @if (User.IsInRole("Admin"))
-                            {
-                                <li>
-                                    <a asp-action="AddNewRole" asp-controller="Role"
-                                       class="group relative flex justify-center rounded-sm px-2 py-1.5 @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Clients" ? "bg-blue-50 text-blue-700" : "text-gray-500 hover:bg-gray-50 hover:text-gray-700")">
-                                        <img src="/Image/coordinate.png"
-                                             class="h-5 w-5 object-contain"
-                                             alt="Invoices Icon" />
-                                        <span class="invisible absolute start-full top-1/2 ms-4 -translate-y-1/2 rounded-sm bg-gray-900 px-2 py-1.5 text-xs font-medium text-white group-hover:visible z-50">
-                                            Add Role
-                                        </span>
-                                    </a>
-                                </li>
-                            }
+
                         </ul>
 @*                         @if (User.Identity.IsAuthenticated)
                         {
