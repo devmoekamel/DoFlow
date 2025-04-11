@@ -37,12 +37,6 @@
 }
 
 
-
-
-
-
-
-
 <body>
     <div class="flex h-screen">
         <!-- Sidebar -->
@@ -102,18 +96,6 @@
                                     </a>
                                 </li>
 
-
-                                <li>
-                                    <a href="#"
-                                    class="group relative flex justify-center rounded-sm px-2 py-1.5 @(ViewContext.RouteData.Values["Controller"]?.ToString() == "000" ? "bg-blue-50 text-blue-700" : "text-gray-500 hover:bg-gray-50 hover:text-gray-700")">
-                                        <img src="/Image/timeline.png"
-                                        class="h-5 w-5 object-contain"
-                                        alt="Timeline Icon" />
-                                        <span class="pointer-events-none absolute start-full top-1/2 ms-4 -translate-y-1/2 translate-y-2 opacity-0 scale-90 shadow-md shadow-blue-500/30 transition-all duration-500 group-hover:opacity-100 group-hover:scale-100 group-hover:translate-y-0 group-hover:shadow-blue-500 z-50 bg-gray-900 text-white px-2 py-1.5 text-xs font-medium rounded-sm">
-                                            Timeline
-                                        </span>
-                                    </a>
-                                </li>
 
                                 <li>
                                     <a href="~/Mission/"
@@ -179,7 +161,7 @@
                                     <a asp-action="Logout" asp-controller="Freelancer"
                                     class="group relative flex justify-center rounded-sm px-2 py-1.5 @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Clients" ? "bg-blue-50 text-blue-700" : "text-gray-500 hover:bg-gray-50 hover:text-gray-700")">
                                         <img src="/Image/logout.png"
-                                        class="h-5 w-5 object-contain"
+                                        class="h-8 w-8 object-contain"
                                         alt="Invoices Icon" />
                                         <span class="pointer-events-none absolute start-full top-1/2 ms-4 -translate-y-1/2 translate-y-2 opacity-0 scale-90 shadow-md shadow-blue-500/30 transition-all duration-500 group-hover:opacity-100 group-hover:scale-100 group-hover:translate-y-0 group-hover:shadow-blue-500 z-50 bg-gray-900 text-white px-2 py-1.5 text-xs font-medium rounded-sm">
                                             Logout
@@ -193,7 +175,7 @@
                                     <a asp-action="Register" asp-controller="Freelancer"
                                     class="group relative flex justify-center rounded-sm px-2 py-1.5 @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Clients" ? "bg-blue-50 text-blue-700" : "text-gray-500 hover:bg-gray-50 hover:text-gray-700")">
                                         <img src="/Image/register.png"
-                                        class="h-5 w-5 object-contain"
+                                        class="h-8 w-8 object-contain"
                                         alt="Invoices Icon" />
                                         <span class="pointer-events-none absolute start-full top-1/2 ms-4 -translate-y-1/2 translate-y-2 opacity-0 scale-90 shadow-md shadow-blue-500/30 transition-all duration-500 group-hover:opacity-100 group-hover:scale-100 group-hover:translate-y-0 group-hover:shadow-blue-500 z-50 bg-gray-900 text-white px-2 py-1.5 text-xs font-medium rounded-sm">
                                             Register
@@ -205,7 +187,7 @@
                                     <a asp-action="Login" asp-controller="Freelancer"
                                     class="group relative flex justify-center rounded-sm px-2 py-1.5 @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Clients" ? "bg-blue-50 text-blue-700" : "text-gray-500 hover:bg-gray-50 hover:text-gray-700")">
                                         <img src="/Image/login.png"
-                                        class="h-5 w-5 object-contain"
+                                        class="h-8 w-8 object-contain"
                                         alt="Invoices Icon" />
                                         <span class="pointer-events-none absolute start-full top-1/2 ms-4 -translate-y-1/2 translate-y-2 opacity-0 scale-90 shadow-md shadow-blue-500/30 transition-all duration-500 group-hover:opacity-100 group-hover:scale-100 group-hover:translate-y-0 group-hover:shadow-blue-500 z-50 bg-gray-900 text-white px-2 py-1.5 text-xs font-medium rounded-sm">
                                             Login
@@ -215,10 +197,6 @@
                             }
 
                         </ul>
-@*                         @if (User.Identity.IsAuthenticated)
-                        {
-                            <p class="text-danger">Welcome, @User.Identity.Name!</p>
-                        } *@
 
                     </div>
                 </div>
