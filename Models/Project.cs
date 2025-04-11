@@ -29,5 +29,6 @@ namespace FreelanceManager.Models
 
 
         public ICollection<Mission>? Missions { get; set; }
+        public ICollection<Invoice>? Invoices { get; set; }
     }
 }

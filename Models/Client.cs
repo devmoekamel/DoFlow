@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using FreelanceManager.Enums;
 
 namespace FreelanceManager.Models
@@ -13,6 +14,10 @@ namespace FreelanceManager.Models
         public string Address { get; set; }
         public bool IsDeleted { get; set; }
         public ClientStatus Status { get; set; }
+        public string FreelancerId { get; set; }
+
+        [ForeignKey(nameof(FreelancerId))]
+        public Freelancer Freelancer { get; set; }
         public ICollection<Project>? projects { get; set; }
 
     }

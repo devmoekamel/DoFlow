@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FreelanceManager.Migrations
 {
     [DbContext(typeof(ITIContext))]
-    [Migration("20250410162504_EditClient")]
-    partial class EditClient
+    [Migration("20250411114158_newProject")]
+    partial class newProject
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -45,6 +45,10 @@ namespace FreelanceManager.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("FreelancerId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
@@ -60,6 +64,8 @@ namespace FreelanceManager.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("FreelancerId");
 
                     b.ToTable("clients");
                 });
@@ -436,10 +442,21 @@ namespace FreelanceManager.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("FreelanceManager.Models.Client", b =>
+                {
+                    b.HasOne("FreelanceManager.Models.Freelancer", "Freelancer")
+                        .WithMany("clients")
+                        .HasForeignKey("FreelancerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Freelancer");
+                });
+
             modelBuilder.Entity("FreelanceManager.Models.Invoice", b =>
                 {
                     b.HasOne("FreelanceManager.Models.Project", "Project")
-                        .WithMany()
+                        .WithMany("Invoices")
                         .HasForeignKey("ProjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -546,6 +563,8 @@ namespace FreelanceManager.Migrations
 
             modelBuilder.Entity("FreelanceManager.Models.Freelancer", b =>
                 {
+                    b.Navigation("clients");
+
                     b.Navigation("projects");
                 });
 
@@ -556,6 +575,8 @@ namespace FreelanceManager.Migrations
 
             modelBuilder.Entity("FreelanceManager.Models.Project", b =>
                 {
+                    b.Navigation("Invoices");
+
                     b.Navigation("Missions");
                 });
 #pragma warning restore 612, 618

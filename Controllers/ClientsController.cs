@@ -5,6 +5,7 @@ using FreelanceManager.ViewModels.ClientVM;
 using FreelanceManager.Enums;
 using Microsoft.AspNetCore.Mvc;
 using NuGet.Protocol.Core.Types;
+using System.Security.Claims;
 
 namespace FreelanceManager.Controllers
 {
@@ -22,10 +23,11 @@ namespace FreelanceManager.Controllers
 
         public IActionResult Index()
         {
+            string Userid = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+
             List<AllClientsVM> clientsListVM = new List<AllClientsVM>();
 
-
-            IEnumerable<Client> clientsList = clientRepo.GetAllWithProjects();
+            IEnumerable<Client> clientsList = clientRepo.GetAllWithProjects().Where(c=>c.FreelancerId==Userid);
             IEnumerable<Mission> tasksList = missionRepo.GetAll();
            // AllClientsVM clientVM = new AllClientsVM();
             //ViewBag.tasks = tasksList;

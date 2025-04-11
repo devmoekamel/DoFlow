@@ -6,5 +6,6 @@ namespace FreelanceManager.Models
     {
 		public bool IsDeleted { get; set; }
 		public ICollection<Project> projects { get; set; }
+        public ICollection<Client> clients { get; set; }
     }
 }

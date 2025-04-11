@@ -6,6 +6,7 @@ using FreelanceManager.ViewModels.ClientVM;
 using FreelanceManager.Repositry;
 using FreelanceManager.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Security.Claims;
 
 namespace FreelanceManager.Controllers
 {
@@ -20,7 +21,9 @@ namespace FreelanceManager.Controllers
         }
         public IActionResult Index()
         {
-            IEnumerable<Invoice> invoicesList = invoiceRepo.GetAllWithProjects();
+            string Userid = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+
+            IEnumerable<Invoice> invoicesList = invoiceRepo.GetAllWithProjects().Where(P=>P.Project.FreelancerId==Userid);
             List<AllInvoicesVM> invoicesListVM= new List<AllInvoicesVM>();
             int OverdueCount = 0;
             int Paid=0;
@@ -77,7 +80,9 @@ namespace FreelanceManager.Controllers
 
         public IActionResult New()
         {
-            ViewBag.Projects=ProjectRepo.GetAll().ToList();
+            string Userid = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+
+            ViewBag.Projects=ProjectRepo.GetAll().Where(p=>p.FreelancerId==Userid).ToList();
             ViewBag.CurrencyList = new SelectList(Enum.GetValues(typeof(Currency)));
             return PartialView("AddInvoicePartial", new AddInvoiceVM());
         }
@@ -121,7 +126,9 @@ namespace FreelanceManager.Controllers
                 InvoiceDate = invoiceFromReq.InvoiceDate,
                 DueDate = invoiceFromReq.DueDate
             };
-            ViewBag.Projects = ProjectRepo.GetAll().ToList();
+            string Userid = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+
+            ViewBag.Projects = ProjectRepo.GetAll().Where(p => p.FreelancerId == Userid).ToList();
             ViewBag.CurrencyList = new SelectList(Enum.GetValues(typeof(Currency)));
 
             return PartialView("EditInvoicePartial", invoiceVM);
