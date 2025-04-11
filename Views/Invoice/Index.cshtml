@@ -37,22 +37,20 @@
 
         <div class="flex items-center gap-3">
             <div class="relative">
-                <button id="dropdownBtn" class="border border-gray-300 px-4 py-2 rounded-md bg-white flex items-center justify-between gap-2 text-sm min-w-[100px]">
-                    <span id="selectedCurrency">All</span>
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
-                    </svg>
-                </button>
-
                 <!-- Dropdown menu -->
-                <div id="dropdownMenu" class="absolute z-10 mt-1 w-full rounded-md shadow bg-white hidden">
-                    <ul class="text-sm text-gray-800 divide-y divide-gray-100">
-                        <li><button class="w-full text-left px-4 py-2 hover:bg-gray-100" data-currency="All">All</button></li>
-                        <li><button class="w-full text-left px-4 py-2 hover:bg-gray-100" data-currency="USD">USD</button></li>
-                        <li><button class="w-full text-left px-4 py-2 hover:bg-gray-100" data-currency="EUR">EUR</button></li>
-                        <li><button class="w-full text-left px-4 py-2 hover:bg-gray-100" data-currency="GBP">GBP</button></li>
-                        <li><button class="w-full text-left px-4 py-2 hover:bg-gray-100" data-currency="GBP">EGP</button></li>
-                    </ul>
+                <div class="flex space-x-4">
+                    <div class="relative dropdown">
+                        <button class="dropdown-btn px-4 py-2 border rounded-md space-x-2 shadow-sm bg-white text-black flex justify-between items-center w-40 cursor-pointer">
+                            All Currencies<i class="fa-solid fa-angle-down"></i>
+                        </button>
+                        <div class="dropdown-menu absolute left-0 mt-2 w-40 bg-white border rounded-md shadow-lg hidden">
+                            <a class="block px-4 py-2 hover:bg-gray-100 cursor-pointer">All</a>
+                            <a class="block px-4 py-2 hover:bg-gray-100 cursor-pointer">USD</a>
+                            <a class="block px-4 py-2 hover:bg-gray-100 cursor-pointer">EUR</a>
+                            <a class="block px-4 py-2 hover:bg-gray-100 cursor-pointer">GBP</a>
+                            <a class="block px-4 py-2 hover:bg-gray-100 cursor-pointer">EGP</a>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -76,7 +74,8 @@
     }
 
     <!-- Invoices Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="viewFilter">
+    <div class=" grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         @foreach (var invoice in Model)
         {
             <div class="bg-white shadow-sm rounded-lg p-4 relative border border-gray-300">
@@ -159,6 +158,7 @@
         }
 
     </div>
+    </div>
     
 </div>
 
@@ -238,36 +238,51 @@
         });
     });
 
-</script>
-
-
-<!-- Fillter ---></>
-<script>
-  const dropdownBtn = document.getElementById("dropdownBtn");
-  const dropdownMenu = document.getElementById("dropdownMenu");
-  const selectedCurrency = document.getElementById("selectedCurrency");
-
-  dropdownBtn.addEventListener("click", () => {
-    dropdownMenu.classList.toggle("hidden");
-  });
-
-  dropdownMenu.querySelectorAll("button").forEach(btn => {
-    btn.addEventListener("click", () => {
-      selectedCurrency.textContent = btn.dataset.currency;
-      dropdownMenu.classList.add("hidden");
-
-      // Your filtering logic here
-      console.log("Selected:", btn.dataset.currency);
-    });
-  });
-
-  // Close dropdown if clicked outside
-  window.addEventListener("click", function (e) {
-    if (!dropdownBtn.contains(e.target) && !dropdownMenu.contains(e.target)) {
-      dropdownMenu.classList.add("hidden");
+    @* ajax Filter *@
+     function updateProjectsList(statusFilter) {
+        $.ajax({
+            url: '@Url.Action("Index", "Invoice")',
+            type: 'GET',
+            data: { statusFilter: statusFilter },
+            success: function (data) {
+                $(".viewFilter").html($(data).find(".viewFilter").html());
+            },
+            error: function (xhr, status, error) {
+                console.error("Error fetching filtered Invoices:", error);
+            }
+        });
     }
-  });
 </script>
+
+<!-- Fillter --->
+<script>
+    $(document).ready(function () {
+        @* show and hide dropdown menu *@
+        $(".dropdown-btn").on("click", function () {
+            $(this).next(".dropdown-menu").toggleClass("hidden");
+        });
+
+        @* on selected Currency *@
+        $(".dropdown-menu a").on("click", function () {
+            var selectedCurrency = $(this).text().trim();
+            $(".dropdown-btn").html(selectedCurrency + ' <i class="fa-solid fa-angle-down"></i>');
+            $(".dropdown-menu").addClass("hidden");
+            updateProjectsList(selectedCurrency);
+        });
+
+        @* close dropdown menu on ckick *@
+        $(document).on("click", function (e) {
+            if (!$(e.target).closest('.dropdown').length) {
+                $(".dropdown-menu").addClass("hidden");
+            }
+        });
+    });
+</script>
+
+
+
+
+
 
 
 

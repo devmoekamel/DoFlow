@@ -29,6 +29,7 @@ namespace FreelanceManager.Controllers
 
             IEnumerable<Client> clientsList = clientRepo.GetAllWithProjects().Where(c=>c.FreelancerId==Userid);
             IEnumerable<Mission> tasksList = missionRepo.GetAll();
+
            // AllClientsVM clientVM = new AllClientsVM();
             //ViewBag.tasks = tasksList;
             if(clientsList != null)
@@ -97,7 +98,7 @@ namespace FreelanceManager.Controllers
                 client.Email = clientFromReq.Email;
                 client.ContactPerson = clientFromReq.ContactPerson;
                 client.Status = clientFromReq.Status;
-
+                client.FreelancerId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
                 clientRepo.Add(client);
                 clientRepo.Save();
                 return RedirectToAction("Index");
