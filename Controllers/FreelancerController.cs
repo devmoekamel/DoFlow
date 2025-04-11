@@ -34,7 +34,7 @@ namespace FreelanceManager.Controllers
 				if (result.Succeeded)
 				{
 					await userManager.AddToRoleAsync(user, "Freelancer"); // add role as Freelancer
-					await signInManager.SignInAsync(user, isPersistent: false); // save cookie
+					//await signInManager.SignInAsync(user, isPersistent: false); // save cookie
 					return RedirectToAction("Login");
 				}
 				else {

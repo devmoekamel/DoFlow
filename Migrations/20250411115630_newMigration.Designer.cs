@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FreelanceManager.Migrations
 {
     [DbContext(typeof(ITIContext))]
-    [Migration("20250411114158_newProject")]
-    partial class newProject
+    [Migration("20250411115630_newMigration")]
+    partial class newMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
