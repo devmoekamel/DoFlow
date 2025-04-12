@@ -19,12 +19,18 @@ namespace FreelanceManager.Controllers
             this.invoiceRepo = invoiceRepo;
             this.ProjectRepo = ProjectRepo;
         }
-        public IActionResult Index()
+        public IActionResult Index(string statusFilter=null)
         {
             string Userid = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
 
             IEnumerable<Invoice> invoicesList = invoiceRepo.GetAllWithProjects().Where(P=>P.Project.FreelancerId==Userid);
             List<AllInvoicesVM> invoicesListVM= new List<AllInvoicesVM>();
+
+            if (!string.IsNullOrEmpty(statusFilter) && statusFilter != "All")
+            {
+                invoicesList = invoicesList.Where(i=>i.CurrencyName.ToString() == statusFilter);
+            }
+
             int OverdueCount = 0;
             int Paid=0;
 

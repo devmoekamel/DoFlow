@@ -4,6 +4,7 @@ using FreelanceManager.Models;
 using FreelanceManager.Repositry;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.CodeAnalysis;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
@@ -16,11 +17,14 @@ namespace FreelanceManager.Controllers
     {
         private readonly IMissionRepo missionRepo;
         private readonly IProjectRepo projectRepo;
+        private readonly IHubContext<ChatAdminHub> hubContext;
 
-        public MissionController(IMissionRepo missionRepo,IProjectRepo projectRepo) 
+
+        public MissionController(IHubContext<ChatAdminHub> hubContext,IMissionRepo missionRepo,IProjectRepo projectRepo) 
         {
             this.missionRepo = missionRepo;
             this.projectRepo =projectRepo;
+            this.hubContext= hubContext;
         }
         #region GetAll
 
@@ -98,11 +102,12 @@ namespace FreelanceManager.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult SaveAdd(MissionViewModel mission)
+        public async Task<IActionResult> SaveAdd(MissionViewModel mission)
         {
 
             if (ModelState.IsValid)
             {
+
                 Mission newmission = new Mission();
                 newmission.Title = mission.Title;
                 newmission.Description = mission.Description;
@@ -113,6 +118,9 @@ namespace FreelanceManager.Controllers
 
                 missionRepo.Add(newmission);
                 missionRepo.Save();
+                var freelancerId = projectRepo.GetById(newmission.ProjectId).FreelancerId;
+
+                await hubContext.Clients.All.SendAsync("MissionAdded", freelancerId);
                 return RedirectToAction("Index");
             }
             string userId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
@@ -121,6 +129,8 @@ namespace FreelanceManager.Controllers
                 .Where(p => p.FreelancerId == userId)
                 .ToList();
             ViewBag.ProjectList = freelancerProject;
+           
+
             return PartialView("AddPartial", mission);
         }
         #endregion
@@ -182,7 +192,7 @@ namespace FreelanceManager.Controllers
 
 
         [HttpPost]
-        public IActionResult Delete(MissionViewModel obj)
+        public async Task<IActionResult> Delete(MissionViewModel obj)
         {
             Mission mission = missionRepo.GetById(obj.Id);
 
@@ -190,6 +200,9 @@ namespace FreelanceManager.Controllers
             {
                 missionRepo.RemoveById(obj.Id);
                 missionRepo.Save();
+                var freelancerId = projectRepo.GetById(mission.ProjectId).FreelancerId;
+                await hubContext.Clients.All.SendAsync("MissionDeleted", freelancerId);
+
                 return RedirectToAction("Index");
 
             }

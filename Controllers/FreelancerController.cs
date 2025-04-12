@@ -14,7 +14,8 @@ namespace FreelanceManager.Controllers
 			this.signInManager = signInManager;
 		}
 		[HttpGet]
-		public IActionResult Register()
+        ///FreelancerController/Register
+        public IActionResult Register()
 		{
 			return View();
 		}
@@ -33,8 +34,7 @@ namespace FreelanceManager.Controllers
 				IdentityResult result = await userManager.CreateAsync(user, modelFromReq.Password); // saved to database
 				if (result.Succeeded)
 				{
-					await userManager.AddToRoleAsync(user, "Admin"); // add role as Freelancer
-					//await signInManager.SignInAsync(user, isPersistent: false); // save cookie
+					await userManager.AddToRoleAsync(user, "Freelancer"); // add role as Freelancer
 					return RedirectToAction("Login");
 				}
 				else {
@@ -51,6 +51,7 @@ namespace FreelanceManager.Controllers
 		public async Task<IActionResult> Logout()
 		{
 			await signInManager.SignOutAsync();
+			TempData["InfoMessage"] = "You have been logged out, We hope see you again!";
 			return RedirectToAction("Login");
 		}
 		[HttpGet]
@@ -71,12 +72,16 @@ namespace FreelanceManager.Controllers
 					if (found)
 					{
 						await signInManager.SignInAsync(freelancer, modelFromReq.RememberMe); // create cookie
+
+						TempData["SuccessMessage"] = $"Login successful! Welcome, {User.Identity.Name}";
+
 						return RedirectToAction("Index", "Project");
 
 					}
 					else
 					{
 						ModelState.AddModelError("", "Invalid Account!");
+						TempData["ErrorMessage"] = "Login failed. Please check your username or password again!.";
 					}
 				}
 				else

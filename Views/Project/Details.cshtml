@@ -3,6 +3,8 @@
 @{
     ViewData["Title"] = "Details";
 }
+
+
 <link rel="stylesheet" href="/css/Project/ProductDetails.css" />
 <div class="my-3">
     <h2>@Model.Name</h2> <!---->
@@ -10,6 +12,7 @@
 <div class="my-3">
     <p>@Model.Description</p> <!---->
 </div>
+
 
 
 <div class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
@@ -79,7 +82,6 @@
         <button id="taskButton" data-target="TaskSection" class="tab-button py-1 rounded-lg">
             <span><i class="fa-solid fa-list-check"></i></span>
             Tasks</button>
-
     </div>   
 </div>
 
@@ -124,7 +126,6 @@
 </div>
 
 
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
 
 <script>
     let tabbuttons = $(".tab-button");

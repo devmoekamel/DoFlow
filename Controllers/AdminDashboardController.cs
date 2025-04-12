@@ -1,10 +1,12 @@
 ﻿using FreelanceManager.Interfaces;
+using FreelanceManager.Models;
 using FreelanceManager.Repositry;
 using FreelanceManager.ViewModels.DashboradVM;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.CodeAnalysis;
 using Microsoft.Extensions.DependencyInjection;
 using System.Security.Claims;
@@ -21,8 +23,10 @@ namespace FreelanceManager.Controllers
         private readonly IProjectRepo projectRepo;
         private readonly ITimeTrackingRepo timeTrackingRepo;
         UserManager<Freelancer> userManager;
+        private readonly IHubContext<ChatAdminHub> hubContext;
 
-        public AdminDashboardController(IFreelancerRepo freelancerRepo,IClientRepo clientRepo, IMissionRepo missionRepo, IProjectRepo projectRepo, ITimeTrackingRepo timeTrackingRepo, UserManager<Freelancer> userManager)
+
+        public AdminDashboardController(IHubContext<ChatAdminHub> hubContext,IFreelancerRepo freelancerRepo,IClientRepo clientRepo, IMissionRepo missionRepo, IProjectRepo projectRepo, ITimeTrackingRepo timeTrackingRepo, UserManager<Freelancer> userManager)
         {
             this.freelancerRepo = freelancerRepo;
             this.clientRepo = clientRepo;
@@ -30,6 +34,7 @@ namespace FreelanceManager.Controllers
             this.projectRepo = projectRepo;
             this.timeTrackingRepo = timeTrackingRepo;
             this.userManager = userManager;
+            this.hubContext = hubContext;   
         }
 
 
@@ -65,15 +70,18 @@ namespace FreelanceManager.Controllers
                     UserName = user.UserName,
                     ProjectCount = projects.Count,
                     MissionCount = missions.Count,
-                    TodayHours = totalDuration
+                    TodayHours = totalDuration,
+                    missionId = missionIds.ToList()
                 });
-            }
+                ViewBag.missionId = missionIds;
+                //await hubContext.Clients.All.SendAsync("UserAddedFull", userId);
 
+            }
             return View("Index", dashboardList);
         }
 
         [HttpPost]
-        public IActionResult Delete(string UserId)
+        public async Task<IActionResult> Delete(string UserId)
         {
             var client = freelancerRepo.GetByIdString(UserId);
             if (client == null)
@@ -83,6 +91,8 @@ namespace FreelanceManager.Controllers
             
                 client.IsDeleted = true;
                 freelancerRepo.Save();
+            await hubContext.Clients.All.SendAsync("FreelancerDeleted", UserId);
+
             return Json(new { success = true });
 
 

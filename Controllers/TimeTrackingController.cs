@@ -5,6 +5,7 @@ using FreelanceManager.Repositry;
 using FreelanceManager.ViewModels.TimeTracking;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Security.Claims;
@@ -18,12 +19,15 @@ namespace FreelanceManager.Controllers
         private readonly ITimeTrackingRepo timerRepo;
         private readonly IProjectRepo projectRepo;
         private readonly IMissionRepo missionRepo;
+        private readonly IHubContext<ChatAdminHub> hubContext;
 
-        public TimeTrackingController(ITimeTrackingRepo timerRepo, IMissionRepo missionRepo, IProjectRepo projectRepo) 
+
+        public TimeTrackingController(IHubContext<ChatAdminHub> hubContext,ITimeTrackingRepo timerRepo, IMissionRepo missionRepo, IProjectRepo projectRepo) 
         {
             this.projectRepo = projectRepo;
             this.timerRepo = timerRepo;
             this.missionRepo = missionRepo;
+            this.hubContext =hubContext;
         }
         public IActionResult Index()
         {
@@ -61,7 +65,7 @@ namespace FreelanceManager.Controllers
         }
 
         [HttpPost]
-        public IActionResult SaveTimeTracking([FromBody] SaveTimeTracking saveTime)
+        public async Task<IActionResult> SaveTimeTracking([FromBody] SaveTimeTracking saveTime)
         {
             if (ModelState.IsValid)
             {
@@ -88,18 +92,41 @@ namespace FreelanceManager.Controllers
 
                 timerRepo.Add(timeTracking);
                 timerRepo.Save();
+                var totalTodayHours =new TimeSpan( timerRepo.GetAll()
+                .Where(t => t.Mission.Project.FreelancerId == userId && t.Date.Date == DateTime.Today)
+                .Sum(t => t.Duration.Ticks));
+
+
+                await hubContext.Clients.All.SendAsync("DurationAdded", userId, totalTodayHours);
+
                 return Json(new { sucess=true ,Message = ""});
             }
             return Json(new { sucess = false, Message = "Something not coorect happen" });
         }
 
         [HttpPost]
-        public IActionResult Delete([FromBody]int id)
+        public async Task<IActionResult> Delete([FromBody] int id)
         {
+            var record = timerRepo.GetById(id);
+            if (record == null)
+                return Json(new { success = false, message = "Not found" });
+
+            var mission = missionRepo.GetById(record.MissionId);
+            var project = projectRepo.GetById(mission.ProjectId);
+            string userId = project.FreelancerId;
+
             timerRepo.RemoveById(id);
             timerRepo.Save();
-            return Json(new { sucess = true });
+
+            var totalTodayHours =new TimeSpan( timerRepo.GetAll()
+                .Where(t => t.Mission.Project.FreelancerId == userId )
+                .Sum(t => t.Duration.Ticks));
+
+            await hubContext.Clients.All.SendAsync("DurationDelete", userId, totalTodayHours);
+
+            return Json(new { success = true });
         }
+
 
     }
 }
