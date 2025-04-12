@@ -6,6 +6,7 @@ using FreelanceManager.Models;
 using FreelanceManager.Enums;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using Microsoft.AspNetCore.SignalR;
 
 namespace FreelanceManager.Controllers
 {
@@ -15,11 +16,14 @@ namespace FreelanceManager.Controllers
         private readonly IProjectRepo projectRepo;
         private readonly IMissionRepo missionRepo;
         private readonly IClientRepo clientRepo;
-        public ProjectController(IProjectRepo projectRepo, IMissionRepo missionRepo, IClientRepo clientRepo)
+        private readonly IHubContext<ChatAdminHub> hubContext;
+
+        public ProjectController(IHubContext<ChatAdminHub> hubContext,IProjectRepo projectRepo, IMissionRepo missionRepo, IClientRepo clientRepo)
         {
             this.projectRepo = projectRepo;
             this.missionRepo = missionRepo;
             this.clientRepo = clientRepo;
+            this.hubContext= hubContext;
         }
         // project
         [HttpGet]
@@ -89,7 +93,7 @@ namespace FreelanceManager.Controllers
 
         [HttpPost]
 
-        public IActionResult SaveAdd(AddProjectVM project)
+        public async Task<IActionResult> SaveAdd(AddProjectVM project)
           {
             if (!ModelState.IsValid)
             {
@@ -117,7 +121,7 @@ namespace FreelanceManager.Controllers
             projectRepo.Add(newProject);
 
             projectRepo.Save();
-
+            await hubContext.Clients.All.SendAsync("ProjectAdded", newProject.FreelancerId);
             return RedirectToAction("Index");
         }
         [HttpGet]
@@ -167,13 +171,16 @@ namespace FreelanceManager.Controllers
             return View("Edit", editFromReq);
         }
         [HttpPost]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             Project deleteProject = projectRepo.GetById(id);
             if (deleteProject != null)
             {
                 projectRepo.RemoveById(deleteProject.Id);
                 projectRepo.Save();
+                var freelancerId = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier).Value;
+                await hubContext.Clients.All.SendAsync("ProjectDeleted", freelancerId);
+
                 return RedirectToAction("Index");
             }
             return NotFound();

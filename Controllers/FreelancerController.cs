@@ -14,7 +14,8 @@ namespace FreelanceManager.Controllers
 			this.signInManager = signInManager;
 		}
 		[HttpGet]
-		public IActionResult Register()
+        ///FreelancerController/Register
+        public IActionResult Register()
 		{
 			return View();
 		}

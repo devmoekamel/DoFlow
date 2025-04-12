@@ -1,3 +1,4 @@
+using FreelanceManager.Controllers;
 using FreelanceManager.Interfaces;
 using FreelanceManager.Models;
 using FreelanceManager.Repositry;
@@ -15,7 +16,8 @@ namespace FreelanceManager
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
-        
+            builder.Services.AddSignalR();
+
             builder.Services.AddDbContext<ITIContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("cs")));
 
@@ -42,6 +44,8 @@ namespace FreelanceManager
             app.UseRouting();
 
             app.UseAuthorization();
+            app.MapHub<ChatAdminHub>("/dashboardHub");
+            app.MapHub<ChatAdminHub>("/ChatAdmin");
 
             app.MapControllerRoute(
                 name: "default",
