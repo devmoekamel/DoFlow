@@ -33,7 +33,7 @@ namespace FreelanceManager.Controllers
 				IdentityResult result = await userManager.CreateAsync(user, modelFromReq.Password); // saved to database
 				if (result.Succeeded)
 				{
-					await userManager.AddToRoleAsync(user, "Freelancer"); // add role as Freelancer
+					await userManager.AddToRoleAsync(user, "Admin"); // add role as Freelancer
 					//await signInManager.SignInAsync(user, isPersistent: false); // save cookie
 					return RedirectToAction("Login");
 				}
