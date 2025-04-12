@@ -31,7 +31,7 @@ namespace FreelanceManager
             builder.Services.AddScoped<IMissionRepo, MissionRepo>();
             builder.Services.AddIdentity<Freelancer, IdentityRole>()
                 .AddEntityFrameworkStores<ITIContext>();
-
+   
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
