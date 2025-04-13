@@ -39,6 +39,7 @@ namespace FreelanceManager.Controllers
                 RecentProjects = projects.TakeLast(5),
                 TasksNum = projects.SelectMany(p => p.Missions).Count(),
                 ProjectsNum = projects.Count(),
+                PendingInvoices=projects.SelectMany(p => p.Invoices).Count()
             };
             return View(overview);
         }

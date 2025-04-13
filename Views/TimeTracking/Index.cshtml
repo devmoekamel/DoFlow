@@ -3,16 +3,15 @@
 @{
     ViewData["Title"] = "Index";
 }
-
+<div class="container mb-5 px-4 mx-auto sm:px-6 lg:px-2">
+    <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-gray-800 pb-2">Time Tracker</h1>
+</div>
 <div id="alart" class="fixed top-6 left-1/2 transform -translate-x-1/2 z-50"></div>
 
     <div class="container mx-auto py-4 max-w-full">
         <div class="space-y-2">
 
             <div class="rounded-lg border border-gray-200 bg-white shadow-sm">
-                <div class="flex flex-col space-y-1.5 p-6 pb-3">
-                    <h2 class="text-2xl font-semibold leading-none tracking-tight text-gray-900">Time Tracker</h2>
-                </div>
                 <div class="p-6 pt-0">
                     <div id="stopwatch" class="time-display text-5xl font-mono text-center my-6 text-black">00:00:00</div>
                     <div class="flex flex-col sm:flex-row justify-center gap-4">
@@ -293,7 +292,7 @@
         })
         .then(response => response.json())
         .then(data => {
-            if (data.sucess) {
+            if (data.success) {
                 const elem = document.getElementById(`timetrakingId-${id}`);
                 if (elem) {
                     elem.remove();

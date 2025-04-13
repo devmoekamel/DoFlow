@@ -7,6 +7,7 @@ using FreelanceManager.Enums;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using Microsoft.AspNetCore.SignalR;
+using FreelanceManager.Hubs;
 
 namespace FreelanceManager.Controllers
 {

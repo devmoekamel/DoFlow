@@ -1,4 +1,5 @@
 ﻿using FreelanceManager.Enums;
+using FreelanceManager.Hubs;
 using FreelanceManager.Interfaces;
 using FreelanceManager.Models;
 using FreelanceManager.Repositry;

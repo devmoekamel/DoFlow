@@ -9,6 +9,60 @@
 </div>
 <script src="https://cdn.tailwindcss.com"></script>
 
+
+
+<div class="grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-4 p-4">
+    @* active tasks *@
+    <div class="p-6 bg-white shadow hover:shadow-lg duration-500 rounded-xl">
+        <div class="flex justify-between">
+            <h3 class="text-md">Active Tasks</h3>
+            <span><i class="fa-solid fa-list-check"></i></span>
+        </div>
+        <div class="my-4 font-bold text-4xl">
+            <h1>@ViewBag.TasksNum</h1>
+        </div>
+    </div>
+
+    @* active Projects *@
+    <div class="p-6 bg-white shadow hover:shadow-lg duration-500 rounded-xl">
+        <div class="flex justify-between">
+            <h3 class="text-md">Active Projects</h3>
+            <span><i class="fa-solid fa-file-invoice"></i></span>
+        </div>
+        <div class="my-4 font-bold text-4xl">
+            <h1>@ViewBag.ProjectsNum</h1>
+        </div>
+    </div>
+
+    @* Active Clients *@
+    <div class="p-6 bg-white shadow hover:shadow-lg duration-500 rounded-xl">
+        <div class="flex justify-between">
+            <h3 class="text-md">Active Clients </h3>
+            <span><i class="fa-solid fa-users"></i></span>
+        </div>
+        <div class="my-4 font-bold text-4xl">
+            <h1>@ViewBag.ClientsNum</h1>
+        </div>
+    </div>
+
+    @* Pending Invoices
+    *@
+    <div class="p-6 bg-white shadow hover:shadow-lg duration-500 rounded-2xl">
+        <div class="flex justify-between">
+            <h3 class="text-md">Pending Invoices</h3>
+            <span><i class="fa-solid fa-sack-dollar"></i></span>
+        </div>
+        <div class="my-4 font-bold text-4xl">
+            <h1>$@ViewBag.PendingInvoices</h1>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
 @if (Model != null)
 {
     <div class="max-w-7xl mx-auto px-4">
@@ -26,16 +80,16 @@
                         <div class="flex justify-between items-center">
                             <div class="flex gap-2 items-center">
                                 <!-- Details Button -->
-                                <button onclick="Details(@user.UserId)"
-                                        class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 p-0 flex items-center justify-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                         stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                              d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                              d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                    </svg>
-                                </button>
+                                @* <button onclick="Details(@user.UserId)" *@
+                                @*         class="w-8 h-8 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 p-0 flex items-center justify-center"> *@
+                                @*     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" *@
+                                @*          stroke-width="1.5" stroke="currentColor" class="w-5 h-5"> *@
+                                @*         <path stroke-linecap="round" stroke-linejoin="round" *@
+                                @*               d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" /> *@
+                                @*         <path stroke-linecap="round" stroke-linejoin="round" *@
+                                @*               d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /> *@
+                                @*     </svg> *@
+                                @* </button> *@
 
                                 <!-- Delete Button -->
                                 <form asp-action="Delete" method="post" class="w-8 h-8 my-1" id="delete-form-sumit-@user.UserId">
@@ -98,7 +152,7 @@ else
  *@
  <script src="/lib/jquery/dist/jquery.min.js"></script>
 
-<script>
+ <script>
     var dashboardHub = new signalR.HubConnectionBuilder().withUrl("/dashboardHub").withAutomaticReconnect().build();
 
     dashboardHub.start().then(function () {
@@ -135,11 +189,12 @@ else
         });
 
                          dashboardHub.on("ProjectDeleted", function (freelancerId) {
-                var missionElems = document.querySelectorAll(`p.mission-count[data-userid="${freelancerId}"]`);
-                missionElems.forEach(function (elem) {
+        var projElems = document.querySelectorAll(`p.project-count[data-userid="${freelancerId}"]`);
+
+               projElems.forEach(function (elem) {
                     var currentText = elem.innerText;
                     var currentCount = parseInt(currentText.split(":")[1].trim());
-                    elem.innerText = "Mission Count: " + (currentCount - 1);
+                    elem.innerText = "Project Count: " + (currentCount - 1);
                 });
             });
 

@@ -1,4 +1,5 @@
-﻿using FreelanceManager.Interfaces;
+﻿using FreelanceManager.Hubs;
+using FreelanceManager.Interfaces;
 using FreelanceManager.Models;
 using FreelanceManager.Repositry;
 using FreelanceManager.ViewModels.DashboradVM;
@@ -18,6 +19,7 @@ namespace FreelanceManager.Controllers
     public class AdminDashboardController : Controller
     {
         private readonly IClientRepo clientRepo;
+        private readonly IInvoiceRepo invoiceRepo;
         private readonly IMissionRepo missionRepo;
         private readonly IFreelancerRepo freelancerRepo;
         private readonly IProjectRepo projectRepo;
@@ -26,8 +28,9 @@ namespace FreelanceManager.Controllers
         private readonly IHubContext<ChatAdminHub> hubContext;
 
 
-        public AdminDashboardController(IHubContext<ChatAdminHub> hubContext,IFreelancerRepo freelancerRepo,IClientRepo clientRepo, IMissionRepo missionRepo, IProjectRepo projectRepo, ITimeTrackingRepo timeTrackingRepo, UserManager<Freelancer> userManager)
+        public AdminDashboardController(IInvoiceRepo invoiceRepo ,IHubContext<ChatAdminHub> hubContext,IFreelancerRepo freelancerRepo,IClientRepo clientRepo, IMissionRepo missionRepo, IProjectRepo projectRepo, ITimeTrackingRepo timeTrackingRepo, UserManager<Freelancer> userManager)
         {
+            this.invoiceRepo=invoiceRepo;
             this.freelancerRepo = freelancerRepo;
             this.clientRepo = clientRepo;
             this.missionRepo = missionRepo;
@@ -75,6 +78,10 @@ namespace FreelanceManager.Controllers
                 });
                 ViewBag.missionId = missionIds;
                 //await hubContext.Clients.All.SendAsync("UserAddedFull", userId);
+                ViewBag.ClientsNum = clientRepo.GetAll().Count();
+                ViewBag.TasksNum = missionRepo.GetAll().Count();
+                ViewBag.ProjectsNum = projectRepo.GetAll().Count();
+                ViewBag.PendingInvoices = invoiceRepo.GetAll().Count();
 
             }
             return View("Index", dashboardList);
