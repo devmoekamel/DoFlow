@@ -28,7 +28,7 @@ web.config
 *.dll
 *.pdb
 *.exe
-
+appsettings.json
 # Ignore logs and diagnostics
 logs/
 *.log
