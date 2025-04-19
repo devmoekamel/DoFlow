@@ -1,4 +1,4 @@
-# FreelanceManager MVC Project
+# DoFlow MVC APP
 
 A full-featured ASP.NET MVC web application for managing freelance projects, clients, invoices, time tracking, and administrative tasks.  
 This system is built to help freelancers and agencies streamline project workflows, manage clients, track missions, and handle invoicing all in one place.
